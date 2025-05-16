@@ -60,7 +60,7 @@ class UserList(Resource):
 
 
 api.add_resource(UserResource, '/users/me')
-api.add_resource(UserResource, '/users')
+api.add_resource(UserList, '/users')
 
 
 @app.route("/")
