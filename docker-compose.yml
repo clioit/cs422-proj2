@@ -1,0 +1,27 @@
+# Club Calendar Docker Compose configuration file
+#
+# This file specifies how the web server and database containers should be
+# brought up and orchestrated. It networks the containers together so they
+# can communicate and forwards certain ports to the local machine. It also
+# marks the web server as dependent on the database, so it comes up last.
+#
+# Author: Ryan Kovatch (rkovatch@uoregon.edu)
+# Last modified: 05/15/2025
+
+services:
+    web_server:
+        build: .
+        ports:
+            - "5001:5000"
+        depends_on:
+            - db
+        environment:
+            MONGODB_HOSTNAME: db
+            PORT: 5000
+            SECRET_KEY: $SECRET_KEY  # for flask_simplelogin
+            DEBUG: "True"
+            PYTHONHASHSEED: 0  # so hashes are consistent (bad security; for demo only)
+    db:
+        image: mongo:latest
+        ports:
+            - "5002:27017"

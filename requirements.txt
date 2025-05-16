@@ -1,0 +1,4 @@
+Flask
+mongoengine
+flask_simplelogin
+flask-restful

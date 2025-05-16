@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Club Calendar</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}">
+</head>
+<body>
+    <main>
+        <div class="login-container">
+            <h2>Login - Club Calendar</h2>
+            <form class="login-form" action="{{url_for('simplelogin.login')}}"
+                  method="post">
+                {{form.csrf_token}}
+                <div>
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" placeholder="Enter your username" required>
+                </div>
+                <div>
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                </div>
+                {% if next %}<input type="hidden" name="next" value="{{next}}">{% endif %}
+                <div>
+                    <button type="submit" class="login-button" value="Send">Log In</button>
+                </div>
+            </form>
+        </div>
+    </main>
+</body>
+</html>
