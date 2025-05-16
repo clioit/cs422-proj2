@@ -9,13 +9,13 @@ Authors: Ryan Kovatch
 Last modified: 05/15/2025
 """
 
-from db_models import *
 from db_seeder import seed_db
-from flask import Flask, redirect, abort
-from flask_restful import Resource, Api
-from flask_simplelogin import SimpleLogin, get_username, login_required
+from flask import Flask
+from flask_restful import Api
+from flask_simplelogin import SimpleLogin
 from mongoengine import connect
 from os import environ as env
+from resources import *
 
 
 def authenticate(user: dict[str, str]) -> bool:
@@ -24,10 +24,6 @@ def authenticate(user: dict[str, str]) -> bool:
     except DoesNotExist:
         return False
     return found_user.password_hash == hash(user["password"])
-
-
-def get_current_user():
-    return User.objects(username=get_username()).first()
 
 
 app = Flask(__name__,
@@ -44,30 +40,6 @@ connect(host=f"mongodb://{env['MONGODB_HOSTNAME']}:27017/club_db")
 
 if User.objects.count() == 0:
     seed_db()
-
-
-class UserResource(Resource):
-    method_decorators = [login_required]
-
-    def get(self):
-        """Get the current user."""
-        current_user = get_current_user()
-        return {
-            "id": str(current_user.id),
-            "username": current_user.username,
-            "orgs": [str(org.id) for org in current_user.orgs]
-        }
-
-    def patch(self):
-        """Edit the current user."""
-        abort(501, "Not Implemented")
-
-
-class UserList(Resource):
-    def post(self):
-        """Create a new user."""
-        abort(501, "Not Implemented")
-
 
 api.add_resource(UserResource, '/users/me')
 api.add_resource(UserList, '/users')
