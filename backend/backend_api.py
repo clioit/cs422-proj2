@@ -26,6 +26,10 @@ def authenticate(user: dict[str, str]) -> bool:
     return found_user.password_hash == hash(user["password"])
 
 
+def get_current_user():
+    return User.objects(username=get_username()).first()
+
+
 app = Flask(__name__,
             template_folder='/frontend/templates',
             static_folder='/frontend/static')
@@ -47,7 +51,12 @@ class UserResource(Resource):
 
     def get(self):
         """Get the current user."""
-        return {'username': get_username()}
+        current_user = get_current_user()
+        return {
+            "id": str(current_user.id),
+            "username": current_user.username,
+            "orgs": [str(org.id) for org in current_user.orgs]
+        }
 
     def patch(self):
         """Edit the current user."""
