@@ -1,0 +1,18 @@
+*{
+    margin: 0;
+padding: 0;
+box-sizing: border-box;
+text-align: center;
+}
+
+.container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 16px;
+    border: solid 1px black;
+}
+
+.dash :hover{
+    border: solid 1px black;
+}
