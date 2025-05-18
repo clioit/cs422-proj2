@@ -1,4 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=National+Park:wght@200..800&family=Roboto:wdth,wght@75..100,100..900&display=swap');
+/**
+
+
+    NOTES FOR LATER REVOLVING AROUND COLOR SCHEME
+:root {
+  --main-color: #3498db;
+  --secondary-color: #2ecc71;
+  --font-size: 16px;
+}
+
+body {
+  color: var(--main-color);
+  font-size: var(--font-size);
+}
+
+button {
+  background-color: var(--secondary-color);
+  color: white;
+  font-size: calc(var(--font-size) * 1.25);
+}
+**/
 
 *{
     font-family: "National Park", sans-serif;
@@ -8,7 +29,44 @@
     text-align: center;
 }
 
+.container{
+    max-height: 100%;
+    flex-direction: row;
+
+    padding: 16px auto;
+}
+
 .dash{
     display: flex;
-    flex-direction: row;
+    justify-content: space-between;
+    background-color: #cccccc;
+    border: solid 1px #dddddd;
+    margin: 16px;
 }
+
+.schedule, .event-manager{
+padding: 16px;
+min-height: 90vh;
+margin: 8px;
+border: solid 1px #aaaaaa;
+background-color: #eeeeee;
+width: 50%;
+border-radius: 4px;
+box-shadow: 2px 2px 1.5px 1.5px rgba(155, 155, 155, 155);
+}
+
+.schedule:hover, .event-manager:hover{
+    border: solid 1px #73737373;
+    box-shadow: 0px 0px 0px 0px;
+}
+
+.page-bottom{
+    display: flex;
+    justify-content: space-around;
+}
+
+.schedule{
+    text-align: left;
+}
+
+

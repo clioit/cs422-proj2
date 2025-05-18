@@ -5,23 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Club Calendar: Dashboard</title>
     <link rel="stylesheet" href="../static/dashboard.css">
+
 </head>
 <body>
     <main>
         <div class="container">
             <div class="dash">
-                <div class="schedule">
+                <div class="schedule" id="schedule">
                     TODAY....
                 </div>
                 <div class="event-manager">
                     BLACK
                     BROWN
                     WHITE
+                    
                 </div>
             </div>
-            <button class="add-event"> ADD EVENT </button>
-            <select name="" id="current-user" class="current-user"></select>
+            <div class="page-bottom">
+            <button class="add-event" onclick="clicked()"> ADD EVENT </button>
+            <select name="user-select" id="current-user" class="current-user">Drop Down</select>
+            </div>
         </div>
+    <script src="../static/dashboard.js"></script>
     </main>
+
 </body>
 </html>
