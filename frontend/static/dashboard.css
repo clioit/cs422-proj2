@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=National+Park:wght@200..800&family=Roboto:wdth,wght@75..100,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=National+Park:wght@200..800&family=Roboto:wdth,wght@75..100,100..900&display=swap");
 /**
 
 
@@ -21,52 +21,111 @@ button {
 }
 **/
 
-*{
-    font-family: "National Park", sans-serif;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    text-align: center;
+* {
+  font-family: "National Park", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-align: center;
 }
 
-.container{
-    max-height: 100%;
-    flex-direction: row;
-
-    padding: 16px auto;
+#show{
+    visibility: visible;
 }
 
-.dash{
+#hide{
+    visibility: hidden;
+}
+
+.container {
+  min-height: 100%;
+  flex-direction: row;
+  margin: 16px;
+  padding-bottom: 16px;
+  background-color: #555555;
+
+}
+
+.organization {
+padding-top: 8px;
+padding-right:24px;
+  margin-bottom: -24px;
+  font-size: 900;
+  text-decoration: none;
+  text-align: right;
+  color: white;
+}
+
+.dash {
+  display: flex;
+  justify-content: space-between;
+  background-color: #cccccc;
+  border: solid 1px #dddddd;
+  margin: 16px;
+  border-radius:4px;
+}
+
+.schedule,
+.event-manager {
+  padding: 16px;
+  min-height: 80vh;
+  margin: 8px;
+  border: solid 1px #aaaaaa;
+  background-color: #eeeeee;
+  width: 50%;
+  border-radius: 4px;
+  box-shadow: 2px 2px 1.5px 1.5px rgba(155, 155, 155, 55);
+  text-align: left;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+}
+
+.schedule:hover,
+.event-manager:hover {
+  border: solid 1px #73737373;
+  box-shadow: 0px 0px 0px 0px;
+}
+
+.schedule-zone,
+.event-manager-zone{
+    padding: 12px;
+    border-radius: 2px;
+    background-color: black;
+    border: solid 0.1px black;
+}
+
+.schedule-zone{
+    width: 50%;
+}
+
+.page-bottom {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 24px;
+}
+
+.event-obj {
+  margin: 12px;
+  padding: 4px;
+  border-radius: 8px;
+    color: black;
+}
+
+.top-date{
+    color: white;
+}
+
+
+.event-manager .event-obj:hover {
+  box-shadow: 2px 2px 1.5px 1.5px rgba(155, 155, 155, 155);
+}
+
+.event-desc {
+  font-weight: 500;
+}
+
+.task-area{
     display: flex;
     justify-content: space-between;
-    background-color: #cccccc;
-    border: solid 1px #dddddd;
-    margin: 16px;
 }
-
-.schedule, .event-manager{
-padding: 16px;
-min-height: 90vh;
-margin: 8px;
-border: solid 1px #aaaaaa;
-background-color: #eeeeee;
-width: 50%;
-border-radius: 4px;
-box-shadow: 2px 2px 1.5px 1.5px rgba(155, 155, 155, 155);
-}
-
-.schedule:hover, .event-manager:hover{
-    border: solid 1px #73737373;
-    box-shadow: 0px 0px 0px 0px;
-}
-
-.page-bottom{
-    display: flex;
-    justify-content: space-around;
-}
-
-.schedule{
-    text-align: left;
-}
-
 
