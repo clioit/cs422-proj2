@@ -33,10 +33,17 @@ const dateB = new Date(2025, 1, 25);
 const dateC = new Date(2025, 2, 25);
 
 const EventList = [
-    {title: `Meeting 1`, description: `Introductions and information exchange`, start: dateA },
-    {title: `Meeting 2`, description: `Friendly Tournament`, start: dateB },
-    {title: `Meeting 3`, description: `Lesson 1: Strategic Game Play`, start: dateC }
+    {title: `Meeting 1`, description: `Introductions and information exchange`, start: dateA, tasks: 1 },
+    {title: `Meeting 2`, description: `Friendly Tournament`, start: dateB, tasks: 0 },
+    {title: `Meeting 3`, description: `Lesson 1: Strategic Game Play`, start: dateC, tasks: 2 }
 ];
+
+const taskLists = [
+[`print surveys`, `make name tents`],
+[`task a`, `task b`, `task c`],
+[`random this`, `random that`, `lol`]
+];
+
 
 EventList.sort((a,b) => a.start - b.start);
 
@@ -114,3 +121,20 @@ function eventMaker(addMe){
 
 
 }
+
+function taskManagerMain(){
+
+    const eventManager = document.getElementById(`event-manager`);
+    console.log(eventManager);
+    EventList.sort((a,b) => b.tasks - a.tasks);
+    for(let i=0; i<EventList.length; i++){
+        let newEvent = eventMaker(EventList[i]);
+        let taskCount = document.createElement("div");
+        taskCount.className = `task-count`;
+        taskCount.innerHTML = EventList[i].tasks;
+        newEvent.appendChild(taskCount);
+        eventManager.appendChild(newEvent);
+    }
+}
+
+taskManagerMain();
