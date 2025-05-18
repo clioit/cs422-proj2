@@ -134,6 +134,7 @@ function taskManagerMain() {
   // populates Event manager OSO (On-Screen Object)
   const eventManager = document.getElementById(`event-manager-zone`);
   console.log(eventManager);
+  EventList.sort((a, b) => a.start - b.start);
   EventList.sort((a, b) => b.tasks.length - a.tasks.length);
   for (let i = 0; i < EventList.length; i++) {
     let newEvent = eventMaker(EventList[i]);
