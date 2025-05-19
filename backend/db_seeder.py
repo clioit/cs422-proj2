@@ -24,4 +24,7 @@ def seed_db():
     test_org.save()
 
     for username in ("alice", "bob", "eva"):
-        User(username=username, password_hash=hash("hunter2"), orgs=[test_org]).save()
+        new_user = User(username=username, password_hash=hash("hunter2"), orgs=[test_org])
+        new_user.save()
+        test_org.managers.append(new_user)
+        test_org.save()
