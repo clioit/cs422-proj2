@@ -38,8 +38,8 @@ class Event(Document):
     title = StringField(required=True)
     description = StringField()
     org = ReferenceField("Organization", required=True)
-    start = DateTimeField()
-    end = DateTimeField()
+    start = DateTimeField(required=True)
+    end = DateTimeField(required=True)
     tasks = ListField(ReferenceField(Task, reverse_delete_rule=PULL))
 
 
