@@ -46,6 +46,7 @@ class Organization(Document):
     """An organization which holds events."""
     meta = {'collection': 'orgs'}
     name = StringField(required=True)
+    id = StringField(required=True)
     description = StringField()
     join_token = UUIDField(binary=False, default=uuid.uuid4)
     managers = ListField(ReferenceField("User"))

@@ -29,3 +29,21 @@ class UserList(Resource):
     def post(self):
         """Create a new user."""
         abort(501, "Not Implemented")
+
+class OrganizationList(Resource):
+    def post(self):
+        """Add a new organization to the list"""
+        abort(501, "Not implemented")
+
+class OrganizationResource(Resource):
+    def get(self):
+        """
+        Get organization with an ID
+        """
+        abort(501, "Not implemented")
+
+    def patch(self):
+        pass
+
+    def delete(self):
+        pass
