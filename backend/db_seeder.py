@@ -19,9 +19,14 @@ def seed_db():
     """
     test_event = Event(title='Chess Tournament', description='Our first annual chess tournament!',
                        start=datetime.now(), end=datetime.now().replace(hour=(datetime.now().hour + 4) % 24))
-    test_event.save()
+    test_event.save(validate=False)  # because we haven't populated org yet
     test_org = Organization(name="Chess Club", description="We're the Chess Club!", events=[test_event])
     test_org.save()
+    test_event.org = test_org
+    test_event.save()
 
     for username in ("alice", "bob", "eva"):
-        User(username=username, password_hash=hash("hunter2"), orgs=[test_org]).save()
+        new_user = User(username=username, password_hash=hash("hunter2"), orgs=[test_org])
+        new_user.save()
+        test_org.managers.append(new_user)
+        test_org.save()

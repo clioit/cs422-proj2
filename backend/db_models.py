@@ -37,8 +37,9 @@ class Event(Document):
     meta = {'collection': 'events'}
     title = StringField(required=True)
     description = StringField()
-    start = DateTimeField()
-    end = DateTimeField()
+    org = ReferenceField("Organization", required=True)
+    start = DateTimeField(required=True)
+    end = DateTimeField(required=True)
     tasks = ListField(ReferenceField(Task, reverse_delete_rule=PULL))
 
 
@@ -63,3 +64,4 @@ class User(Document):
 
 User.register_delete_rule(Organization, 'managers', PULL)
 User.register_delete_rule(Task, 'assignee', NULLIFY)
+Organization.register_delete_rule(Event, 'org', CASCADE)
