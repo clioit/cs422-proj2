@@ -237,7 +237,7 @@ function scheduler() {
 scheduler();
 
 function eventMaker(addMe) {
-  // creating OSO for event 'addMe'
+  /* creating OSO for event, 'addMe'*/
   // add me must contain fields:
   // title, descriptions & *tasks*
   console.log(addMe);
