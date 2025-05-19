@@ -9,12 +9,13 @@ Authors: Ryan Kovatch
 Last modified: 05/15/2025
 """
 
-from db_seeder import seed_db
+from os import environ as env
+
 from flask import Flask
 from flask_restful import Api
 from flask_simplelogin import SimpleLogin
-from mongoengine import connect
-from os import environ as env
+
+from db_seeder import seed_db
 from resources import *
 
 
