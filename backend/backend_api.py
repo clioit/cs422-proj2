@@ -44,6 +44,8 @@ if User.objects.count() == 0:
 
 api.add_resource(UserResource, '/users/me')
 api.add_resource(UserList, '/users')
+api.add_resource(EventResource, '/orgs/<string:org_id>/events/<string:event_id>')
+api.add_resource(EventList, '/orgs/<string:org_id>/events')
 
 
 @app.route("/")
