@@ -10,7 +10,7 @@ Last modified: 05/15/2025
 """
 
 from db_seeder import seed_db
-from flask import Flask
+from flask import Flask, render_template
 from flask_restful import Api
 from flask_simplelogin import SimpleLogin
 from mongoengine import connect
@@ -48,6 +48,14 @@ api.add_resource(UserList, '/users')
 @app.route("/")
 def index():
     return redirect("/users/me")
+
+@app.route("/dashboard")
+def dashboard():
+    return render_template('dashboard.html')
+
+@app.route("/event_editor")
+def edit_event():
+    return render_template('event_editor.html')
 
 
 if __name__ == '__main__':

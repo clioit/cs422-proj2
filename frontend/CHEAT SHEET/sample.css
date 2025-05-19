@@ -10,6 +10,7 @@ padding: 0;
 }
 
 div{
+    /** can style any element type*/
     border: solid 1px black;
     padding: 24px;
 }
@@ -18,7 +19,11 @@ div{
     display: flex; /* make me a rectangle*/
     flex-direction: column;
     justify-content: space-between; /*how to place children*/
-    min-height: 100vh; /*100% Vertical Height*/
+        min-height: 125vh; /*110% Vertical Height*/
+    /* for dimensions: vh = vertical height,
+     % is percent of parent
+     px is pixels
+     those are the 3 i mainly use*/
     text-align: center;
 
 }
@@ -55,3 +60,5 @@ in this format*/
 .hide{
     visibility: hidden;
 }
+
+/* if stying by id use #id instead of .class*/

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add Event</title>
+  <link rel="stylesheet" href="../static/event_editor.css" />
+</head>
+<body>
+    <div class="event-container">
+      <h1>Add New Event</h1>
+      <form id="eventForm">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" required />
+
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" class="description-box"></textarea>
+
+        <label for="start">Start Date:</label>
+        <input type="date" id="start" name="start" required />
+  
+        <label for="end">End Date:</label>
+        <input type="date" id="end" name="end" required />
+
+        <div class="details-section">
+            <button type="button" class="dropdown-toggle">Event Details</button>  
+
+              
+        <! need to finish the drop down menu in the csss file and 
+        add the functionality is the java file -->
+
+            <div class="details-content hidden">
+              <label for="rsvpDetail">RSVP Info:</label>
+              <input type="text" id="rsvpDetail" name="rsvpDetail" />
+          
+              <label for="taskDetail">Other Task Info:</label>
+              <input type="text" id="taskDetail" name="taskDetail" />
+          
+              <label for="venueDetail">Venue Info:</label>
+              <input type="text" id="venueDetail" name="venueDetail" />
+          
+              <label for="contactDetail">Contact Info:</label>
+              <input type="text" id="contactDetail" name="contactDetail" />
+            </div>
+          </div>
+          
+
+        </fieldset>
+          <label for="person">Assign to Person:</label>
+          <select id="person" name="person">
+            <option value="">Select</option>
+            <option value="person1">Person 1</option>
+            <option value="person2">Person 2</option>
+          </select>
+    
+          <button type="submit">Save Event</button>
+        </form>
+      </div>
+    
+      <script src="../static/event_editor.js"></script>
+    </body>
+    </html>
