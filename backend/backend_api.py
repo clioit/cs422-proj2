@@ -6,7 +6,7 @@ data from a MongoDB instance. It also renders and serves the
 HTML templates in frontend/templates.
 
 Authors: Ryan Kovatch
-Last modified: 05/15/2025
+Last modified: 05/19/2025
 """
 
 from os import environ as env

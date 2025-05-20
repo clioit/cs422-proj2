@@ -20,7 +20,10 @@ def get_event_dict(event: Event) -> dict:
         "description": event.description,
         "start": event.start.strftime(DATETIME_FMT),
         "end": event.end.strftime(DATETIME_FMT),
-        "tasks": [str(task.id) for task in event.tasks]
+        "published": event.published,
+        "point_of_contact": str(event.point_of_contact.id) if event.point_of_contact else None,
+        "tasks": [str(task.id) for task in event.tasks],
+        "info": {field: getattr(event.info, field) for field in ("rsvp", "venue", "contact", "budget", "other")}
     }
 
 
@@ -99,14 +102,19 @@ class EventResource(Resource):
         event = self._get_assured_event(org_id, event_id)
         req_obj = request.get_json()
         sent_fields = set(req_obj.keys())
-        if "title" in sent_fields:
-            event.title = req_obj["title"]
-        if "description" in sent_fields:
-            event.description = req_obj["description"]
-        if "start" in sent_fields:
-            event.start = datetime.strptime(req_obj["start"], DATETIME_FMT)
-        if "end" in sent_fields:
-            event.end = datetime.strptime(req_obj["end"], DATETIME_FMT)
+        for key in ("title", "description", "published"):  # copy some fields directly
+            if key in sent_fields:
+                setattr(event, key, req_obj[key])
+        for key in ("start", "end"):  # time fields need to be parsed
+            if key in sent_fields:
+                setattr(event, key, datetime.strptime(req_obj[key], DATETIME_FMT))
+        if "point_of_contact" in sent_fields:  # user field needs to be looked up
+            event.point_of_contact = User.objects(id=req_obj["point_of_contact"]).first()
+        if "info" in sent_fields:  # info object is copied separately
+            event.info = EventInfo()
+            for key in ("rsvp", "venue", "contact", "budget", "other"):
+                if key in req_obj["info"]:
+                    setattr(event.info, key, req_obj["info"][key])
         event.save()
         return get_event_dict(event)
 
