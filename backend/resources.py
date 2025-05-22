@@ -23,6 +23,13 @@ def get_event_dict(event: Event) -> dict:
         "tasks": [str(task.id) for task in event.tasks]
     }
 
+def get_org_dict(org: Organization) ->dict:
+    return {
+        "name" : str(org.name),
+        "id" : str(org.id),
+        "description" : org.description or ""
+    }
+
 
 class UserResource(Resource):
     method_decorators = [login_required]
@@ -33,7 +40,7 @@ class UserResource(Resource):
         return {
             "id": str(current_user.id),
             "username": current_user.username,
-            "orgs": [str(org.id) for org in current_user.orgs]
+            "orgs": [str(org.name) for org in current_user.orgs]
         }
 
     def patch(self):
@@ -150,3 +157,73 @@ class EventList(Resource):
             return get_event_dict(new_event), 201
         else:
             abort(400, "Missing one or more required fields: title, start, end.")
+
+
+class OrganizationList(Resource):
+    method_decorators = [login_required]
+
+    def get(self):
+        '''Retrieves all organizations in the database
+        TODO: Needs to filter such that it accesses organizations
+        the user has access to. '''
+        orgs = Organization.objects()
+        if orgs == None:
+            abort(404, "Organizations not found.")
+        return [get_org_dict(org) for org in orgs]
+    
+    def post(self):
+        """Create a new organization
+        TODO: Add the current user as a manager(?)"""
+        req_obj = request.get_json()
+        #current_user = get_current_user()
+
+        if {"name"}.issubset(req_obj):
+            new_org = Organization(
+            name=req_obj["name"]
+        )
+            if "description" in req_obj:
+                new_org.description = req_obj["description"]
+            new_org.save()
+            return get_org_dict(new_org), 201
+        else:
+            abort(400, "Missing required field: name")
+
+    
+
+class OrganizationResource(Resource):
+    method_decorators = [login_required]
+
+    def _get_assured_org(self, org_id: str) -> Organization:
+        """Get an organization from the database. 
+        TODO: Ensure the current_user has permissions to edit"""
+        org = Organization.objects(id=org_id).first() 
+        if org is None:
+            abort(404, "Organization not found.")
+        return org
+
+    def get(self, org_id: str):
+        """Gets an org from the database given an id"""
+        org = self._get_assured_org(org_id)
+        return get_org_dict(org), 200
+
+
+    def patch(self, org_id: str):
+        """Edit an organization given an ID
+        TODO: Needs 'manager' role verification"""
+        org = self._get_assured_org(org_id)
+        req_obj = request.get_json()
+        sent_fields = set(req_obj.keys())
+        if "name" in sent_fields:
+            org.name = req_obj["name"]
+        if "description" in sent_fields:
+            org.description = req_obj["description"]
+        org.save()
+
+        return get_org_dict(org), 201
+    
+    def delete(self, org_id:str):
+        """Deletes an organization
+        TODO: Needs 'manager' role verification"""
+        org = self._get_assured_org(org_id)
+        org.delete()
+        return {"success": True}
