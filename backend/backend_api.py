@@ -5,8 +5,8 @@ This file implements a RESTful API for committing and retrieving
 data from a MongoDB instance. It also renders and serves the
 HTML templates in frontend/templates.
 
-Authors: Ryan Kovatch
-Last modified: 05/19/2025
+Authors: Ryan Kovatch, Luis Guzman-Cornejo
+Last modified: 05/20/2025
 """
 
 from os import environ as env
@@ -44,6 +44,8 @@ if User.objects.count() == 0:
 
 api.add_resource(UserResource, '/users/me')
 api.add_resource(UserList, '/users')
+api.add_resource(OrganizationList, '/orgs')
+api.add_resource(OrganizationResource, '/orgs/<string:org_id>')
 api.add_resource(EventResource, '/orgs/<string:org_id>/events/<string:event_id>')
 api.add_resource(EventList, '/orgs/<string:org_id>/events')
 
