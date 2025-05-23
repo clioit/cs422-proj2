@@ -26,11 +26,12 @@ def get_event_dict(event: Event) -> dict:
         "info": {field: getattr(event.info, field) for field in ("rsvp", "venue", "contact", "budget", "other")}
     }
 
+
 def get_org_dict(org: Organization) ->dict:
     return {
-        "name" : str(org.name),
-        "id" : str(org.id),
-        "description" : org.description or ""
+        "name": str(org.name),
+        "id": str(org.id),
+        "description": org.description or ""
     }
 
 
@@ -171,11 +172,11 @@ class OrganizationList(Resource):
     method_decorators = [login_required]
 
     def get(self):
-        '''Retrieves all organizations in the database
+        """Retrieves all organizations in the database
         TODO: Needs to filter such that it accesses organizations
-        the user has access to. '''
+        the user has access to."""
         orgs = Organization.objects()
-        if orgs == None:
+        if orgs is None:
             abort(404, "Organizations not found.")
         return [get_org_dict(org) for org in orgs]
     
@@ -187,8 +188,8 @@ class OrganizationList(Resource):
 
         if {"name"}.issubset(req_obj):
             new_org = Organization(
-            name=req_obj["name"]
-        )
+                name=req_obj["name"]
+            )
             if "description" in req_obj:
                 new_org.description = req_obj["description"]
             new_org.save()
@@ -196,7 +197,6 @@ class OrganizationList(Resource):
         else:
             abort(400, "Missing required field: name")
 
-    
 
 class OrganizationResource(Resource):
     method_decorators = [login_required]
@@ -213,7 +213,6 @@ class OrganizationResource(Resource):
         """Gets an org from the database given an id"""
         org = self._get_assured_org(org_id)
         return get_org_dict(org), 200
-
 
     def patch(self, org_id: str):
         """Edit an organization given an ID
