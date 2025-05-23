@@ -47,6 +47,17 @@ def get_org_dict(org: Organization) -> dict:
 
     return org_dict
 
+def get_task_dict(task: Task) -> dict:
+    '''
+    Return task information as a dictionary
+    TODO: Implement the "assignee" data
+    '''
+    return {
+        "title" : str(task.title),
+        "description" : task.description,
+        "due_date" : str(task.due_date)
+    }
+
 
 class UserResource(Resource):
     method_decorators = [login_required]
@@ -84,7 +95,6 @@ class UserResource(Resource):
         get_current_user().delete()
         return redirect(url_for('simplelogin.logout'), code=303)  # must log out after delete
 
-
 class UserList(Resource):
     def post(self):
         """Create a new user."""
@@ -95,7 +105,6 @@ class UserList(Resource):
             return {"success": True}
         else:
             abort(400, "Missing one or more required fields: username, password.")
-
 
 class EventResource(Resource):
     method_decorators = [login_required]
@@ -145,7 +154,6 @@ class EventResource(Resource):
         event.delete()
         return {"success": True}
 
-
 class EventList(Resource):
     method_decorators = {"post": [login_required]}
 
@@ -187,7 +195,7 @@ class EventList(Resource):
             new_event.save()
             return get_event_dict(new_event), 201
         else:
-            abort(400, "Missing one or more required fields: title, start, end, point_of_contact.")
+            abort(400, "Missing one or more required fields: title, start, end.")
 
 
 class OrganizationList(Resource):
@@ -255,3 +263,38 @@ class OrganizationResource(Resource):
             return {"success": True}
         else:
             abort(403, "The current user is not authorized to delete this organization.")
+
+class TaskList(Resource):
+    method_decorators = [login_required]
+    
+    def get(self):
+        '''
+        Retrieves all tasks under an event
+        '''
+        tasks = Task.objects()
+        if tasks == None:
+            abort(404, "No tasks found")
+        return [get_task_dict(task) for task in tasks]
+    
+    def post(self):
+        """Create a new task
+        """
+        req_obj = request.get_json()
+        #current_user = get_current_user()
+
+        if {"name", "due_date"}.issubset(req_obj):
+            new_task = Task(
+            name=req_obj["name"],
+            due_date=req_obj["due_date"]
+        )
+            if "description" in req_obj:
+                new_task.description = req_obj["description"]
+            new_task.save()
+            return get_task_dict(new_task), 201
+        else:
+            abort(400, "Missing required fields: name, due_date")
+    
+
+
+class TaskResource(Resource):
+    pass
