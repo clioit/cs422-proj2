@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=National+Park:wght@200..800&family=Roboto:wdth,wght@75..100,100..900&display=swap');
+
+* {
+  font-family: "Montserrat", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+
+.container {
+  min-height: 100vh;
+  flex-direction: row;
+  /* margin: 16px; */
+  padding-bottom: 16px;
+  background-color: #555555;
+
+}
+
+.pink{
+ background-color: #FDE3E3;
+}
+.light-orange{
+ background-color: #FDEDE3;
+}.mint{
+ background-color: #E3FDE3;
+}.light-blue{
+ background-color:#E3FBFD;
+}.lavender{
+ background-color:#E6E3FD
+}
+
+.grey{
+ background-color:#CCCCCC;
+}.red{
+ background-color: #CC8383;
+}.orange{
+ background-color: #D2A488;
+}.green{
+ background-color: #8AD28A;
+}.blue{
+ background-color: #88CAD0;
+}.purple{
+ background-color: #9891D5;
+}
+
+#tertiary{
+    color: #ffffff;
+}
+
+.dark-grey{
+ background-color:#444444;
+}.maroon{
+ background-color: #420B0B;
+}.brown{
+ background-color: #49220B;
+}.forest-green{
+ background-color: #094909;
+}.dark-blue{
+ background-color: #0C4146;
+}.royal-purple{
+ background-color: #0F0944;
+}
+select{
+  min-width: 16px;
+  border-radius: 4px;
+}
