@@ -170,19 +170,22 @@ class EventList(Resource):
         """Create a new event."""
         org = self._get_assured_org(org_id)
         req_obj = request.get_json()
-        if {"title", "start", "end"}.issubset(req_obj.keys()):
+        if {"title", "start", "end", "point_of_contact"}.issubset(req_obj.keys()):
             new_event = Event(
                 title=req_obj["title"],
                 org=org,
+                point_of_contact=req_obj["point_of_contact"],
                 start=datetime.strptime(req_obj["start"], DATETIME_FMT),
                 end=datetime.strptime(req_obj["end"], DATETIME_FMT)
             )
             if "description" in req_obj:
                 new_event.description = req_obj["description"]
+            if "info" in req_obj:
+                new_event.info = EventInfo(**req_obj["info"])
             new_event.save()
             return get_event_dict(new_event), 201
         else:
-            abort(400, "Missing one or more required fields: title, start, end.")
+            abort(400, "Missing one or more required fields: title, start, end, point_of_contact.")
 
 
 class OrganizationList(Resource):
