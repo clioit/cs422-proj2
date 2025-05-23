@@ -6,7 +6,7 @@ data from a MongoDB instance. It also renders and serves the
 HTML templates in frontend/templates.
 
 Authors: Ryan Kovatch, Luis Guzman-Cornejo
-Last modified: 05/20/2025
+Last modified: 05/23/2025
 """
 
 from os import environ as env
@@ -46,14 +46,14 @@ api.add_resource(UserResource, '/users/me')
 api.add_resource(UserList, '/users')
 api.add_resource(OrganizationList, '/orgs')
 api.add_resource(OrganizationResource, '/orgs/<string:org_id>')
-api.add_resource(EventResource, '/orgs/<string:org_id>/events/<string:event_id>')
 api.add_resource(EventList, '/orgs/<string:org_id>/events')
-
+api.add_resource(EventResource, '/orgs/<string:org_id>/events/<string:event_id>')
+api.add_resource(TaskList, '/orgs/<string:org_id>/events/<string:event_id>/tasks')
+api.add_resource(TaskResource, '/orgs/<string:org_id>/events/<string:event_id>/tasks/<string:task_id>')
 
 @app.route("/")
 def index():
     return redirect("/users/me")
-
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
