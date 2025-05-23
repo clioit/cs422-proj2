@@ -178,6 +178,8 @@ class EventList(Resource):
                 start=datetime.strptime(req_obj["start"], DATETIME_FMT),
                 end=datetime.strptime(req_obj["end"], DATETIME_FMT)
             )
+            if "published" in req_obj:
+                new_event.description = req_obj["published"]
             if "description" in req_obj:
                 new_event.description = req_obj["description"]
             if "info" in req_obj:
