@@ -2,7 +2,7 @@ from datetime import datetime
 from db_models import *
 from flask import request, redirect, abort, url_for
 from flask_restful import Resource
-from flask_simplelogin import get_username, login_required
+from flask_simplelogin import get_username, login_required, is_logged_in
 
 DATETIME_FMT = "%Y-%m-%dT%H:%M"
 
@@ -12,27 +12,40 @@ def get_current_user() -> User:
     return User.objects(username=get_username()).first()
 
 
-def get_event_dict(event: Event) -> dict:
+def get_event_dict(event: Event, is_manager: bool = False) -> dict:
     """Return an event as a dictionary."""
-    return {
+    event_dict = {
         "id": str(event.id),
         "title": event.title,
         "description": event.description,
         "start": event.start.strftime(DATETIME_FMT),
         "end": event.end.strftime(DATETIME_FMT),
-        "published": event.published,
-        "point_of_contact": str(event.point_of_contact.id) if event.point_of_contact else None,
-        "tasks": [str(task.id) for task in event.tasks],
-        "info": {field: getattr(event.info, field) for field in ("rsvp", "venue", "contact", "budget", "other")}
     }
+    if is_manager:
+        event_dict.update({
+            "published": event.published,
+            "point_of_contact": str(event.point_of_contact.id) if event.point_of_contact else None,
+            "tasks": [str(task.id) for task in event.tasks],
+            "info": {field: getattr(event.info, field) for field in ("rsvp", "venue", "contact", "budget", "other")}
+        })
+    return event_dict
 
 
-def get_org_dict(org: Organization) ->dict:
-    return {
+def get_org_dict(org: Organization) -> dict:
+    org_dict = {
         "name": str(org.name),
         "id": str(org.id),
-        "description": org.description or ""
+        "description": org.description or "",
+        "color_scheme": org.color_scheme,
     }
+    if is_logged_in() and get_current_user() in org.managers:
+        org_dict["join_token"] = str(org.join_token)
+        event_list = org.events
+    else:
+        event_list = Event.objects(org=org, published=True)
+    org_dict["events"] = [str(event.id) for event in event_list]
+
+    return org_dict
 
 
 class UserResource(Resource):
@@ -134,12 +147,11 @@ class EventResource(Resource):
 
 
 class EventList(Resource):
-    method_decorators = [login_required]
+    method_decorators = {"post": [login_required]}
 
     def _get_assured_org(self, org_id: str) -> Organization:
-        """Get an organization from the database, assuring that it's managed
-        by the current user."""
-        org = Organization.objects(id=org_id, managers__in=[get_current_user()]).first()
+        """Get an organization from the database."""
+        org = Organization.objects(id=org_id).first()
         if org is None:
             abort(404, "Organization not found.")
         return org
@@ -147,7 +159,12 @@ class EventList(Resource):
     def get(self, org_id: str):
         """Get a list of events for an organization."""
         org = self._get_assured_org(org_id)
-        return [get_event_dict(event) for event in org.events]
+        is_manager = get_current_user() in org.managers
+        if is_manager:
+            event_list = org.events
+        else:
+            event_list = Event.objects(org=org, published=True)
+        return [get_event_dict(event, is_manager) for event in event_list]
 
     def post(self, org_id: str):
         """Create a new event."""
@@ -172,23 +189,20 @@ class OrganizationList(Resource):
     method_decorators = [login_required]
 
     def get(self):
-        """Retrieves all organizations in the database
-        TODO: Needs to filter such that it accesses organizations
-        the user has access to."""
-        orgs = Organization.objects()
+        """Retrieve organizations the current user has access to."""
+        orgs = Organization.objects(managers__in=[get_current_user()])
         if orgs is None:
             abort(404, "Organizations not found.")
         return [get_org_dict(org) for org in orgs]
     
     def post(self):
-        """Create a new organization
-        TODO: Add the current user as a manager(?)"""
+        """Create a new organization."""
         req_obj = request.get_json()
-        #current_user = get_current_user()
 
-        if {"name"}.issubset(req_obj):
+        if "name" in req_obj:
             new_org = Organization(
-                name=req_obj["name"]
+                name=req_obj["name"],
+                managers=[get_current_user()]
             )
             if "description" in req_obj:
                 new_org.description = req_obj["description"]
@@ -199,38 +213,40 @@ class OrganizationList(Resource):
 
 
 class OrganizationResource(Resource):
-    method_decorators = [login_required]
+    method_decorators = {"patch": [login_required], "delete": [login_required]}
 
     def _get_assured_org(self, org_id: str) -> Organization:
-        """Get an organization from the database. 
-        TODO: Ensure the current_user has permissions to edit"""
+        """Get an organization from the database."""
         org = Organization.objects(id=org_id).first() 
         if org is None:
             abort(404, "Organization not found.")
         return org
 
     def get(self, org_id: str):
-        """Gets an org from the database given an id"""
+        """Gets an org from the database given an ID."""
         org = self._get_assured_org(org_id)
         return get_org_dict(org), 200
 
     def patch(self, org_id: str):
-        """Edit an organization given an ID
-        TODO: Needs 'manager' role verification"""
+        """Edit an organization given an ID."""
         org = self._get_assured_org(org_id)
-        req_obj = request.get_json()
-        sent_fields = set(req_obj.keys())
-        if "name" in sent_fields:
-            org.name = req_obj["name"]
-        if "description" in sent_fields:
-            org.description = req_obj["description"]
-        org.save()
-
-        return get_org_dict(org), 201
+        if get_current_user() in org.managers:
+            req_obj = request.get_json()
+            sent_fields = set(req_obj.keys())
+            if "name" in sent_fields:
+                org.name = req_obj["name"]
+            if "description" in sent_fields:
+                org.description = req_obj["description"]
+            org.save()
+            return get_org_dict(org), 200
+        else:
+            abort(403, "The current user is not authorized to edit this organization.")
     
     def delete(self, org_id:str):
-        """Deletes an organization
-        TODO: Needs 'manager' role verification"""
+        """Delete an organization."""
         org = self._get_assured_org(org_id)
-        org.delete()
-        return {"success": True}
+        if get_current_user() in org.managers:
+            org.delete()
+            return {"success": True}
+        else:
+            abort(403, "The current user is not authorized to delete this organization.")
