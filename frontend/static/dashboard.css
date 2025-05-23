@@ -52,6 +52,7 @@ select{
 
 .hide{
     visibility: hidden;
+    max-height: 0;
 }
 
 .container {
@@ -63,7 +64,7 @@ select{
 
 }
 
-.organization {
+.organization__name {
 padding-top: 8px;
 padding-right:24px;
   margin-bottom: -24px;
@@ -176,9 +177,25 @@ scrollbar-width: none; /* Firefox */
 }
 
 
-.task-area{
+.event-obj__task-area{
     display: flex;
     justify-content: space-between;
+    flex-direction: column;
     margin-top: 4px;
+    font-size: 14px;
+    padding: 2px;
+    /* border: solid .1px black */
+}
+
+.task__info{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 2px;
+  padding: 2px;
+}
+
+.task__info:nth-child(odd){
+  background-color: #999;
 }
 

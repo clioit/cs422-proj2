@@ -129,7 +129,6 @@ const EventList = [
 
 /******************* */
 
-
 function taskManagerMain() {
   // populates Event manager OSO (On-Screen Object)
   const eventManager = document.getElementById(`event-manager-zone`);
@@ -140,27 +139,55 @@ function taskManagerMain() {
     let newEvent = eventMaker(EventList[i]);
 
     let taskArea = document.createElement("div");
-    taskArea.className = "task-area";
+    taskArea.className = "event-obj__task-area";
     let taskCount = document.createElement("div");
     taskCount.id = `task-${i}`;
-    taskCount.innerHTML = EventList[i].tasks;
-    taskArea.appendChild(taskCount);
-    newEvent.appendChild(taskArea);
-    eventManager.appendChild(newEvent);
-    let showButton = document.createElement("button");
-    showButton.textContent = `SHOW`;
-    showButton.id = `show-button`;
-    taskArea.appendChild(showButton);
-    showButton.onclick = taskFlip(i);
+    taskCount.className = 'task';
 
     if (EventList[i].tasks.length == 0) {
       newEvent.style.textDecoration = `line-through`;
 
       //TODO
-      const done = document.createElement("div");
-      done.innerHTML = `All tasks complete`;
-      newEvent.appendChild(done);
+      // const done = document.createElement("div");
+      // done.innerHTML = `All tasks complete`;
+      // done.style.textDecoration = "none !important";
+      // newEvent.append(done);
     }
+    //will probably add filter to cross out completed?
+else{
+    EventList[i].tasks.forEach((task)=>{
+      const newTask = document.createElement('div');
+      newTask.className = `task__info`
+
+      const taskDesc = document.createElement('p');
+      taskDesc.innerHTML = task.description;
+      taskDesc.className = `task__info--desc`
+      newTask.appendChild(taskDesc);
+
+      const taskAss = document.createElement('p');
+      taskAss.innerHTML = task.assignee;
+      taskAss.className = `task__info--ass`;      
+      newTask.appendChild(taskAss);
+
+
+      // OTHER ATTRIBUTE GO HERE
+
+
+      taskCount.appendChild(newTask);
+    })
+
+
+
+    let showButton = document.createElement("button");
+    showButton.textContent = `↓`;
+    showButton.id = `show-button`;
+    showButton.setAttribute("onclick", `taskFlip(${i})`);
+    taskArea.appendChild(showButton);
+  
+  }
+    taskArea.appendChild(taskCount);
+    newEvent.appendChild(taskArea);
+    eventManager.appendChild(newEvent);
   }
 
   /** TODO: when adding tasks, make a visible and not visible style
@@ -169,7 +196,7 @@ function taskManagerMain() {
 }
 
 taskManagerMain();
-  EventList.sort((a, b) => a.tasks.length - b.tasks.length);
+EventList.sort((a, b) => a.tasks.length - b.tasks.length);
 EventList.sort((a, b) => a.start - b.start);
 
 function scheduler() {
@@ -199,20 +226,21 @@ function scheduler() {
       currDate = EventList[i].start;
       console.log(EventList[i]);
 
-
       let newEvent = eventMaker(EventList[i]);
       newDate.appendChild(newEvent);
       currDate = EventList[i].start;
-                    if (EventList[i].tasks.length == 0) {
-      newEvent.style.border = `solid 1px white`;}
+      if (EventList[i].tasks.length == 0) {
+        newEvent.style.border = `solid 1px white`;
+      }
     } else if (currDate === EventList[i].start) {
       //under same day
       console.log(newDate);
       let newEvent = eventMaker(EventList[i]);
       console.log(newEvent);
       newDate.appendChild(newEvent);
-              if (EventList[i].tasks.length == 0) {
-      newEvent.style.border = `solid 1px white`;}
+      if (EventList[i].tasks.length == 0) {
+        newEvent.style.border = `solid 1px white`;
+      }
     } else {
       //under new day
       newDate = document.createElement("div");
@@ -225,14 +253,14 @@ function scheduler() {
       currDate = EventList[i].start;
       console.log(EventList[i]);
       newEvent = eventMaker(EventList[i]);
-              if (EventList[i].tasks.length == 0) {
-      newEvent.style.border = `solid 1px white`;}
+      if (EventList[i].tasks.length == 0) {
+        newEvent.style.border = `solid 1px white`;
+      }
       newDate.appendChild(newEvent);
       currDate = EventList[i].start;
     }
-
-  }}
-
+  }
+}
 
 scheduler();
 
@@ -277,8 +305,13 @@ function eventMaker(addMe) {
   return newEvent;
 }
 
-
 function taskFlip(i) {
   let task = document.getElementById(`task-${i}`);
-  task.classList.append('show');
+  console.log(task);
+  if (task.classList.contains("hide")) {
+    task.classList.remove("hide");
+  } else {
+    task.classList.add("hide");
+  }
 }
+
