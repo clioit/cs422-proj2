@@ -137,7 +137,6 @@ function taskManagerMain() {
   EventList.sort((a, b) => b.tasks.length - a.tasks.length);
   for (let i = 0; i < EventList.length; i++) {
     let newEvent = eventMaker(EventList[i]);
-
     let taskArea = document.createElement("div");
     taskArea.className = "event-obj__task-area";
     let taskCount = document.createElement("div");
@@ -189,10 +188,6 @@ else{
     newEvent.appendChild(taskArea);
     eventManager.appendChild(newEvent);
   }
-
-  /** TODO: when adding tasks, make a visible and not visible style
-   * class so we can show and not show the list of tasks
-   */
 }
 
 taskManagerMain();
@@ -250,9 +245,12 @@ function scheduler() {
       newDate.style.textAlign = `left`;
       console.log(newDate);
       schedule.appendChild(newDate);
+
       currDate = EventList[i].start;
       console.log(EventList[i]);
+
       newEvent = eventMaker(EventList[i]);
+
       if (EventList[i].tasks.length == 0) {
         newEvent.style.border = `solid 1px white`;
       }
