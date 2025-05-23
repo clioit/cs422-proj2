@@ -46,11 +46,11 @@ select{
     border-radius: 8px;
 }
 
-#show{
+.show{
     visibility: visible;
 }
 
-#hide{
+.hide{
     visibility: hidden;
 }
 

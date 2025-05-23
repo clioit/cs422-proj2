@@ -280,5 +280,5 @@ function eventMaker(addMe) {
 
 function taskFlip(i) {
   let task = document.getElementById(`task-${i}`);
-  task.id = "show";
+  task.classList.append('show');
 }
