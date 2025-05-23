@@ -40,6 +40,7 @@ button{
 button:hover{
     scale: 105%;
     background-color:#555555;
+    box-shadow: 2px 2px 1.5px 1.5px rgba(155, 155, 155, 55);
 }
 
 select{
@@ -180,7 +181,7 @@ scrollbar-width: none; /* Firefox */
 .event-obj__task-area{
     display: flex;
     justify-content: space-between;
-    flex-direction: column;
+    flex-direction: column-reverse;
     margin-top: 4px;
     font-size: 14px;
     padding: 2px;

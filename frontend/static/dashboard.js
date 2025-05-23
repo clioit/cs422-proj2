@@ -179,7 +179,7 @@ else{
 
 
     let showButton = document.createElement("button");
-    showButton.textContent = `↓`;
+    showButton.textContent = `↑↓`;
     showButton.id = `show-button`;
     showButton.setAttribute("onclick", `taskFlip(${i})`);
     taskArea.appendChild(showButton);
