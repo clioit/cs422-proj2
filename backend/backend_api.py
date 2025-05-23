@@ -6,15 +6,16 @@ data from a MongoDB instance. It also renders and serves the
 HTML templates in frontend/templates.
 
 Authors: Ryan Kovatch
-Last modified: 05/15/2025
+Last modified: 05/19/2025
 """
 
-from db_seeder import seed_db
-from flask import Flask, render_template
+from os import environ as env
+
+from flask import Flask
 from flask_restful import Api
 from flask_simplelogin import SimpleLogin
-from mongoengine import connect
-from os import environ as env
+
+from db_seeder import seed_db
 from resources import *
 
 
@@ -43,6 +44,8 @@ if User.objects.count() == 0:
 
 api.add_resource(UserResource, '/users/me')
 api.add_resource(UserList, '/users')
+api.add_resource(EventResource, '/orgs/<string:org_id>/events/<string:event_id>')
+api.add_resource(EventList, '/orgs/<string:org_id>/events')
 
 
 @app.route("/")
