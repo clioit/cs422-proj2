@@ -23,6 +23,15 @@ body {
   max-width: 900px;
 }
 
+.publish-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  color: #dddddd;
+}
+
+
 h1 {
   text-align: center;
   margin-bottom: 24px;
