@@ -30,6 +30,10 @@ button {
   box-sizing: border-box;
   text-align: center;
 }
+*:hover{
+      transition: all 200ms;
+
+}
 
 button{
     border-radius: 8px;
@@ -41,7 +45,8 @@ button:hover{
     scale: 105%;
     background-color:#555555;
     box-shadow: 2px 2px 1.5px 1.5px rgba(155, 155, 155, 55);
-}
+    transition: all 300ms;
+  }
 
 select{
     border-radius: 8px;
