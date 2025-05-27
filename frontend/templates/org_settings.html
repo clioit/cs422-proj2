@@ -8,11 +8,12 @@
 </head>
 <body>
     <div class="container">
+        <div class="row">
         <div class="organization">
             <div class="organization__name">
-                <label for="org-name" class="name">
+                <label for="org-name" class="name"> Name </label>
                     <input type="text" id="org-name" placeholder="ex: Chess Club">
-                </label>
+                
             </div>
             <div class="organization__scheme">
                 <select name="primary" id="primary" onchange="setColor()">
@@ -40,7 +41,15 @@
                      <option value="#0F0944" class="royal-purple">royal purple</option>
                 </select>
             </div>
-
+            <div class="organization__desc">
+                <label for="desc"> Description </label>
+                <textarea name="desc" id="desc" placeholder="Describe your club..."></textarea>
+            </div>
+            <div class="links">
+                <button class="public"> Generate Public Link</button>
+                <button class="exec"> Generate Executive Link</button>
+            </div>
+</div> 
         </div>
     </div>
     <script src="../static/org_settings.js"></script>
