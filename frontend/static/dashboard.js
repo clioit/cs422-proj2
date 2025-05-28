@@ -136,6 +136,8 @@ function taskManagerMain() {
   EventList.sort((a, b) => a.start - b.start);
   EventList.sort((a, b) => b.tasks.length - a.tasks.length);
   for (let i = 0; i < EventList.length; i++) {
+
+    // ADD ANCHOR POINT - calls navigation to editor
     let newEvent = eventMaker(EventList[i]);
     let taskArea = document.createElement("div");
     taskArea.className = "event-obj__task-area";
