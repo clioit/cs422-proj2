@@ -64,6 +64,7 @@ class Organization(Document):
     join_token = UUIDField(binary=False, default=uuid.uuid4)
     managers = ListField(ReferenceField("User"), required=True)
     events = ListField(ReferenceField(Event, reverse_delete_rule=PULL))
+    color_scheme = ListField(StringField(), required=True, default=["#FFFFFF", "#CCCCCC", "#444444"])
 
 
 class User(Document):

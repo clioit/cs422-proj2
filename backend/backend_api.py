@@ -5,8 +5,8 @@ This file implements a RESTful API for committing and retrieving
 data from a MongoDB instance. It also renders and serves the
 HTML templates in frontend/templates.
 
-Authors: Ryan Kovatch
-Last modified: 05/19/2025
+Authors: Ryan Kovatch, Luis Guzman-Cornejo
+Last modified: 05/23/2025
 """
 
 from os import environ as env
@@ -44,9 +44,12 @@ if User.objects.count() == 0:
 
 api.add_resource(UserResource, '/users/me')
 api.add_resource(UserList, '/users')
-api.add_resource(EventResource, '/orgs/<string:org_id>/events/<string:event_id>')
+api.add_resource(OrganizationList, '/orgs')
+api.add_resource(OrganizationResource, '/orgs/<string:org_id>')
 api.add_resource(EventList, '/orgs/<string:org_id>/events')
-
+api.add_resource(EventResource, '/orgs/<string:org_id>/events/<string:event_id>')
+api.add_resource(TaskList, '/orgs/<string:org_id>/events/<string:event_id>/tasks')
+api.add_resource(TaskResource, '/orgs/<string:org_id>/events/<string:event_id>/tasks/<string:task_id>')
 
 @app.route("/")
 def index():
@@ -59,7 +62,6 @@ def dashboard():
 @app.route("/event_editor")
 def edit_event():
     return render_template('event_editor.html')
-
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
