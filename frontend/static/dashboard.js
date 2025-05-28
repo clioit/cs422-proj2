@@ -313,3 +313,20 @@ function taskFlip(i) {
   }
 }
 
+let taskState;
+function allTaskToggle(){
+  taskState=!taskState;
+  let taskField = document.querySelectorAll('.task');
+  taskField.forEach((task) =>  { if (taskState){
+    if (task.classList.contains("hide")) {
+    task.classList.remove("hide");
+  }
+  }else {
+    if (!task.classList.contains("hide")) {
+    task.classList.add("hide");
+  }
+  }
+  return;});
+}
+
+
