@@ -11,7 +11,7 @@ Last modified: 05/23/2025
 
 from os import environ as env
 
-from flask import Flask
+from flask import Flask, render_template
 from flask_restful import Api
 from flask_simplelogin import SimpleLogin
 
