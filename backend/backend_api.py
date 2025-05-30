@@ -10,6 +10,7 @@ Last modified: 05/23/2025
 """
 
 from db_models import *
+from resources import *
 from db_seeder import seed_db
 from flask import Flask, render_template, redirect, abort
 from flask_restful import Resource, Api
