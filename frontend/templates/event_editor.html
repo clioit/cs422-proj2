@@ -46,16 +46,20 @@
           <input type="text" id="rsvpDetail" name="rsvpDetail" />
 
           <!-- Contact field -->
-          <label for="taskDetail">Contact Info:</label>
-          <input type="text" id="taskDetail" name="taskDetail" />
+          <label for="contactDetail">Contact Info:</label>
+          <input type="text" id="contactDetail" name="contactDetail" />
 
           <!-- Venue field -->
           <label for="venueDetail">Venue Info:</label>
           <input type="text" id="venueDetail" name="venueDetail" />
 
+          <!-- Budget field -->
+          <label for="budgetDetail">Budget Info:</label>
+          <input type="text" id="budgetDetail" name="budgetDetail" />
+
           <!-- Other field -->
-          <label for="contactDetail">Other:</label>
-          <input type="text" id="contactDetail" name="contactDetail" />
+          <label for="other">Other:</label>
+          <input type="text" id="other" name="other" />
         </div>
       </div>
 
@@ -67,8 +71,13 @@
         <option value="person2">Person 2</option>
       </select>
 
+      <!-- Checkbox to publish event -->
+      <label for="publish">Publish?
+      <input type="checkbox" id="publish" name="publish" value = "true"/>
+      </label>
+
       <!-- Button to submit and save the event data -->
-      <button type="submit" class="add-event" onclick="saveEvent()">Save Event</button>
+      <button type="submit" class="add-event" onclick="postEvent()">Save Event</button>
       <!-- Message field to display event save status -->
       <p id="message"></p>
     </form>
