@@ -1,0 +1,174 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=National+Park:wght@200..800&family=Roboto:wdth,wght@75..100,100..900&display=swap');
+
+* {
+  font-family: "Montserrat", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+
+.container {
+  min-height: 100vh;
+  flex-direction: row;
+  /* margin: 16px; */
+  padding-bottom: 16px;
+  background-color: #555555;
+
+}
+
+.pink{
+ background-color: #FDE3E3;
+}
+.light-orange{
+ background-color: #FDEDE3;
+}.mint{
+ background-color: #E3FDE3;
+}.light-blue{
+ background-color:#E3FBFD;
+}.lavender{
+ background-color:#E6E3FD
+}
+
+.grey{
+ background-color:#CCCCCC;
+}.red{
+ background-color: #CC8383;
+}.orange{
+ background-color: #D2A488;
+}.green{
+ background-color: #8AD28A;
+}.blue{
+ background-color: #88CAD0;
+}.purple{
+ background-color: #9891D5;
+}
+
+#tertiary{
+    color: #ffffff;
+}
+
+.dark-grey{
+ background-color:#444444;
+}.maroon{
+ background-color: #420B0B;
+}.brown{
+ background-color: #49220B;
+}.forest-green{
+ background-color: #094909;
+}.dark-blue{
+ background-color: #0C4146;
+}.royal-purple{
+ background-color: #1c0944;
+}
+select{
+  min-width: 16px;
+  border-radius: 4px;
+}
+
+.row{
+  background-color: #000000;
+  padding: 32px;
+  border-radius: 8px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+  width: 95%;
+  max-width: 900px;
+  max-height: 100vh;
+}
+
+.container{
+  background-color: #555555;
+  display: flex;
+  justify-content: center;
+  color: white;
+}
+
+.organization{
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  padding: 16px;
+  background-color: rgba(55, 55, 55, 100);
+  max-height: fit-content;
+  max-width: 80%;
+  border-radius: 8px;
+}
+
+.organization__name{
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  color: black;
+  padding: 16px;
+  text-align: left;
+}
+
+.organization__scheme{
+  display: flex;
+  /* flex-direction: column; */
+  justify-content: space-around;
+  /* margin-bottom: 16px; */
+  align-items: flex-end;
+  margin-top: 8px;
+}
+
+.organization__desc{
+  display: flex;
+  margin: 0 auto;
+  flex-direction: column;
+  color: white;
+  justify-content: space-around;
+}
+
+.desc{
+  text-align: left;
+}
+
+#desc::placeholder{
+color: #000000;
+}
+
+
+.links{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin: 24px;
+}
+
+.public, .exec{
+margin: 24px;
+}
+
+textarea{
+  border-radius: 4px;
+margin: 0 auto;
+  background-color: #444444;
+  min-width: 450px;
+}
+
+button{
+    border-radius: 8px;
+    padding: 4px;
+    border: none;
+
+}
+
+button:hover{
+    scale: 105%;
+    background-color:#555555!important;
+    box-shadow: 2px 2px 1.5px 1.5px rgba(155, 155, 155, 55);
+    transition: all 300ms;
+    color: white ;
+  }
+
+  #org-name{
+    border-radius: 4px;
+    font-size: larger;
+  }
+  
+  .name{
+    color: white;
+    margin-right: 12px;
+  }
