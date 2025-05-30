@@ -380,9 +380,9 @@ class TaskList(Resource):
 
         if {"title", "due_date"}.issubset(req_obj):
             new_task = Task(
-            title=req_obj["title"],
-            due_date=datetime.strptime(req_obj["due_date"], DATETIME_FMT)
-        )
+                title=req_obj["title"],
+                due_date=datetime.strptime(req_obj["due_date"], DATETIME_FMT)
+            )
             if "description" in req_obj:
                 new_task.description = req_obj["description"]
             if "assignee" in req_obj:
@@ -398,27 +398,22 @@ class TaskList(Resource):
 class TaskResource(Resource):
     method_decorators = {"patch": [login_required], "delete": [login_required]}
 
-    def _get_assured_org(self, org_id: str) -> Organization:
-        """Get an organization from the database."""
-        org = Organization.objects(id=org_id).first()
-        if org is None:
-            abort(404, "Organization not found.")
-        return org
-
-    def _get_assured_task(self, task_id:str) -> Task:
-
+    def _get_assured_task(self, task_id: str) -> Task:
+        """Gets a task from the database, throwing 404 if it does not exist.
+        TODO: take the event ID and make sure the task exists under it."""
         task = Task.objects(id=task_id).first()
         if task is None:
             abort(404, "Task not found.")
         return task
 
-    def get(self, org_id:str, event_id:str, task_id:str):
+    def get(self, org_id: str, event_id: str, task_id: str):
+        """Gets a single task."""
         task = self._get_assured_task(task_id)
         return get_task_dict(task), 200
 
-    def patch(self, org_id: str, event_id:str, task_id:str):
-        """Edit an organization given an ID."""
-        org = self._get_assured_org(org_id)
+    def patch(self, org_id: str, event_id: str, task_id: str):
+        """Edits a task given its ID."""
+        org = get_assured_org(org_id)
         task = self._get_assured_task(task_id)
         this_user = get_current_user()
         if this_user in org.managers and org in this_user.orgs:
@@ -439,13 +434,13 @@ class TaskResource(Resource):
         else:
             abort(403, "The current user is not authorized to edit this organization.")
 
-    def delete(self, org_id:str, event_id:str, task_id:str):
-        """Delete an organization."""
-        org = self._get_assured_org(org_id)
+    def delete(self, org_id: str, event_id: str, task_id: str):
+        """Deletes a task."""
+        org = get_assured_org(org_id)
         task = self._get_assured_task(task_id)
         this_user = get_current_user()
         if this_user in org.managers and org in this_user.orgs:
             task.delete()
             return {"success": True}
         else:
-            abort(403, "The current user is not authorized to delete this organization.")
+            abort(403, "The current user is not authorized to delete this task.")
