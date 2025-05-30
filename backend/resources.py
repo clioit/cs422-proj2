@@ -54,12 +54,12 @@ def get_org_dict(org: Organization) -> dict:
 def get_task_dict(task: Task) -> dict:
     '''
     Return task information as a dictionary
-    TODO: Implement the "assignee" data
     '''
     return {
         "title" : str(task.title),
         "id" : str(task.id),
         "description" : task.description,
+        "assignee" : str(task.assignee.id) if task.assignee else None, 
         "due_date" : str(task.due_date),
         "completed" : task.completed
     }
@@ -355,7 +355,7 @@ class TaskResource(Resource):
         
         task = Task.objects(id=task_id).first()
         if task is None:
-            abort(404, "Event not found.")
+            abort(404, "Task not found.")
         return task
     
     def get(self, org_id:str, event_id:str, task_id:str):
