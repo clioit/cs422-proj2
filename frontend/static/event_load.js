@@ -79,6 +79,7 @@ async function loadTasks(i, taskList) {
           description: task.description,
           due: task.due_date,
           assignee: task.assignee,
+          done: task.completed
         });
       console.log(taskList);
       });
