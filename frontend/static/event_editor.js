@@ -50,8 +50,13 @@ function postEvent(){
     console.log("saving new event...");
     // postEvent adds a new event to the database
     // get inputs
-    // THIS IS CURRENTLY HARDCODED! GET IT FROM URL HANDLE WHEN UPDATED
+    // THESE VARIABLES ARE CURRENTLY HARDCODED! GET IT FROM URL HANDLE WHEN UPDATED
     const org_id = "683a2b2770c588a14a8ef926";
+    const dummy_start = "2025-05-30T12:00"
+    const dummy_end = "2025-05-30T16:00"
+    const dummy_poc = "683a2b2770c588a14a8ef928"
+    const dummy_publish = "false";
+
     const title = document.getElementById('title').value;
     const description = document.getElementById('description').value;
     const start = document.getElementById('start').value;
@@ -61,7 +66,8 @@ function postEvent(){
     const venue = document.getElementById('venueDetail').value;
     const budget = document.getElementById('budgetDetail').value;
     const other = document.getElementById('other').value;
-    const publish = document.getElementById('publish').checked ? "true" : "false";
+    const poc = document.getElementById('person').value;
+    const publish = document.getElementById('publish').value == "true" ? "true" : "false";
 
     // POST request to endpoint
     fetch(`/orgs/${org_id}/events`, {
@@ -72,16 +78,17 @@ function postEvent(){
       body: JSON.stringify({
         title: title,
         description: description,
-        start: start,
-        end: end,
-        published: publish,
+        start: dummy_start,
+        end: dummy_end,
+        published: dummy_publish,
         info: {
           rsvp: rsvp,
           venue: venue,
           contact: contact,
           budget: budget,
           other: other
-        }
+        },
+        point_of_contact: dummy_poc,
       })
     })
     // check response is json
