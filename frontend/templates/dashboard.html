@@ -5,7 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Club Calendar: Dashboard</title>
     <link rel="stylesheet" href="../static/dashboard.css" />
+    <script>let EventList;</script>
+          <script src="../static/event_load.js">
+      </script>
   </head>
+  <!-- <script>
+    //  let org_id = "{{ org_id }}"
+    let org_id;
+    async function getOrg() {
+      // get organization id
+      //
+
+      return fetch(`http://localhost:5001/orgs`)
+        .then((response) => {
+          // if (!response.ok) {
+          //   return response.json().then((errorData) => {
+          //     throw new Error(errorData.description || "Unknown error");
+          //   });
+          // }
+          return response.json();
+        })
+        .then((data) => {
+          data.forEach((org) => {
+            org_id = org.id;
+            console.log(org_id);return;
+          });
+
+          return;
+        });
+    }
+    getOrg();
+  </script> -->
   <body>
     <main>
       <div class="container">
@@ -34,7 +64,8 @@
           </button>
         </div>
       </div>
-      <script src="../static/dashboard.js"></script>
+      <script src="../static/dashboard.js">
+      </script>
     </main>
   </body>
 </html>
