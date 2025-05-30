@@ -1,3 +1,10 @@
+/*
+Contains sample Javascript functions. Inlcudes how to add an object, hide an object, and make a post request.
+Created for CS 422 Project 2: ETA in Spring 2025.
+
+Authors: Claire Cody
+Last modified: 05/30/2025
+*/
 
 const container = document.getElementById("container");
 console.log(container);

@@ -1,3 +1,11 @@
+/*
+Functions for event editor functionality. Inlcudes getting form inputs and saving.
+Created for CS 422 Project 2: ETA in Spring 2025.
+
+Authors: Claire Cody, Clio Tsao
+Last modified: 05/30/2025
+*/
+
 const task = document.getElementById("event_editor_container");
 
 document.addEventListener("DOMContentLoaded", () => {

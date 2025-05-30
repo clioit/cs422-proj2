@@ -1,3 +1,11 @@
+/*
+Functions for dashboard functionality. Inlcudes populating main interface with tasks and events.
+Created for CS 422 Project 2: ETA in Spring 2025.
+
+Authors: Claire Cody
+Last modified: 05/30/2025
+*/
+
 /**
  *
  * psuedo coding for setting up schedule

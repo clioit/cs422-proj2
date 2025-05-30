@@ -1,3 +1,11 @@
+/*
+Functions for org editor page. Inlcudes selecting dynamic colors for the org color scheme.
+Created for CS 422 Project 2: ETA in Spring 2025.
+
+Authors: Claire Cody
+Last modified: 05/29/2025
+*/
+
 const primary = document.getElementById("primary");
 const secondary = document.getElementById("secondary");
 const tertiary = document.getElementById("tertiary");
