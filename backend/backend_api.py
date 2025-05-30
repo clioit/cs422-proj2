@@ -14,6 +14,7 @@ from os import environ as env
 from flask import Flask, render_template
 from flask_restful import Api
 from flask_simplelogin import SimpleLogin
+from mongoengine import connect
 
 from db_seeder import seed_db
 from resources import *
@@ -55,6 +56,10 @@ api.add_resource(TaskResource, '/orgs/<string:org_id>/events/<string:event_id>/t
 def index():
     return redirect("/users/me")
 
+@app.route("/login")
+def edit_event():
+    return render_template('login.html')
+
 @app.route("/dashboard")
 def dashboard():
     return render_template('dashboard.html')
@@ -62,6 +67,11 @@ def dashboard():
 @app.route("/event_editor")
 def edit_event():
     return render_template('event_editor.html')
+
+@app.route("/org_settings")
+def edit_event():
+    return render_template('org_settings.html')
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
