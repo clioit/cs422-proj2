@@ -384,4 +384,9 @@ function allTaskToggle() {
   });
 }
 
+function newEvent(){
+  // newEvent redirects the user to the event editor page.
+  window.location.replace(`http://localhost:5001/event_editor`);
+}
+
 

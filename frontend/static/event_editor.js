@@ -38,3 +38,21 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
   
+
+function saveEvent(){
+  // saveEvent currently redirects the user back to the dashboard after a delay.
+  // TODO: update function so that it creates and saves a new event
+  // get message and any empty fields
+  const message = document.getElementById('message');
+  const empty_fields = document.querySelector(":invalid");
+
+  if (empty_fields == null) {
+    message.textContent = 'New event saved!';
+    setTimeout(() => window.location.replace(`http://localhost:5001/dashboard`), 1500);
+  }
+  // check if valid pdf type
+  else if (empty_fields.length > 0) {
+    message.textContent = 'Please fill out required fields.';
+    return;
+  }
+}

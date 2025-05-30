@@ -20,7 +20,7 @@
     <form id="eventForm">
       <!-- Title input field -->
       <label for="title">Title:</label>
-      <input type="text" id="title" name="title" required />
+      <input class = "req" type="text" id="title" name="title" required />
 
       <!-- Description textarea -->
       <label for="description">Description:</label>
@@ -28,11 +28,11 @@
 
       <!-- Start Date input -->
       <label for="start">Start Date:</label>
-      <input type="date" id="start" name="start" required />
+      <input class = "req" type="date" id="start" name="start" required />
 
       <!-- End Date input -->
       <label for="end">End Date:</label>
-      <input type="date" id="end" name="end" required />
+      <input class = "req" type="date" id="end" name="end" required />
 
       <!-- Section for additional event details (RSVP, Contact, Venue, Other) -->
       <div class="details-section">
@@ -68,7 +68,9 @@
       </select>
 
       <!-- Button to submit and save the event data -->
-      <button type="submit" class="add-event">Save Event</button>
+      <button type="submit" class="add-event" onclick="saveEvent()">Save Event</button>
+      <!-- Message field to display event save status -->
+      <p id="message"></p>
     </form>
   </div>
 
