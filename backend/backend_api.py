@@ -74,7 +74,7 @@ def index():
     return redirect("/users/me")
 
 @app.route("/login")
-def edit_event():
+def login():
     return render_template('login.html')
 
 @app.route("/dashboard")
