@@ -58,26 +58,27 @@ async function loadEvents() {
 }
 
 function loadTasks(i){
-    // let taskList = [];
-    // return fetch(`http://localhost:5001/orgs/${org_id}/events/${i}/tasks`)
-    // .then((response) => {
-    //   // if (!response.ok) {
-    //   //   return response.json().then((errorData) => {
-    //   //     throw new Error(errorData.description || "Unknown error");
-    //   //   });
-    //   // }
-    //   return response.json();
-    // })
-    // .then((data) => {
-    //   data.forEach((task) => {
-    //     taskList.push({
+    let taskList = [];
+    console.log('org_id' + org_id);
+    return fetch(`http://localhost:5001/orgs/${org_id}/events/${i}/tasks`)
+    .then((response) => {
+      // if (!response.ok) {
+      //   return response.json().then((errorData) => {
+      //     throw new Error(errorData.description || "Unknown error");
+      //   });
+      // }
+      return response.json();
+    })
+    .then((data) => {
+      data.forEach((task) => {
+        taskList.push({
 
-    //     });
-    //   });
-    //   scheduler();
-    //   taskManagerMain();
-    //   console.log(EventList);
-    //   return;
-    // });
-    return taskLists[0];
+        });
+      });
+      // scheduler();
+      // taskManagerMain();
+      // console.log(EventList);
+      return;
+    });
+    // return taskLists[0];
 }

@@ -72,7 +72,7 @@ class User(Document):
     meta = {'collection': 'users'}
     username = StringField(required=True)
     password_hash = IntField(required=True)
-    orgs = ListField(ReferenceField(Organization, reverse_delete_rule=PULL))
+    orgs = ListField(ReferenceField(Organization, reverse_delete_rule=PULL), default=[])
 
 
 User.register_delete_rule(Organization, 'managers', PULL)

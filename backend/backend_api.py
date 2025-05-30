@@ -64,10 +64,12 @@ api.add_resource(UserResource, '/users/me')
 api.add_resource(UserList, '/users')
 api.add_resource(OrganizationList, '/orgs')
 api.add_resource(OrganizationResource, '/orgs/<string:org_id>')
+api.add_resource(OrganizationInviteResource, '/orgs/join/<string:join_token>')
 api.add_resource(EventList, '/orgs/<string:org_id>/events')
 api.add_resource(EventResource, '/orgs/<string:org_id>/events/<string:event_id>')
 api.add_resource(TaskList, '/orgs/<string:org_id>/events/<string:event_id>/tasks')
 api.add_resource(TaskResource, '/orgs/<string:org_id>/events/<string:event_id>/tasks/<string:task_id>')
+
 
 @app.route("/")
 def index():
