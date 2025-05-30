@@ -334,6 +334,8 @@ class TaskList(Resource):
         )
             if "description" in req_obj:
                 new_task.description = req_obj["description"]
+            if "assignee" in req_obj:
+                new_task.assignee = req_obj["assignee"]
             new_task.save()
             event.tasks.append(new_task)
             event.save()
@@ -374,6 +376,8 @@ class TaskResource(Resource):
                 task.title = req_obj["title"]
             if "description" in sent_fields:
                 task.description = req_obj["description"]
+            if "assignee" in sent_fields:
+                task.assignee = req_obj["assignee"]
             if "completed" in sent_fields:
                 task.completed = req_obj["completed"]
             if "due_date" in sent_fields:
