@@ -25,9 +25,11 @@ def get_event_dict(event: Event, is_manager: bool = False) -> dict:
         event_dict.update({
             "published": event.published,
             "point_of_contact": str(event.point_of_contact.id) if event.point_of_contact else None,
-            "tasks": [str(task.id) for task in event.tasks],
-            "info": {field: getattr(event.info, field) for field in ("rsvp", "venue", "contact", "budget", "other")}
+            "tasks": [str(task.id) for task in event.tasks]
         })
+        if event.info is not None:
+            event_dict["info"] = {field: getattr(event.info, field) for field in ("rsvp", "venue", "contact", "budget",
+                                                                                  "other")}
     return event_dict
 
 
@@ -95,6 +97,7 @@ class UserResource(Resource):
         get_current_user().delete()
         return redirect(url_for('simplelogin.logout'), code=303)  # must log out after delete
 
+
 class UserList(Resource):
     def post(self):
         """Create a new user."""
@@ -106,12 +109,14 @@ class UserList(Resource):
         else:
             abort(400, "Missing one or more required fields: username, password.")
 
+
 class EventResource(Resource):
     method_decorators = [login_required]
 
     def _get_assured_event(self, org_id: str, event_id: str) -> Event:
         """Get an event from the database, assuring that it's associated
         with an organization the current user manages."""
+        # TODO: allow anonymous event queries
         org = Organization.objects(id=org_id, managers__in=[get_current_user()]).first()
         if org is None:
             abort(404, "Organization not found.")
@@ -154,6 +159,7 @@ class EventResource(Resource):
         event.delete()
         return {"success": True}
 
+
 class EventList(Resource):
     method_decorators = {"post": [login_required]}
 
@@ -186,11 +192,15 @@ class EventList(Resource):
                 start=datetime.strptime(req_obj["start"], DATETIME_FMT),
                 end=datetime.strptime(req_obj["end"], DATETIME_FMT)
             )
+            if "published" in req_obj:
+                new_event.description = req_obj["published"]
             if "description" in req_obj:
                 new_event.description = req_obj["description"]
             if "info" in req_obj:
                 new_event.info = EventInfo(**req_obj["info"])
             new_event.save()
+            org.events.append(new_event)
+            org.save()
             return get_event_dict(new_event), 201
         else:
             abort(400, "Missing one or more required fields: title, start, end.")
