@@ -99,6 +99,7 @@ class UserResource(Resource):
         get_current_user().delete()
         return redirect(url_for('simplelogin.logout'), code=303)  # must log out after delete
 
+
 class UserList(Resource):
     def post(self):
         """Create a new user."""
@@ -109,6 +110,7 @@ class UserList(Resource):
             return {"success": True}
         else:
             abort(400, "Missing one or more required fields: username, password.")
+
 
 class EventResource(Resource):
     method_decorators = [login_required]
@@ -159,6 +161,7 @@ class EventResource(Resource):
         event.delete()
         return {"success": True}
 
+
 class EventList(Resource):
     method_decorators = {"post": [login_required]}
 
@@ -206,6 +209,7 @@ class EventList(Resource):
         else:
             abort(400, "Missing one or more required fields: title, start, end.")
 
+
 class OrganizationList(Resource):
     method_decorators = [login_required]
 
@@ -231,6 +235,7 @@ class OrganizationList(Resource):
             return get_org_dict(new_org), 201
         else:
             abort(400, "Missing required field: name")
+
 
 class OrganizationResource(Resource):
     method_decorators = {"patch": [login_required], "delete": [login_required]}
@@ -302,7 +307,7 @@ class TaskList(Resource):
     method_decorators = [login_required]
 
     def _get_assured_event(self, org_id: str, event_id: str) -> Event:
-        """Get an event from the database, assuring that it's associated
+        """Gets an event from the database, assuring that it's associated
         with an organization the current user manages."""
         # TODO: allow anonymous event queries
         event = Event.objects(id=event_id).first()
@@ -311,26 +316,21 @@ class TaskList(Resource):
         return event
     
     def get(self, org_id, event_id):
-        '''
-        Retrieves all tasks under an event
-        '''
+        """Retrieves all tasks under an event."""
         event = self._get_assured_event(org_id, event_id)
-
-        if event == None:
+        if event is None:
             abort(404, "No event found")
         return [get_task_dict(task) for task in event.tasks]
     
     def post(self, org_id, event_id):
-        """Create a new task
-        """
+        """Creates a new task."""
         event = self._get_assured_event(org_id, event_id)
         req_obj = request.get_json()
-        #current_user = get_current_user()
 
-        if {"title"}.issubset(req_obj):
+        if "title" in req_obj.keys():
             new_task = Task(
-            title=req_obj["title"]
-        )
+                title=req_obj["title"]
+            )
             if "description" in req_obj:
                 new_task.description = req_obj["description"]
             new_task.save()
@@ -339,6 +339,7 @@ class TaskList(Resource):
             return get_task_dict(new_task), 201
         else:
             abort(400, "Missing required fields: title, due_date")
+
 
 class TaskResource(Resource):
     pass
