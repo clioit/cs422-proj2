@@ -263,7 +263,7 @@ function scheduler() {
       //  TODO: USE NOW VARIABLE TO DETERMINE IF DAY SHOULD SAY TODAY
 
       // TODO: add functionality so that each day is sort by task analysis
-
+      
       newDate.className = `top-date`;
       newDate.textContent = EventList[i].start.toString().split(`00:00:00`)[0];
       newDate.style.fontWeight = 700;
