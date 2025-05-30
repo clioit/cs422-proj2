@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const publishCheckbox = document.getElementById('publishCheckbox');
     const submitButton = document.getElementById('submitButton');
     const eventForm = document.getElementById('eventForm');
-    const eventEditorContainer = document.getElementById('event_editor_container');
+    //const eventEditorContainer = document.getElementById('event_editor_container');
 
   //Toggle the dropdown section when you click the button
     if (toggleButton && detailsContent) {
@@ -26,12 +26,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  //Handle form submission (placeholder for now)
+  //Form submission
   if (eventForm) {
     eventForm.addEventListener('submit', (e) => {
       e.preventDefault();
 
-      console.log("Form submitted! (Just testing for now)");
+      //console.log("Form submitted(Just testing for now)");
 
       //Gather form data to send to the backend
     });
