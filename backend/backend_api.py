@@ -33,7 +33,6 @@ if "SECRET_KEY" in env:
     app.config["SECRET_KEY"] = env["SECRET_KEY"]
 else:
     raise ValueError("You must set a SECRET_KEY environment variable before building this app.")
-
 SimpleLogin(app, login_checker=authenticate)
 api = Api(app)
 connect(host=f"mongodb://{env['MONGODB_HOSTNAME']}:27017/club_db")

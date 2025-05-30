@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=National+Park:wght@200..800&family=Roboto:wdth,wght@75..100,100..900&family=Share+Tech&display=swap');
+/** ^^^^^ from google fonts ^^^^^^^*/
+
+*{ /* applies to ALL */
+font-family: Roboto, "sans serif";
+box-sizing: border-box;
+margin: 0;
+padding: 0;
+
+}
+
+div{
+    /** can style any element type*/
+    border: solid 1px black;
+    padding: 24px;
+}
+
+.container{
+    display: flex; /* make me a rectangle*/
+    flex-direction: column;
+    justify-content: space-between; /*how to place children*/
+        min-height: 125vh; /*110% Vertical Height*/
+    /* for dimensions: vh = vertical height,
+     % is percent of parent
+     px is pixels
+     those are the 3 i mainly use*/
+    text-align: center;
+
+}
+
+.headers{
+   border-radius: 8px; /* rounding corners*/
+}
+
+.special{
+    color: white; /*for text*/
+    background-color: black; /*fills in starting at border*/
+}
+
+
+/** notes on naming
+
+.parent
+.parent__child
+.parent__child--grandchild
+
+CSS formatting will apply all styling to kids when classes are defined
+in this format*/
+
+.headers__one{
+    /* all styling from .headers + this*/
+    color: red;
+}
+
+
+/** JAVASCRIPT STYLING*/
+.js-test{
+    color: white;
+    background-color: blue;
+}
+
+.hide{
+    visibility: hidden;
+}
+
+/* if stying by id use #id instead of .class*/

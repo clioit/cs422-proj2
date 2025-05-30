@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LEARN: HTML+CSS+JavaScript</title>
+    <link rel="stylesheet" href="sample.css">
+</head>
+<body>
+
+    <div class="container" id = "container">
+    <div class="headers" id="headers">
+    <h1 class="headers__one">header1</h1>
+    <h2>header2</h2>
+    <h3>header3</h3>
+    <h4>header4</h4>
+    <h5>header5</h5>
+    <h6>header6</h6>
+
+    <p>paragraph <span class="special">spans stay in-line</span></p>
+    </div>
+
+    <div class="interactables">
+        <label for="select-menu"></label>
+        <select name="select-menu" id="select-menu">
+            <option value="selectMe" selected>select-menu</option>
+            <option value="A">A</option>
+        </select>
+
+        <button onclick="addObject()">PRESS ME</button>
+        <button onclick="hideObject()">PRESS TO TOGGLE</button>
+        <a href="#headers">go to headers</a>
+
+        <input type="text" placeholder="I'm one line & in-line">
+        <label for="labeled">Text Area Label:</label>
+        <textarea name="labeled" id="text-area"> I am a larger field for input</textarea>
+    </div>
+    </div>
+<script src="sample.js"></script>
+</body>
+</html>

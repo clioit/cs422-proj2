@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Club Calendar: Dashboard</title>
+    <link rel="stylesheet" href="../static/dashboard.css" />
+    <script>let EventList;</script>
+          <script src="../static/event_load.js">
+      </script>
+  </head>
+  <!-- <script>
+    //  let org_id = "{{ org_id }}"
+    let org_id;
+    async function getOrg() {
+      // get organization id
+      //
+
+      return fetch(`http://localhost:5001/orgs`)
+        .then((response) => {
+          // if (!response.ok) {
+          //   return response.json().then((errorData) => {
+          //     throw new Error(errorData.description || "Unknown error");
+          //   });
+          // }
+          return response.json();
+        })
+        .then((data) => {
+          data.forEach((org) => {
+            org_id = org.id;
+            console.log(org_id);return;
+          });
+
+          return;
+        });
+    }
+    getOrg();
+  </script> -->
+  <body>
+    <main>
+      <div class="container">
+        <a href="" class="organization__name">
+          <h1 class="organization__name">Chess Club</h1></a
+        >
+        <div class="dash">
+          <!-- <div class="schedule" id="schedule">
+                    SCHEDULE -->
+          <div id="schedule-zone" class="dash__schedule-zone"></div>
+          <!-- </div> -->
+          <div class="dash__event-manager" id="event-manager">
+            <div class="dash__event-manager--zone" id="event-manager-zone">
+              <div class="btn">
+                <button class="taskToggle" onclick="allTaskToggle()">
+                  TOGGLE ALL
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="page-bottom">
+          <button class="add-event" onclick="newEvent()">ADD EVENT</button>
+          <button id="logout" class="current-user">
+            Logout <span class="user">USER</span>
+          </button>
+        </div>
+      </div>
+      <script src="../static/dashboard.js">
+      </script>
+    </main>
+  </body>
+</html>

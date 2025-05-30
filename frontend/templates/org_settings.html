@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Club Settings</title>
+    <link rel="stylesheet" href="../static/org_settings.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+        <div class="organization tertiary">
+            <div class="organization__name">
+                <!-- <label for="org-name" class="name"> <h2 class="name">Name</h2> </label> -->
+                    <input type="text" id="org-name" placeholder="ex: Chess Club">
+                
+            
+            <div class="organization__scheme">
+                <select name="primary" id="primary" onchange="setColor()">
+                    <option value="#FFFFFF" class="white" selected>white</option>
+                    <option value="#FDE3E3" class="pink">pink</option>
+                    <option value="#FDEDE3" class="light-orange">light orange</option>
+                     <option value="#E3FDE3" class="mint">mint</option>
+                    <option value="#E3FBFD" class="light-blue">light blue</option>
+                     <option value="#E6E3FD" class="lavender">lavender</option>
+                </select>
+                    <select name="secondary" id="secondary" onchange="setColor()">
+                    <option value="#CCCCCC" class="grey" selected>grey</option>
+                    <option value="#CC8383" class="red">red</option>
+                    <option value="#D2A488" class="orange">orange</option>
+                     <option value="#8AD28A" class="green">green</option>
+                    <option value="#88CAD0" class="blue">blue</option>
+                     <option value="#9891D5" class="purple">purple</option>
+                </select>
+                    <select name="tertiary" id="tertiary" onchange="setColor()">
+                    <option value="#444444" class="dark-grey" selected>dark grey</option>
+                    <option value="#420B0B" class="maroon">maroon</option>
+                    <option value="#49220B" class="brown">burnt orange</option>
+                     <option value="#094909" class="forest-green">forest green</option>
+                    <option value="#0C4146" class="dark-blue">sea blue</option>
+                     <option value="#0F0944" class="royal-purple">royal purple</option>
+                </select>
+            </div></div>
+            <div class="organization__desc">
+                <!-- <label for="desc"> <h4 class="desc">Description</h4></label> -->
+                <textarea name="desc" id="desc" placeholder="Describe your club..." class="primary"></textarea>
+            </div>
+            <div class="links">
+                <button class="public secondary"> Generate Public Link</button>
+                <button class="exec secondary"> Generate Executive Link</button>
+            </div>
+</div> 
+        </div>
+    </div>
+    <script src="../static/org_settings.js"></script>
+</body>
+</html>
