@@ -26,14 +26,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  //Form submission
+  //Making event submission
   if (eventForm) {
     eventForm.addEventListener('submit', (e) => {
       e.preventDefault();
 
       //console.log("Form submitted(Just testing for now)");
 
-      //Gather form data to send to the backend
+      //Data to be sent to the server?
     });
   }
 });
