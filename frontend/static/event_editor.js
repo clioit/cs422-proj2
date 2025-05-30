@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const publishCheckbox = document.getElementById('publishCheckbox');
     const submitButton = document.getElementById('submitButton');
     const eventForm = document.getElementById('eventForm');
-    const eventEditorContainer = document.getElementById('event_editor_container');
+    //const eventEditorContainer = document.getElementById('event_editor_container');
 
   //Toggle the dropdown section when you click the button
     if (toggleButton && detailsContent) {
