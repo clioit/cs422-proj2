@@ -9,12 +9,11 @@ Authors: Ryan Kovatch, Luis Guzman-Cornejo
 Last modified: 05/23/2025
 """
 
-from db_models import *
 from resources import *
 from db_seeder import seed_db
-from flask import Flask, render_template, redirect, abort
-from flask_restful import Resource, Api
-from flask_simplelogin import SimpleLogin, get_username, login_required
+from flask import Flask, render_template, redirect
+from flask_restful import Api
+from flask_simplelogin import SimpleLogin
 from mongoengine import connect
 from os import environ as env
 
@@ -41,25 +40,6 @@ connect(host=f"mongodb://{env['MONGODB_HOSTNAME']}:27017/club_db")
 if User.objects.count() == 0:
     seed_db()
 
-
-class UserResource(Resource):
-    method_decorators = [login_required]
-
-    def get(self):
-        """Get the current user."""
-        return {'username': get_username()}
-
-    def patch(self):
-        """Edit the current user."""
-        abort(501, "Not Implemented")
-
-
-class UserList(Resource):
-    def post(self):
-        """Create a new user."""
-        abort(501, "Not Implemented")
-
-
 api.add_resource(UserResource, '/users/me')
 api.add_resource(UserList, '/users')
 api.add_resource(OrganizationList, '/orgs')
@@ -75,23 +55,33 @@ api.add_resource(TaskResource, '/orgs/<string:org_id>/events/<string:event_id>/t
 
 @app.route("/")
 def index():
-    return redirect("/users/me")
+    return redirect(url_for("simplelogin.login", next=url_for("simplelogin.index")))
+
 
 @app.route("/login")
 def login():
     return render_template('login.html')
 
+
 @app.route("/dashboard")
+def dashboard_redirect():
+    return redirect(url_for("dashboard", org_id=""))
+
+
+@app.route("/dashboard/<org_id>")
 def dashboard():
     return render_template('dashboard.html')
+
 
 @app.route("/event_editor")
 def edit_event():
     return render_template('event_editor.html')
 
+
 @app.route("/org_settings")
 def org_settings():
     return render_template('org_settings.html')
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
