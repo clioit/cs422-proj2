@@ -97,7 +97,6 @@ class UserResource(Resource):
         get_current_user().delete()
         return redirect(url_for('simplelogin.logout'), code=303)  # must log out after delete
 
-
 class UserList(Resource):
     def post(self):
         """Create a new user."""
@@ -108,7 +107,6 @@ class UserList(Resource):
             return {"success": True}
         else:
             abort(400, "Missing one or more required fields: username, password.")
-
 
 class EventResource(Resource):
     method_decorators = [login_required]
@@ -159,7 +157,6 @@ class EventResource(Resource):
         event.delete()
         return {"success": True}
 
-
 class EventList(Resource):
     method_decorators = {"post": [login_required]}
 
@@ -205,7 +202,6 @@ class EventList(Resource):
         else:
             abort(400, "Missing one or more required fields: title, start, end.")
 
-
 class OrganizationList(Resource):
     method_decorators = [login_required]
 
@@ -231,7 +227,6 @@ class OrganizationList(Resource):
             return get_org_dict(new_org), 201
         else:
             abort(400, "Missing required field: name")
-
 
 class OrganizationResource(Resource):
     method_decorators = {"patch": [login_required], "delete": [login_required]}
@@ -274,35 +269,45 @@ class OrganizationResource(Resource):
 
 class TaskList(Resource):
     method_decorators = [login_required]
+
+    def _get_assured_event(self, org_id: str, event_id: str) -> Event:
+        """Get an event from the database, assuring that it's associated
+        with an organization the current user manages."""
+        # TODO: allow anonymous event queries
+        event = Event.objects(id=event_id).first()
+        if event is None:
+            abort(404, "Event not found.")
+        return event
     
-    def get(self):
+    def get(self, org_id, event_id):
         '''
         Retrieves all tasks under an event
         '''
-        tasks = Task.objects()
-        if tasks == None:
-            abort(404, "No tasks found")
-        return [get_task_dict(task) for task in tasks]
+        event = self._get_assured_event(org_id, event_id)
+
+        if event == None:
+            abort(404, "No event found")
+        return [get_task_dict(task) for task in event.tasks]
     
-    def post(self):
+    def post(self, org_id, event_id):
         """Create a new task
         """
+        event = self._get_assured_event(org_id, event_id)
         req_obj = request.get_json()
         #current_user = get_current_user()
 
-        if {"name", "due_date"}.issubset(req_obj):
+        if {"title"}.issubset(req_obj):
             new_task = Task(
-            name=req_obj["name"],
-            due_date=req_obj["due_date"]
+            title=req_obj["title"]
         )
             if "description" in req_obj:
                 new_task.description = req_obj["description"]
             new_task.save()
+            event.tasks.append(new_task)
+            event.save()
             return get_task_dict(new_task), 201
         else:
-            abort(400, "Missing required fields: name, due_date")
-    
-
+            abort(400, "Missing required fields: title, due_date")
 
 class TaskResource(Resource):
     pass
