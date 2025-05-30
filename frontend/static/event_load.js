@@ -75,9 +75,9 @@ function loadTasks(i){
 
         });
       });
-      scheduler();
-      taskManagerMain();
-      console.log(EventList);
+      // scheduler();
+      // taskManagerMain();
+      // console.log(EventList);
       return;
     });
     // return taskLists[0];
