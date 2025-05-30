@@ -29,6 +29,7 @@ class Task(Document):
     title = StringField(required=True)
     description = StringField()
     due_date = DateTimeField(required=True)
+    completed = BooleanField(required=True, default=False)
     assignee = ReferenceField("User")
 
 

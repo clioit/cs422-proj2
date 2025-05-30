@@ -83,12 +83,14 @@ def get_org_dict(org: Organization) -> dict:
 def get_task_dict(task: Task) -> dict:
     """
     Return task information as a dictionary
-    TODO: Implement the "assignee" data
     """
     return {
         "title": str(task.title),
+        "id": str(task.id),
         "description": task.description,
-        "due_date": str(task.due_date)
+        "assignee": str(task.assignee.id) if task.assignee else None,
+        "due_date": str(task.due_date),
+        "completed": task.completed
     }
 
 
@@ -363,7 +365,7 @@ class OrganizationInviteResource(Resource):
 
 class TaskList(Resource):
     method_decorators = [login_required]
-    
+
     def get(self, org_id, event_id):
         """Retrieves all tasks under an event."""
         event = get_assured_event(org_id, event_id)
@@ -376,12 +378,15 @@ class TaskList(Resource):
         event = get_assured_event(org_id, event_id)
         req_obj = request.get_json()
 
-        if "title" in req_obj.keys():
+        if {"title", "due_date"}.issubset(req_obj):
             new_task = Task(
-                title=req_obj["title"]
-            )
+            title=req_obj["title"],
+            due_date=datetime.strptime(req_obj["due_date"], DATETIME_FMT)
+        )
             if "description" in req_obj:
                 new_task.description = req_obj["description"]
+            if "assignee" in req_obj:
+                new_task.assignee = req_obj["assignee"]
             new_task.save()
             event.tasks.append(new_task)
             event.save()
@@ -391,4 +396,56 @@ class TaskList(Resource):
 
 
 class TaskResource(Resource):
-    pass
+    method_decorators = {"patch": [login_required], "delete": [login_required]}
+
+    def _get_assured_org(self, org_id: str) -> Organization:
+        """Get an organization from the database."""
+        org = Organization.objects(id=org_id).first()
+        if org is None:
+            abort(404, "Organization not found.")
+        return org
+
+    def _get_assured_task(self, task_id:str) -> Task:
+
+        task = Task.objects(id=task_id).first()
+        if task is None:
+            abort(404, "Task not found.")
+        return task
+
+    def get(self, org_id:str, event_id:str, task_id:str):
+        task = self._get_assured_task(task_id)
+        return get_task_dict(task), 200
+
+    def patch(self, org_id: str, event_id:str, task_id:str):
+        """Edit an organization given an ID."""
+        org = self._get_assured_org(org_id)
+        task = self._get_assured_task(task_id)
+        this_user = get_current_user()
+        if this_user in org.managers and org in this_user.orgs:
+            req_obj = request.get_json()
+            sent_fields = set(req_obj.keys())
+            if "title" in sent_fields:
+                task.title = req_obj["title"]
+            if "description" in sent_fields:
+                task.description = req_obj["description"]
+            if "assignee" in sent_fields:
+                task.assignee = req_obj["assignee"]
+            if "completed" in sent_fields:
+                task.completed = req_obj["completed"]
+            if "due_date" in sent_fields:
+                task.due_date = datetime.strptime(req_obj["due_date"], DATETIME_FMT)
+            task.save()
+            return get_task_dict(task), 200
+        else:
+            abort(403, "The current user is not authorized to edit this organization.")
+
+    def delete(self, org_id:str, event_id:str, task_id:str):
+        """Delete an organization."""
+        org = self._get_assured_org(org_id)
+        task = self._get_assured_task(task_id)
+        this_user = get_current_user()
+        if this_user in org.managers and org in this_user.orgs:
+            task.delete()
+            return {"success": True}
+        else:
+            abort(403, "The current user is not authorized to delete this organization.")
