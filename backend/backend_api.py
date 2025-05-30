@@ -9,14 +9,13 @@ Authors: Ryan Kovatch, Luis Guzman-Cornejo
 Last modified: 05/23/2025
 """
 
-from os import environ as env
-
-from flask import Flask
+from resources import *
+from db_seeder import seed_db
+from flask import Flask, render_template, redirect
 from flask_restful import Api
 from flask_simplelogin import SimpleLogin
-
-from db_seeder import seed_db
-from resources import *
+from mongoengine import connect
+from os import environ as env
 
 
 def authenticate(user: dict[str, str]) -> bool:
@@ -57,7 +56,32 @@ api.add_resource(TaskResource, '/orgs/<string:org_id>/events/<string:event_id>/t
 
 @app.route("/")
 def index():
-    return redirect("/users/me")
+    return redirect(url_for("simplelogin.login", next=url_for("simplelogin.index")))
+
+
+@app.route("/login")
+def login():
+    return render_template('login.html')
+
+
+@app.route("/dashboard")
+def dashboard_redirect():
+    return redirect(url_for("dashboard", org_id=""))
+
+
+@app.route("/dashboard/<org_id>")
+def dashboard():
+    return render_template('dashboard.html')
+
+
+@app.route("/event_editor")
+def edit_event():
+    return render_template('event_editor.html')
+
+
+@app.route("/org_settings")
+def org_settings():
+    return render_template('org_settings.html')
 
 
 if __name__ == '__main__':
