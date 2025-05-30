@@ -9,15 +9,13 @@ Authors: Ryan Kovatch, Luis Guzman-Cornejo
 Last modified: 05/23/2025
 """
 
-from os import environ as env
-
-from flask import Flask, render_template
-from flask_restful import Api
-from flask_simplelogin import SimpleLogin
-from mongoengine import connect
-
+from db_models import *
 from db_seeder import seed_db
-from resources import *
+from flask import Flask, redirect, abort
+from flask_restful import Resource, Api
+from flask_simplelogin import SimpleLogin, get_username, login_required
+from mongoengine import connect
+from os import environ as env
 
 
 def authenticate(user: dict[str, str]) -> bool:
@@ -35,13 +33,31 @@ if "SECRET_KEY" in env:
     app.config["SECRET_KEY"] = env["SECRET_KEY"]
 else:
     raise ValueError("You must set a SECRET_KEY environment variable before building this app.")
-
 SimpleLogin(app, login_checker=authenticate)
 api = Api(app)
 connect(host=f"mongodb://{env['MONGODB_HOSTNAME']}:27017/club_db")
 
 if User.objects.count() == 0:
     seed_db()
+
+
+class UserResource(Resource):
+    method_decorators = [login_required]
+
+    def get(self):
+        """Get the current user."""
+        return {'username': get_username()}
+
+    def patch(self):
+        """Edit the current user."""
+        abort(501, "Not Implemented")
+
+
+class UserList(Resource):
+    def post(self):
+        """Create a new user."""
+        abort(501, "Not Implemented")
+
 
 api.add_resource(UserResource, '/users/me')
 api.add_resource(UserList, '/users')

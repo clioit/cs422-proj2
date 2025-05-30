@@ -70,7 +70,7 @@ class Organization(Document):
 class User(Document):
     """A user that can create organizations and events."""
     meta = {'collection': 'users'}
-    username = StringField(required=True, unique=True)
+    username = StringField(required=True)
     password_hash = IntField(required=True)
     orgs = ListField(ReferenceField(Organization, reverse_delete_rule=PULL))
 
