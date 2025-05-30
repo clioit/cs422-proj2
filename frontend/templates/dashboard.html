@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Club Calendar: Dashboard</title>
+    <link rel="stylesheet" href="../static/dashboard.css">
+
+</head>
+<body>
+    <main>
+        <div class="container">
+            <a href=""class="organization" >
+                <h1 class="organization">Chess Club</h1></a>
+            <div class="dash">
+
+                <!-- <div class="schedule" id="schedule">
+                    SCHEDULE -->
+                    <div id="schedule-zone" class="dash__schedule-zone"></div>
+                <!-- </div> -->
+                <div class="dash__event-manager" id="event-manager">
+                    <div class="dash__event-manager--zone" id="event-manager-zone"></div>
+                </div>
+            </div>
+            <div class="page-bottom">
+            <button class="add-event" onclick="clicked()"> ADD EVENT </button>
+            <select name="user-select" id="current-user" class="current-user">Drop Down
+            <option value="susan">Susan</option>
+            <option value="bob">Bob</option>
+            <option value="alice">Alice</option></select>
+            </div>
+        </div>
+    <script src="../static/dashboard.js"></script>
+    </main>
+
+</body>
+</html>
