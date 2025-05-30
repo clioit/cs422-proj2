@@ -85,9 +85,8 @@ def edit_event():
     return render_template('event_editor.html')
 
 @app.route("/org_settings")
-def edit_event():
+def org_settings():
     return render_template('org_settings.html')
-
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

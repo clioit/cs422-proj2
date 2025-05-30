@@ -97,22 +97,38 @@ select{
 
 .organization__name{
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   margin: 0 auto;
   color: black;
   padding: 16px;
+  text-align: left;
 }
 
 .organization__scheme{
   display: flex;
+  /* flex-direction: column; */
   justify-content: space-around;
-  margin-bottom: 16px;
+  /* margin-bottom: 16px; */
+  align-items: flex-end;
+  margin-top: 8px;
 }
 
 .organization__desc{
   display: flex;
-  flex-direction: row;
+  margin: 0 auto;
+  flex-direction: column;
+  color: white;
+  justify-content: space-around;
 }
+
+.desc{
+  text-align: left;
+}
+
+#desc::placeholder{
+color: #000000;
+}
+
 
 .links{
   display: flex;
@@ -129,17 +145,30 @@ textarea{
   border-radius: 4px;
 margin: 0 auto;
   background-color: #444444;
+  min-width: 450px;
 }
 
 button{
     border-radius: 8px;
     padding: 4px;
     border: none;
+
 }
 
 button:hover{
     scale: 105%;
-    background-color:#555555;
+    background-color:#555555!important;
     box-shadow: 2px 2px 1.5px 1.5px rgba(155, 155, 155, 55);
     transition: all 300ms;
+    color: white ;
+  }
+
+  #org-name{
+    border-radius: 4px;
+    font-size: larger;
+  }
+  
+  .name{
+    color: white;
+    margin-right: 12px;
   }
