@@ -25,9 +25,11 @@ def get_event_dict(event: Event, is_manager: bool = False) -> dict:
         event_dict.update({
             "published": event.published,
             "point_of_contact": str(event.point_of_contact.id) if event.point_of_contact else None,
-            "tasks": [str(task.id) for task in event.tasks],
-            "info": {field: getattr(event.info, field) for field in ("rsvp", "venue", "contact", "budget", "other")}
+            "tasks": [str(task.id) for task in event.tasks]
         })
+        if event.info is not None:
+            event_dict["info"] = {field: getattr(event.info, field) for field in ("rsvp", "venue", "contact", "budget",
+                                                                                  "other")}
     return event_dict
 
 
@@ -38,7 +40,8 @@ def get_org_dict(org: Organization) -> dict:
         "description": org.description or "",
         "color_scheme": org.color_scheme,
     }
-    if is_logged_in() and get_current_user() in org.managers:
+    this_user = get_current_user()
+    if is_logged_in() and this_user in org.managers and org in this_user.orgs:
         org_dict["join_token"] = str(org.join_token)
         event_list = org.events
     else:
@@ -46,6 +49,7 @@ def get_org_dict(org: Organization) -> dict:
     org_dict["events"] = [str(event.id) for event in event_list]
 
     return org_dict
+
 
 def get_task_dict(task: Task) -> dict:
     '''
@@ -112,8 +116,9 @@ class EventResource(Resource):
     def _get_assured_event(self, org_id: str, event_id: str) -> Event:
         """Get an event from the database, assuring that it's associated
         with an organization the current user manages."""
+        # TODO: allow anonymous event queries
         org = Organization.objects(id=org_id, managers__in=[get_current_user()]).first()
-        if org is None:
+        if org is None or org not in get_current_user().orgs:
             abort(404, "Organization not found.")
 
         event = Event.objects(id=event_id).first()
@@ -167,7 +172,8 @@ class EventList(Resource):
     def get(self, org_id: str):
         """Get a list of events for an organization."""
         org = self._get_assured_org(org_id)
-        is_manager = get_current_user() in org.managers
+        this_user = get_current_user()
+        is_manager = this_user in org.managers and org in this_user.orgs
         if is_manager:
             event_list = org.events
         else:
@@ -179,6 +185,7 @@ class EventList(Resource):
         org = self._get_assured_org(org_id)
         req_obj = request.get_json()
         if {"title", "start", "end", "point_of_contact"}.issubset(req_obj.keys()):
+            # TODO: assert that the point of contact is a manager of the org
             new_event = Event(
                 title=req_obj["title"],
                 org=org,
@@ -186,42 +193,44 @@ class EventList(Resource):
                 start=datetime.strptime(req_obj["start"], DATETIME_FMT),
                 end=datetime.strptime(req_obj["end"], DATETIME_FMT)
             )
+            if "published" in req_obj:
+                new_event.description = req_obj["published"]
             if "description" in req_obj:
                 new_event.description = req_obj["description"]
             if "info" in req_obj:
                 new_event.info = EventInfo(**req_obj["info"])
             new_event.save()
+            org.events.append(new_event)
+            org.save()
             return get_event_dict(new_event), 201
         else:
             abort(400, "Missing one or more required fields: title, start, end.")
-
 
 class OrganizationList(Resource):
     method_decorators = [login_required]
 
     def get(self):
         """Retrieve organizations the current user has access to."""
-        orgs = Organization.objects(managers__in=[get_current_user()])
-        if orgs is None:
-            abort(404, "Organizations not found.")
+        orgs = get_current_user().orgs
         return [get_org_dict(org) for org in orgs]
     
     def post(self):
         """Create a new organization."""
         req_obj = request.get_json()
-
         if "name" in req_obj:
+            this_user = get_current_user()
             new_org = Organization(
                 name=req_obj["name"],
-                managers=[get_current_user()]
+                managers=[this_user]
             )
             if "description" in req_obj:
                 new_org.description = req_obj["description"]
             new_org.save()
+            this_user.orgs.append(new_org)
+            this_user.save()
             return get_org_dict(new_org), 201
         else:
             abort(400, "Missing required field: name")
-
 
 class OrganizationResource(Resource):
     method_decorators = {"patch": [login_required], "delete": [login_required]}
@@ -241,7 +250,8 @@ class OrganizationResource(Resource):
     def patch(self, org_id: str):
         """Edit an organization given an ID."""
         org = self._get_assured_org(org_id)
-        if get_current_user() in org.managers:
+        this_user = get_current_user()
+        if this_user in org.managers and org in this_user.orgs:
             req_obj = request.get_json()
             sent_fields = set(req_obj.keys())
             if "name" in sent_fields:
@@ -256,43 +266,79 @@ class OrganizationResource(Resource):
     def delete(self, org_id:str):
         """Delete an organization."""
         org = self._get_assured_org(org_id)
-        if get_current_user() in org.managers:
+        this_user = get_current_user()
+        if this_user in org.managers and org in this_user.orgs:
             org.delete()
             return {"success": True}
         else:
             abort(403, "The current user is not authorized to delete this organization.")
 
+
+class OrganizationInviteResource(Resource):
+    method_decorators = {login_required}
+
+    def _get_org_by_join_token(self, join_token: str) -> Organization:
+        """Get an organization from the database."""
+        org = Organization.objects(join_token=join_token).first()
+        if org is None:
+            abort(404, "The invite was not found.")
+        return org
+
+    def get(self, join_token: str):
+        """Joins an organization using its join token."""
+        org = self._get_org_by_join_token(join_token)
+        this_user = get_current_user()
+        if this_user not in org.managers or org not in this_user.orgs:
+            org.managers.append(this_user)
+            org.save()
+            this_user.orgs.append(org)
+            this_user.save()
+            return {"success": True}
+        else:
+            abort(400, "The current user already manages this organization.")
+
+
 class TaskList(Resource):
     method_decorators = [login_required]
+
+    def _get_assured_event(self, org_id: str, event_id: str) -> Event:
+        """Get an event from the database, assuring that it's associated
+        with an organization the current user manages."""
+        # TODO: allow anonymous event queries
+        event = Event.objects(id=event_id).first()
+        if event is None:
+            abort(404, "Event not found.")
+        return event
     
-    def get(self):
+    def get(self, org_id, event_id):
         '''
         Retrieves all tasks under an event
         '''
-        tasks = Task.objects()
-        if tasks == None:
-            abort(404, "No tasks found")
-        return [get_task_dict(task) for task in tasks]
+        event = self._get_assured_event(org_id, event_id)
+
+        if event == None:
+            abort(404, "No event found")
+        return [get_task_dict(task) for task in event.tasks]
     
-    def post(self):
+    def post(self, org_id, event_id):
         """Create a new task
         """
+        event = self._get_assured_event(org_id, event_id)
         req_obj = request.get_json()
         #current_user = get_current_user()
 
-        if {"name", "due_date"}.issubset(req_obj):
+        if {"title"}.issubset(req_obj):
             new_task = Task(
-            name=req_obj["name"],
-            due_date=req_obj["due_date"]
+            title=req_obj["title"]
         )
             if "description" in req_obj:
                 new_task.description = req_obj["description"]
             new_task.save()
+            event.tasks.append(new_task)
+            event.save()
             return get_task_dict(new_task), 201
         else:
-            abort(400, "Missing required fields: name, due_date")
-    
-
+            abort(400, "Missing required fields: title, due_date")
 
 class TaskResource(Resource):
     pass
