@@ -213,6 +213,7 @@ function taskManagerMain() {
     //will probably add filter to cross out completed?
     else {
       console.log(EventList[i].tasks);
+
       EventList[i].tasks.forEach((task) => {
         const newTask = document.createElement("div");
         newTask.className = `task__info`;
