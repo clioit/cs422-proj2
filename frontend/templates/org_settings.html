@@ -9,12 +9,12 @@
 <body>
     <div class="container">
         <div class="row">
-        <div class="organization">
+        <div class="organization tertiary">
             <div class="organization__name">
-                <label for="org-name" class="name"> <h2 class="name">Name</h2> </label>
+                <!-- <label for="org-name" class="name"> <h2 class="name">Name</h2> </label> -->
                     <input type="text" id="org-name" placeholder="ex: Chess Club">
                 
-            </div>
+            
             <div class="organization__scheme">
                 <select name="primary" id="primary" onchange="setColor()">
                     <option value="#FFFFFF" class="white" selected>white</option>
@@ -40,14 +40,14 @@
                     <option value="#0C4146" class="dark-blue">sea blue</option>
                      <option value="#0F0944" class="royal-purple">royal purple</option>
                 </select>
-            </div>
+            </div></div>
             <div class="organization__desc">
-                <label for="desc"> <h4 class="desc">Description</h4></label>
-                <textarea name="desc" id="desc" placeholder="Describe your club..."></textarea>
+                <!-- <label for="desc"> <h4 class="desc">Description</h4></label> -->
+                <textarea name="desc" id="desc" placeholder="Describe your club..." class="secondary"></textarea>
             </div>
             <div class="links">
-                <button class="public"> Generate Public Link</button>
-                <button class="exec"> Generate Executive Link</button>
+                <button class="public primary"> Generate Public Link</button>
+                <button class="exec primary"> Generate Executive Link</button>
             </div>
 </div> 
         </div>
