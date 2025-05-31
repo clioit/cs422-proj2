@@ -39,7 +39,7 @@ async function loadEvents() {
     .then((data) => {
       let idx = 0;
       data.forEach((event) => {
-                loadTasks(event.id);
+        loadTasks(event.id);
         console.log(taskList);
         console.log(idx);
         console.log(taskList[idx]);
@@ -94,12 +94,26 @@ async function loadTasks(i) {
 }
 
 
+async function getUser() {
+  return fetch(`http://localhost:5001/users/me`)
+    .then((response) => {return response.json();})
+    .then((data) => {
+      user = data.username;
+      console.log(`user ` + user);
+    });
+}
+getUser();
+
 function runMain() {
   console.log(`running` + EventList);
   taskManagerMain();
   EventList.sort((a, b) => a.tasks.length - b.tasks.length);
   EventList.sort((a, b) => a.start - b.start);
-  scheduler();}
+  scheduler();
+}
 
 
  setTimeout(runMain, 300);
+ 
+ setTimeout(setUser, 300);
+

@@ -230,6 +230,9 @@ function taskManagerMain() {
 
         // OTHER ATTRIBUTE GO HERE
 
+        if (task.done === true) {
+          newTask.style.textDecoration = `line-through`;
+        }
         taskCount.appendChild(newTask);
       });
 
@@ -284,14 +287,25 @@ function scheduler() {
 
       newDate.className = `top-date`;
       let thisDate = EventList[i].start.toString().split(`T`);
-      console.log(thisDate);
-      thisDate = thisDate[0].split(`-`);
-      console.log(thisDate);
+      const currentDate = new Date().toISOString().split("T")[0];
+      if (currentDate === thisDate[0]) {
+        newDate.textContent = `Today`;
+      } else {
+        console.log(thisDate);
+        thisDate = thisDate[0].split(`-`);
+        console.log(thisDate);
 
-      thisDate = [parseInt(thisDate[1], 10) - 1, thisDate[2], thisDate[0]];
-      console.log(thisDate);
-      thisDate = [months[thisDate[0]], ` `,thisDate[1], `, `, thisDate[2]].join(``);
-      newDate.textContent = thisDate;
+        thisDate = [parseInt(thisDate[1], 10) - 1, thisDate[2], thisDate[0]];
+        console.log(thisDate);
+        thisDate = [
+          months[thisDate[0]],
+          ` `,
+          thisDate[1],
+          `, `,
+          thisDate[2],
+        ].join(``);
+        newDate.textContent = thisDate;
+      }
       newDate.style.fontWeight = 700;
       newDate.style.textAlign = `left`;
       console.log(newDate);
@@ -319,7 +333,12 @@ function scheduler() {
       //under new day
       newDate = document.createElement("div");
       newDate.className = "top-date";
-      newDate.textContent = EventList[i].start.toString().split(`T`).join(" ");
+      let thisDate = EventList[i].start.toString().split(`T`);
+      console.log(thisDate);
+      thisDate = thisDate[0].split(`-`);
+      console.log(thisDate);
+
+      thisDate = [parseInt(thisDate[1], 10) - 1, thisDate[2], thisDate[0]];
       newDate.style.fontWeight = 700;
       newDate.style.textAlign = `left`;
       console.log(newDate);
@@ -329,6 +348,7 @@ function scheduler() {
       console.log(EventList[i]);
 
       newEvent = eventMaker(EventList[i]);
+      const myAnchor = document.createElement("a");
 
       // if (EventList[i].tasks.length == 0) {
       //   newEvent.style.border = `solid 1px white`;
@@ -441,4 +461,10 @@ window.onload = async function getOrgInfo() {
 function loadOrg() {
   // console.log(org_id);
   document.getElementById("name").value = orgs[0].name;
+}
+
+function setUser() {
+  console.log(user);
+  const username = document.getElementById(`user`);
+  username.innerHTML = user.toUpperCase();
 }
