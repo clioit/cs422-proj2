@@ -26,14 +26,32 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  //Making event submission
-  if (eventForm) {
-    eventForm.addEventListener('submit', (e) => {
-      e.preventDefault();
+  //Making event submission with a function
+  
+  if (eventForm && eventEditorContainer) {
+    eventForm.addEventListener('submit', (event) => {
+      event.preventDefault(); // Prevent the default form submission
 
-      //console.log("Form submitted(Just testing for now)");
+      const formData = new FormData(eventForm);
+      const data = Object.fromEntries(formData.entries());
 
-      //Data to be sent to the server?
+      // Send a POST request to save the event
+      fetch('/events/save', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Success:', data);
+        // redirect
+      })
+    
+      .catch((error) => {
+        console.error('Error:', error);
+      });
     });
   }
 });
