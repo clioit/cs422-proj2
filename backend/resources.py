@@ -1,12 +1,45 @@
 from datetime import datetime
+
 from backend.util import *
 from db_models import *
 from flask import request, redirect, abort, url_for, make_response
 from flask_restful import Resource
-from flask_simplelogin import login_required, is_logged_in
+from flask_simplelogin import login_required, is_logged_in, get_username
 from ics import Calendar
 
 DATETIME_FMT = "%Y-%m-%dT%H:%M"
+
+
+def get_current_user() -> User:
+    """Get the current user from the database."""
+    return User.objects(username=get_username()).first()
+
+
+def get_assured_event(org_id: str, event_id: str) -> Event:
+    """Get an event from the database, assuring that it's associated
+    with an organization the current user manages."""
+
+    org = get_assured_org(org_id)
+    this_user = get_current_user()
+    is_manager = is_logged_in() and this_user in org.managers and org in this_user.orgs
+
+    if is_manager:
+        event = Event.objects(id=event_id).first()
+    else:
+        event = Event.objects(id=event_id, published=True).first()
+
+    if event is not None and event in org.events and event.org == org:
+        return event
+    else:
+        abort(404, "Event not found.")
+
+
+def get_assured_org(org_id: str) -> Organization:
+    """Get an organization from the database."""
+    org = Organization.objects(id=org_id).first()
+    if org is None:
+        abort(404, "Organization not found.")
+    return org
 
 
 class UserResource(Resource):
@@ -179,7 +212,7 @@ class OrganizationList(Resource):
     def get(self):
         """Retrieve organizations the current user has access to."""
         orgs = get_current_user().orgs
-        return [get_org_dict(org) for org in orgs]
+        return [get_org_dict(org, is_manager=True) for org in orgs]
     
     def post(self):
         """Create a new organization."""
@@ -195,7 +228,7 @@ class OrganizationList(Resource):
             new_org.save()
             this_user.orgs.append(new_org)
             this_user.save()
-            return get_org_dict(new_org), 201
+            return get_org_dict(new_org, is_manager=True), 201
         else:
             abort(400, "Missing required field: name")
 
@@ -206,7 +239,9 @@ class OrganizationResource(Resource):
     def get(self, org_id: str):
         """Gets an org from the database given an ID."""
         org = get_assured_org(org_id)
-        return get_org_dict(org), 200
+        this_user = get_current_user()
+        is_manager = is_logged_in() and this_user in org.managers and org in this_user.orgs
+        return get_org_dict(org, is_manager), 200
 
     def patch(self, org_id: str):
         """Edit an organization given an ID."""
@@ -220,7 +255,7 @@ class OrganizationResource(Resource):
             if "description" in sent_fields:
                 org.description = req_obj["description"]
             org.save()
-            return get_org_dict(org), 200
+            return get_org_dict(org, is_manager=True), 200
         else:
             abort(403, "The current user is not authorized to edit this organization.")
     
@@ -340,3 +375,6 @@ class TaskResource(Resource):
             return {"success": True}
         else:
             abort(403, "The current user is not authorized to delete this task.")
+
+
+
