@@ -55,7 +55,7 @@ api.add_resource(TaskResource, '/orgs/<string:org_id>/events/<string:event_id>/t
 
 @app.route("/")
 def index():
-    return redirect(url_for("simplelogin.login", next=url_for("simplelogin.index")))
+    return redirect(url_for("simplelogin.login", next=url_for("dashboard_redirect")))
 
 
 @app.route("/login")
@@ -65,12 +65,16 @@ def login():
 
 @app.route("/dashboard")
 def dashboard_redirect():
-    return redirect(url_for("dashboard", org_id=""))
+    this_user = get_current_user()
+    if len(this_user.orgs) > 0:
+        return redirect(url_for("dashboard", org_id=str(this_user.orgs[0].id)))
+    else:
+        return abort(501, "User has no organizations. The creation flow is not yet implemented.")
 
 
 @app.route("/dashboard/<org_id>")
-def dashboard():
-    return render_template('dashboard.html')
+def dashboard(org_id: str):
+    return render_template('dashboard.html', org_id=org_id)
 
 
 @app.route("/event_editor")
