@@ -21,7 +21,7 @@ window.onload = async function getOrg() {
       loadEvents();
       return;
     });
-};
+}
 
 async function loadEvents() {
   //loads live events into EventList
@@ -37,38 +37,43 @@ async function loadEvents() {
       return response.json();
     })
     .then((data) => {
+      let idx = 0;
       data.forEach((event) => {
-        let tasks = [];
-        loadTasks(event.id, tasks);
-        console.log(tasks);
+                loadTasks(event.id);
+        console.log(taskList);
+        console.log(idx);
+        console.log(taskList[idx]);
+        idx++;
+
         EventList.push({
           title: event.title,
           id: event.id,
           description: event.description,
           start: event.start,
           end: event.end,
-          tasks: tasks,
+          tasks: taskList
         });
       });
       // scheduler();
       // taskManagerMain();
       // console.log(EventList);
       go = true;
+      runMain();
       return;
     });
 }
-
-async function loadTasks(i, taskList) {
-  // let taskList = [];
+  let taskList = [];
+async function loadTasks(i) {
+  taskList = [];
   console.log("org_id" + org_id);
   return fetch(`http://localhost:5001/orgs/${org_id}/events/${i}/tasks`)
-    .then((response) =>
+    .then((response) =>{
       // if (!response.ok) {
       //   return response.json().then((errorData) => {
       //     throw new Error(errorData.description || "Unknown error");
       //   });
       // }
-      response.json()
+      return response.json();}
     )
     .then((data) => {
       data.forEach((task) => {
@@ -88,13 +93,12 @@ async function loadTasks(i, taskList) {
   // return taskLists[0];
 }
 
+
 function runMain() {
-  if (go===true){
+
   taskManagerMain();
   EventList.sort((a, b) => a.tasks.length - b.tasks.length);
   EventList.sort((a, b) => a.start - b.start);
-  scheduler();
-  go = false;}
-}
+  scheduler();}
 
- setTimeout(runMain, 2000);
+setTimeout(runMain, 300);

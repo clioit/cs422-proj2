@@ -186,6 +186,8 @@ const taskLists = [
 // loadEvents();
 /************************ */
 
+
+
 function taskManagerMain() {
   // populates Event manager OSO (On-Screen Object)
   const eventManager = document.getElementById(`event-manager-zone`);
@@ -385,5 +387,44 @@ function allTaskToggle() {
     return;
   });
 }
+
+
+
+let orgs = [];
+window.onload = async function getOrgInfo() {
+  // get organization id
+  //
+
+  return fetch(`http://localhost:5001/orgs`)
+    .then((response) => {
+      // if (!response.ok) {
+      //   return response.json().then((errorData) => {
+      //     throw new Error(errorData.description || "Unknown error");
+      //   });
+      // }
+      return response.json();
+    })
+    .then((data) => {
+      data.forEach((org) => {
+        console.log(data);
+        orgs.push({
+          name: org.name,
+          description: org.description,
+          id: org.id,
+          colors: org.color_scheme,
+          join: org.join_token,
+        });
+        
+      });
+      loadOrg();
+      return;
+    });
+};
+
+function loadOrg(){
+  // console.log(org_id);
+  document.getElementById('name').value = orgs[0].name;
+}
+
 
 
