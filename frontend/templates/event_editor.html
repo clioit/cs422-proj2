@@ -1,3 +1,9 @@
+<!-- HTML template for rendering the event editor page.
+Created for CS 422 Project 2: ETA in Spring 2025.
+
+Authors: Evelyn Orozco, Clio Tsao
+Last modified: 05/30/2025 -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,7 +26,7 @@
     <form id="eventForm">
       <!-- Title input field -->
       <label for="title">Title:</label>
-      <input type="text" id="title" name="title" required />
+      <input class = "req" type="text" id="title" name="title" required />
 
       <!-- Description textarea -->
       <label for="description">Description:</label>
@@ -28,11 +34,11 @@
 
       <!-- Start Date input -->
       <label for="start">Start Date:</label>
-      <input type="date" id="start" name="start" required />
+      <input class = "req" type="date" id="start" name="start" required />
 
       <!-- End Date input -->
       <label for="end">End Date:</label>
-      <input type="date" id="end" name="end" required />
+      <input class = "req" type="date" id="end" name="end" required />
 
       <!-- Section for additional event details (RSVP, Contact, Venue, Other) -->
       <div class="details-section">
@@ -46,16 +52,20 @@
           <input type="text" id="rsvpDetail" name="rsvpDetail" />
 
           <!-- Contact field -->
-          <label for="taskDetail">Contact Info:</label>
-          <input type="text" id="taskDetail" name="taskDetail" />
+          <label for="contactDetail">Contact Info:</label>
+          <input type="text" id="contactDetail" name="contactDetail" />
 
           <!-- Venue field -->
           <label for="venueDetail">Venue Info:</label>
           <input type="text" id="venueDetail" name="venueDetail" />
 
+          <!-- Budget field -->
+          <label for="budgetDetail">Budget Info:</label>
+          <input type="text" id="budgetDetail" name="budgetDetail" />
+
           <!-- Other field -->
-          <label for="contactDetail">Other:</label>
-          <input type="text" id="contactDetail" name="contactDetail" />
+          <label for="other">Other:</label>
+          <input type="text" id="other" name="other" />
         </div>
       </div>
 
@@ -67,8 +77,15 @@
         <option value="person2">Person 2</option>
       </select>
 
+      <!-- Checkbox to publish event -->
+      <label for="publish">Publish?
+      <input type="checkbox" id="publish" name="publish" value = "true"/>
+      </label>
+
       <!-- Button to submit and save the event data -->
-      <button type="submit" class="add-event">Save Event</button>
+      <button type="submit" class="add-event" onclick="postEvent()">Save Event</button>
+      <!-- Message field to display event save status -->
+      <p id="message"></p>
     </form>
   </div>
 

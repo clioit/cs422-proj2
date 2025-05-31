@@ -1,3 +1,11 @@
+/*
+CSS stylesheet for event editor formatting.
+Created for CS 422 Project 2: ETA in Spring 2025.
+
+Authors: Evelyn Orozco
+Last modified: 05/24/2025
+*/
+
 * {
   box-sizing: border-box;
   font-family: "Montserrat", sans-serif;

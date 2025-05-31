@@ -1,3 +1,10 @@
+/*
+Factored functions for loading lists. Inlcudes loading events and tasks.
+Created for CS 422 Project 2: ETA in Spring 2025.
+
+Authors: Claire Cody
+Last modified: 05/29/2025
+*/
 
 let org_id;
 window.onload = async function getOrg() {
