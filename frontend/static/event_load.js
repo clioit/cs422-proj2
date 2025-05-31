@@ -58,7 +58,7 @@ async function loadEvents() {
       // taskManagerMain();
       // console.log(EventList);
       go = true;
-      runMain();
+      // runMain();
       return;
     });
 }
@@ -95,10 +95,11 @@ async function loadTasks(i) {
 
 
 function runMain() {
-
+  console.log(`running` + EventList);
   taskManagerMain();
   EventList.sort((a, b) => a.tasks.length - b.tasks.length);
   EventList.sort((a, b) => a.start - b.start);
   scheduler();}
 
-setTimeout(runMain, 300);
+
+ setTimeout(runMain, 300);

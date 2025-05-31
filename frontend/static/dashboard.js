@@ -147,12 +147,12 @@ const taskLists = [
 //       data.forEach((org) => {
 //         org_id = org.id;
 //         console.log(org_id);
-        
+
 //       });
 //       loadEvents();
 //       return;
 //     });
-    
+
 // }
 
 // async function loadEvents() {
@@ -185,8 +185,6 @@ const taskLists = [
 
 // loadEvents();
 /************************ */
-
-
 
 function taskManagerMain() {
   // populates Event manager OSO (On-Screen Object)
@@ -255,12 +253,28 @@ function scheduler() {
   /** This function utilizes eventMaker() to populate schedule side with OSO for
    * events sorted by their dates
    */
+  console.log(`here`);
+  let months = [
+    `January`,
+    `February`,
+    `March`,
+    `April`,
+    `May`,
+    `June`,
+    `July`,
+    `August`,
+    `September`,
+    `October`,
+    `November`,
+    `December`,
+  ];
   const schedule = document.getElementById("schedule-zone");
   console.log(schedule);
 
   let currDate = 0;
 
   let newDate = document.createElement("div");
+  console.log(EventList);
   for (let i = 0; i < EventList.length; i++) {
     if (currDate === 0) {
       // first iteration
@@ -269,7 +283,15 @@ function scheduler() {
       // TODO: add functionality so that each day is sort by task analysis
 
       newDate.className = `top-date`;
-      newDate.textContent = EventList[i].start.toString().split(`00:00:00`)[0];
+      let thisDate = EventList[i].start.toString().split(`T`);
+      console.log(thisDate);
+      thisDate = thisDate[0].split(`-`);
+      console.log(thisDate);
+
+      thisDate = [parseInt(thisDate[1], 10) - 1, thisDate[2], thisDate[0]];
+      console.log(thisDate);
+      thisDate = [months[thisDate[0]], ` `,thisDate[1], `, `, thisDate[2]].join(``);
+      newDate.textContent = thisDate;
       newDate.style.fontWeight = 700;
       newDate.style.textAlign = `left`;
       console.log(newDate);
@@ -297,7 +319,7 @@ function scheduler() {
       //under new day
       newDate = document.createElement("div");
       newDate.className = "top-date";
-      newDate.textContent = EventList[i].start.toString().split(`00:00:00`)[0];
+      newDate.textContent = EventList[i].start.toString().split(`T`).join(" ");
       newDate.style.fontWeight = 700;
       newDate.style.textAlign = `left`;
       console.log(newDate);
@@ -308,16 +330,14 @@ function scheduler() {
 
       newEvent = eventMaker(EventList[i]);
 
-      if (EventList[i].tasks.length == 0) {
-        newEvent.style.border = `solid 1px white`;
-      }
+      // if (EventList[i].tasks.length == 0) {
+      //   newEvent.style.border = `solid 1px white`;
+      // }
       newDate.appendChild(newEvent);
       currDate = EventList[i].start;
     }
   }
 }
-
-// scheduler();
 
 function eventMaker(addMe) {
   /* creating OSO for event, 'addMe'*/
@@ -388,8 +408,6 @@ function allTaskToggle() {
   });
 }
 
-
-
 let orgs = [];
 window.onload = async function getOrgInfo() {
   // get organization id
@@ -414,17 +432,13 @@ window.onload = async function getOrgInfo() {
           colors: org.color_scheme,
           join: org.join_token,
         });
-        
       });
       loadOrg();
       return;
     });
 };
 
-function loadOrg(){
+function loadOrg() {
   // console.log(org_id);
-  document.getElementById('name').value = orgs[0].name;
+  document.getElementById("name").value = orgs[0].name;
 }
-
-
-
