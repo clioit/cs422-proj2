@@ -9,19 +9,27 @@ Last modified: 05/30/2025
 const task = document.getElementById("event_editor_container");
 
 document.addEventListener("DOMContentLoaded", () => {
-    const toggleButton = document.querySelector('.dropdown-toggle');
+    const eventToggleButton = document.querySelector('.dropdown-toggle');
     const detailsContent = document.querySelector('.details-content');
+    const taskToggleButton = document.querySelector('.dropdown-task-toggle');
+    const taskContent = document.querySelector('.task-content');
     const publishCheckbox = document.getElementById('publishCheckbox');
     const submitButton = document.getElementById('submitButton');
     const eventForm = document.getElementById('eventForm');
-    const eventEditorContainer = document.getElementById('event_editor_container');
 
-  //Toggle the dropdown section when you click the button
-    if (toggleButton && detailsContent) {
-      toggleButton.addEventListener('click', () => {
-        detailsContent.classList.toggle('hidden');
-      });
-    }
+  // Toggle Event Details
+  if (eventToggleButton && detailsContent) {
+    eventToggleButton.addEventListener('click', () => {
+      detailsContent.classList.toggle('hidden');
+    });
+  }
+
+  // Toggle Task Section
+  if (taskToggleButton && taskContent) {
+    taskToggleButton.addEventListener('click', () => {
+      taskContent.classList.toggle('hidden');
+    });
+  }
   
   // Update button label based on checkbox
   if (publishCheckbox && submitButton) {

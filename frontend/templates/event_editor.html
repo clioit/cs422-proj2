@@ -2,14 +2,14 @@
 Created for CS 422 Project 2: ETA in Spring 2025.
 
 Authors: Evelyn Orozco, Clio Tsao
-Last modified: 05/30/2025 -->
+Last modified: 05/31/2025 -->
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Character encoding set to UTF-8 for supporting most characters -->
+
   <meta charset="UTF-8" />
-  <!-- Responsive design for different devices -->
+  <!--  for different devices -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <!-- Page title in the browser tab -->
   <title>Event Editor</title>
@@ -31,43 +31,82 @@ Last modified: 05/30/2025 -->
       <!-- Description textarea -->
       <label for="description">Description:</label>
       <textarea id="description" name="description" class="description-box"></textarea>
+      
+      <!-- Start Date + Start Time -->
+      <div class="date-time-pair">
+        <div class="date-time-item">
+          <label for="start">Start Date:</label>
+          <input class="req" type="date" id="start" name="start" required />
+        </div>
 
-      <!-- Start Date input -->
-      <label for="start">Start Date:</label>
-      <input class = "req" type="date" id="start" name="start" required />
+        <div class="date-time-item">
+          <label for="startTime">Start Time:</label>
+          <input class="req" type="time" id="startTime" name="startTime" required />
+        </div>
+      </div>
 
-      <!-- End Date input -->
-      <label for="end">End Date:</label>
-      <input class = "req" type="date" id="end" name="end" required />
+      <!-- End Date + End Time -->
+      <div class="date-time-pair">
+        <div class="date-time-item">
+          <label for="end">End Date:</label>
+          <input class="req" type="date" id="end" name="end" required />
+        </div>
 
-      <!-- Section for additional event details (RSVP, Contact, Venue, Other) -->
+        <div class="date-time-item">
+          <label for="endTime">End Time:</label>
+          <input class="req" type="time" id="endTime" name="endTime" required />
+        </div>
+      </div>
+
+
+
+
+      <!-- Event details (RSVP, Contact, Venue, Other) -->
       <div class="details-section">
         <!-- Button to toggle showing/hiding details -->
         <button type="button" class="dropdown-toggle">Event Details</button>
 
         <!-- Hidden container for additional details, shown when toggle is activated -->
         <div class="details-content hidden">
-          <!-- RSVP field -->
+      
           <label for="rsvpDetail">RSVP Info:</label>
           <input type="text" id="rsvpDetail" name="rsvpDetail" />
 
-          <!-- Contact field -->
           <label for="contactDetail">Contact Info:</label>
           <input type="text" id="contactDetail" name="contactDetail" />
 
-          <!-- Venue field -->
           <label for="venueDetail">Venue Info:</label>
           <input type="text" id="venueDetail" name="venueDetail" />
 
-          <!-- Budget field -->
+
           <label for="budgetDetail">Budget Info:</label>
           <input type="text" id="budgetDetail" name="budgetDetail" />
 
-          <!-- Other field -->
           <label for="other">Other:</label>
           <input type="text" id="other" name="other" />
         </div>
       </div>
+
+    <!-- Section for adding a Task -->
+      <div class="task-section">
+          <button type="button" class="dropdown-task-toggle">Tasks</button>
+          
+    <!-- Hidden container for the Task input -->
+        <div class="task-content hidden">
+          <label for="taskDropdown">Select a Task:</label>
+          <select id="taskDropdown" name="taskDropdown">
+            <option value="">Select a task</option>
+            <option value="task1">Task 1</option>
+            <option value="task2">Task 2</option>
+            <option value="new">Create New Task</option>
+          </select>  
+
+          <div id="newTaskContainer" class="hidden">
+            <label for="newTask">Task Description:</label>
+            <textarea id="newTask" name="newTask" class="description-box" placeholder="Describe the task..."></textarea>
+          </div>
+        </div>
+      </div>  
 
       <!-- Dropdown menu to assign event to a person -->
       <label for="person">Assign to Person:</label>
@@ -89,7 +128,7 @@ Last modified: 05/30/2025 -->
     </form>
   </div>
 
-  <!-- Link to the external JavaScript file that handles form functionality (like toggling details) -->
+  <!-- Link to the external JavaScript file that handles form functionality -->
   <script src="../static/event_editor.js"></script>
   <script src="../static/transfer.js">
       </script>
