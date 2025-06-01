@@ -50,6 +50,7 @@ Last modified: 05/30/2025 -->
               <link rel="stylesheet" href="../static/event_editor.css">
               <script src="../static/event_editor.js"></script>
       <div class="event-container hide" id="event-container"> 
+        <h5 class="edit">Editing Event...</h5>
       <!-- Title input field -->
       <label for="title">Title:</label>
       <input class = "req" type="text" id="title" name="title" required />
@@ -58,13 +59,32 @@ Last modified: 05/30/2025 -->
       <label for="description">Description:</label>
       <textarea id="description" name="description" class="description-box"></textarea>
 
-      <!-- Start Date input -->
-      <label for="start">Start Date:</label>
-      <input class = "req" type="date" id="start" name="start" required />
+ <!-- Start Date + Start Time -->
+      <div class="date-time-pair">
+        <div class="date-time-item">
+          <label for="start">Start Date:</label>
+          <input class="req" type="date" id="start" name="start" required />
+        </div>
 
-      <!-- End Date input -->
-      <label for="end">End Date:</label>
-      <input class = "req" type="date" id="end" name="end" required />
+        <div class="date-time-item">
+          <label for="startTime">Start Time:</label>
+          <input class="req" type="time" id="startTime" name="startTime" required />
+        </div>
+      </div>
+
+      <!-- End Date + End Time -->
+      <div class="date-time-pair">
+        <div class="date-time-item">
+          <label for="end">End Date:</label>
+          <input class="req" type="date" id="end" name="end" required />
+        </div>
+
+        <div class="date-time-item">
+          <label for="endTime">End Time:</label>
+          <input class="req" type="time" id="endTime" name="endTime" required />
+        </div>
+      </div>
+
 
       <!-- Section for additional event details (RSVP, Contact, Venue, Other) -->
       <div class="details-section">
@@ -102,7 +122,7 @@ Last modified: 05/30/2025 -->
     <!-- Hidden container for the Task input -->
         <div class="task-content hidden">
           <label for="taskDropdown">Select a Task:</label>
-          <select id="taskDropdown" name="taskDropdown">
+          <select id="taskDropdown" name="taskDropdown" onchange="loadTask()">
             <option value="">Select a task</option>
             <option value="task1">Task 1</option>
             <option value="task2">Task 2</option>

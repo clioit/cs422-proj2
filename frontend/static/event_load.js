@@ -59,7 +59,8 @@ async function loadEvents() {
           description: event.description,
           start: event.start,
           end: event.end,
-          tasks: taskList
+          tasks: taskList,
+          info: event.info
         });
       });
       // scheduler();

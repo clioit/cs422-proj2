@@ -248,7 +248,7 @@ function taskManagerMain() {
         newTask.id = task.id;
 
         const taskDesc = document.createElement("p");
-        taskDesc.innerHTML = task.description;
+        taskDesc.innerHTML = task.title;
         taskDesc.className = `task__info--desc`;
         newTask.appendChild(taskDesc);
 
