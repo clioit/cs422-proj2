@@ -43,7 +43,7 @@ async function openEditor(eventID){
 async function atEditor(idx){
     
     //  window.location.replace(`http://localhost:5001/event_editor`);
-     await loadEventsEdit();
+    //  await loadEventsEdit();
      console.log('running');
     const eventName = document.getElementById('title');
     const desc = document.getElementById('description');

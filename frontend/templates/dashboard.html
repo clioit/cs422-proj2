@@ -47,6 +47,8 @@ Last modified: 05/30/2025 -->
           <h1 class="organization__name" id="name">Chess Club</h1></a
         >
             <form id="eventForm" class="hide">
+              <link rel="stylesheet" href="../static/event_editor.css">
+              <script src="../static/event_editor.js"></script>
       <div class="event-container hide" id="event-container"> 
       <!-- Title input field -->
       <label for="title">Title:</label>
@@ -93,6 +95,27 @@ Last modified: 05/30/2025 -->
         </div>
       </div>
 
+       <!-- Section for adding a Task -->
+      <div class="task-section">
+          <button type="button" class="dropdown-task-toggle">Tasks</button>
+          
+    <!-- Hidden container for the Task input -->
+        <div class="task-content hidden">
+          <label for="taskDropdown">Select a Task:</label>
+          <select id="taskDropdown" name="taskDropdown">
+            <option value="">Select a task</option>
+            <option value="task1">Task 1</option>
+            <option value="task2">Task 2</option>
+            <option value="new">Create New Task</option>
+          </select>  
+
+          <div id="newTaskContainer" class="hidden">
+            <label for="newTask">Task Description:</label>
+            <textarea id="newTask" name="newTask" class="description-box" placeholder="Describe the task..."></textarea>
+          </div>
+        </div>
+      </div>  
+
       <!-- Dropdown menu to assign event to a person -->
       <label for="person">Assign to Person:</label>
       <select id="person" name="person">
@@ -112,19 +135,22 @@ Last modified: 05/30/2025 -->
       <p id="message"></p>
     
     </div></form>
+
+
+
         <div class="dash" id="dash">
           <!-- <div class="schedule" id="schedule">
                     SCHEDULE -->
           <div id="schedule-zone" class="dash__schedule-zone"></div>
           <!-- </div> -->
-                 <div class="hide" id="edit-event">
-                  <link rel="stylesheet" href="../static/event_editor.css">
+                 <!-- <div class="hide" id="edit-event">-->
+                   
          
 
 
-    <!-- Event form for user input -->
+     <!--Event form for user input
 
-      </div>
+      </div> -->
           <div class="dash__event-manager" id="event-manager">
             <div class="dash__event-manager--zone" id="event-manager-zone">
               <div class="btn">

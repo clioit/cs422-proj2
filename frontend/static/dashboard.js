@@ -200,7 +200,11 @@ function taskManagerMain() {
   console.log(eventManager);
   EventList.sort((a, b) => a.start - b.start);
   EventList.sort((a, b) => b.tasks.length - a.tasks.length);
+
   for (let i = 0; i < EventList.length; i++) {
+
+
+
     // ADD ANCHOR POINT - calls navigation to editor
 
     let toEdit = document.createElement("a");
@@ -212,8 +216,11 @@ function taskManagerMain() {
       // document.getElementById('event-manager-zone').classList.toggle(`hide`);
       console.log(editor.childNodes);
       // editor.children.forEach(child => child.style.zIndex= `30`);
-      document.getElementById(`${task.id}`).style.border = `dashed 2px black`;
+      // document.getElementById(`${task.id}`).style.border = `dashed 2px black`;
+      atEditor(EventList[i]);
     });
+
+
 
     let newEvent = eventMaker(EventList[i]);
     let taskArea = document.createElement("div");

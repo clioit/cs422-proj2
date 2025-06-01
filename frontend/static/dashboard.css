@@ -41,6 +41,10 @@ button {
   transition: all 200ms;
 }
 
+body{
+  max-height: 100vh;
+}
+
 button {
   border-radius: 8px;
   padding: 4px;
@@ -71,6 +75,7 @@ select {
 
 .container {
   min-height: 100vh;
+  max-height: 100vh;
   flex-direction: row;
   /* margin: 16px; */
   padding-bottom: 16px;
@@ -106,9 +111,9 @@ select {
     margin-bottom: 16px;
   }
 
-  .container {
+  /* .container {
     padding: 0 10%;
-  }
+  } */
 }
 
 .dash__event-manager {
@@ -224,7 +229,7 @@ h1 {
 }
 
 
-.event-container {
+/* .event-container {
   background-color: #000000;
   padding: 32px;
   border-radius: 8px;
@@ -234,11 +239,11 @@ h1 {
   max-height: 80%;
     overflow-y: scroll;
   scroll-behavior: smooth;
-  overflow: auto; /* Enables scrolling */
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
+  overflow: auto; /* Enables scrolling 
+  scrollbar-width: none; /* Firefox 
+  -ms-overflow-style: none; /* IE and Edge 
   
-}
+} */
 
 form label {
   color: #dddddd;
@@ -295,4 +300,14 @@ button.add-event:hover,
 .details-content {
   margin-top: 12px;
   padding: 16px;
+}
+
+#eventForm{
+  min-width: 100vh;
+  max-height: 90vh;
+      overflow-y: scroll;
+  scroll-behavior: smooth;
+  overflow: auto; /* Enables scrolling */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
 }
