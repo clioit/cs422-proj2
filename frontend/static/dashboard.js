@@ -202,6 +202,17 @@ function taskManagerMain() {
   EventList.sort((a, b) => b.tasks.length - a.tasks.length);
   for (let i = 0; i < EventList.length; i++) {
     // ADD ANCHOR POINT - calls navigation to editor
+
+    let toEdit = document.createElement("a");
+    toEdit.addEventListener("click", function () {
+      const editor = document.getElementById(`edit-event`);
+      editor.classList.toggle(`hide`);
+      document.getElementById(`schedule-zone`).classList.toggle(`hide`);
+      console.log(editor.childNodes);
+      // editor.children.forEach(child => child.style.zIndex= `30`);
+      document.getElementById(`${task.id}`).style.border = `dashed 2px black`;
+    });
+
     let newEvent = eventMaker(EventList[i]);
     let taskArea = document.createElement("div");
     taskArea.className = "event-obj__task-area";
@@ -224,7 +235,8 @@ function taskManagerMain() {
 
       EventList[i].tasks.forEach((task) => {
         const newTask = document.createElement("div");
-        newTask.className = `task__info`;
+        newTask.classList.add(`task__info`);
+        newTask.id = task.id;
 
         const taskDesc = document.createElement("p");
         taskDesc.innerHTML = task.description;
@@ -252,7 +264,8 @@ function taskManagerMain() {
     }
     taskArea.appendChild(taskCount);
     newEvent.appendChild(taskArea);
-    eventManager.appendChild(newEvent);
+    toEdit.appendChild(newEvent);
+    eventManager.appendChild(toEdit);
   }
 }
 
@@ -438,7 +451,7 @@ function allTaskToggle() {
   });
 }
 
-function newEvent(){
+function newEvent() {
   // newEvent redirects the user to the event editor page.
   window.location.replace(`http://localhost:5001/event_editor`);
 }
@@ -471,7 +484,7 @@ window.onload = async function getOrgInfo() {
       loadOrg();
       return;
     });
-};
+}
 
 function loadOrg() {
   // console.log(org_id);
