@@ -71,7 +71,6 @@ function postEvent(){
     const dummy_start = "2025-05-30T12:00"
     const dummy_end = "2025-05-30T16:00"
     const dummy_poc = "683a2b2770c588a14a8ef928"
-    const dummy_publish = "false";
 
     const title = document.getElementById('title').value;
     const description = document.getElementById('description').value;
@@ -96,7 +95,7 @@ function postEvent(){
         description: description,
         start: dummy_start,
         end: dummy_end,
-        published: dummy_publish,
+        published: publish,
         info: {
           rsvp: rsvp,
           venue: venue,

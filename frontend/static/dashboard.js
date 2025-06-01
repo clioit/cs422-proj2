@@ -264,6 +264,8 @@ function scheduler() {
   /** This function utilizes eventMaker() to populate schedule side with OSO for
    * events sorted by their dates
    */
+
+  /** TO DO : add TIMES */
   console.log(`here`);
   let months = [
     `January`,
