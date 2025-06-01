@@ -79,11 +79,15 @@ Last modified: 05/30/2025 -->
 
       <!-- Checkbox to publish event -->
       <label for="publish">Publish?
-      <input type="checkbox" id="publish" name="publish" value = "true"/>
+      <input type="checkbox" id="publishCheckbox" name="publish" value = "true"/>
       </label>
 
       <!-- Button to submit and save the event data -->
-      <button type="submit" class="add-event" onclick="postEvent()">Save Event</button>
+      <button type="submit" id="submitButton" class="add-event" onclick="postEvent()">Save Event</button>
+      
+      <!-- Button to exit the page without saving -->
+      <button id="dashboardButton" class="go-dashboard" onclick="goDashboard()">Cancel</button>
+
       <!-- Message field to display event save status -->
       <p id="message"></p>
     </form>
@@ -91,6 +95,9 @@ Last modified: 05/30/2025 -->
 
   <!-- Link to the external JavaScript file that handles form functionality (like toggling details) -->
   <script src="../static/event_editor.js"></script>
+  <script>
+    const org_id = "{{ org_id }}";
+  </script>
 </body>
 </html>
 

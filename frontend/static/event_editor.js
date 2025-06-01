@@ -45,7 +45,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
-  
 
 function postEvent(){
   // postEvent creates and saves a new event, then redirects the user back to the dashboard after a delay.
@@ -59,10 +58,11 @@ function postEvent(){
     // postEvent adds a new event to the database
     // get inputs
     // THESE VARIABLES ARE CURRENTLY HARDCODED! GET IT FROM URL HANDLE WHEN UPDATED
-    const org_id = "683a2b2770c588a14a8ef926";
+    // const org_id = "683a2b2770c588a14a8ef926";
     const dummy_start = "2025-05-30T12:00"
     const dummy_end = "2025-05-30T16:00"
     const dummy_poc = "683a2b2770c588a14a8ef928"
+    let publish = publishCheckbox.checked;
 
     const title = document.getElementById('title').value;
     const description = document.getElementById('description').value;
@@ -74,7 +74,7 @@ function postEvent(){
     const budget = document.getElementById('budgetDetail').value;
     const other = document.getElementById('other').value;
     const poc = document.getElementById('person').value;
-    const publish = document.getElementById('publish').value == "true" ? "true" : "false";
+    console.log(publish);
 
     // POST request to endpoint
     fetch(`/orgs/${org_id}/events`, {
@@ -131,4 +131,9 @@ function postEvent(){
     message.textContent = 'Please fill out required fields.';
     return;
   }
+}
+
+function goDashboard(){
+  // goDashboard redirects the user back to the dashboard.
+  window.location.replace(`http://localhost:5001/dashboard/${org_id}`);
 }
