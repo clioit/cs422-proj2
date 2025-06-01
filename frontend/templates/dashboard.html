@@ -12,8 +12,6 @@ Last modified: 05/30/2025 -->
     <title>Club Calendar: Dashboard</title>
     <link rel="stylesheet" href="../static/dashboard.css" />
     <script>let EventList;</script>
-          <script src="../static/event_load.js">
-      </script>
   </head>
   <!-- <script>
     //  let org_id = "{{ org_id }}"
@@ -46,7 +44,7 @@ Last modified: 05/30/2025 -->
     <main>
       <div class="container">
         <a href="" class="organization__name">
-          <h1 class="organization__name">Chess Club</h1></a
+          <h1 class="organization__name" id="name">Chess Club</h1></a
         >
         <div class="dash">
           <!-- <div class="schedule" id="schedule">
@@ -66,12 +64,15 @@ Last modified: 05/30/2025 -->
         <div class="page-bottom">
           <button class="add-event" onclick="newEvent()">ADD EVENT</button>
           <button id="logout" class="current-user">
-            Logout <span class="user">USER</span>
+            Logout: <strong id="user"></strong>
           </button>
         </div>
       </div>
       <script src="../static/dashboard.js">
       </script>
+                <script src="../static/event_load.js">
+      </script>
+
     </main>
   </body>
 </html>
