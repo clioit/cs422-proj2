@@ -9,19 +9,27 @@ Last modified: 05/30/2025
 const task = document.getElementById("event_editor_container");
 
 document.addEventListener("DOMContentLoaded", () => {
-    const toggleButton = document.querySelector('.dropdown-toggle');
+    const eventToggleButton = document.querySelector('.dropdown-toggle');
     const detailsContent = document.querySelector('.details-content');
+    const taskToggleButton = document.querySelector('.dropdown-task-toggle');
+    const taskContent = document.querySelector('.task-content');
     const publishCheckbox = document.getElementById('publishCheckbox');
     const submitButton = document.getElementById('submitButton');
     const eventForm = document.getElementById('eventForm');
-    const eventEditorContainer = document.getElementById('event_editor_container');
 
-  //Toggle the dropdown section when you click the button
-    if (toggleButton && detailsContent) {
-      toggleButton.addEventListener('click', () => {
-        detailsContent.classList.toggle('hidden');
-      });
-    }
+  // Toggle Event Details
+  if (eventToggleButton && detailsContent) {
+    eventToggleButton.addEventListener('click', () => {
+      detailsContent.classList.toggle('hidden');
+    });
+  }
+
+  // Toggle Task Section
+  if (taskToggleButton && taskContent) {
+    taskToggleButton.addEventListener('click', () => {
+      taskContent.classList.toggle('hidden');
+    });
+  }
   
   // Update button label based on checkbox
   if (publishCheckbox && submitButton) {
@@ -63,7 +71,6 @@ function postEvent(){
     const dummy_start = "2025-05-30T12:00"
     const dummy_end = "2025-05-30T16:00"
     const dummy_poc = "683a2b2770c588a14a8ef928"
-    const dummy_publish = "false";
 
     const title = document.getElementById('title').value;
     const description = document.getElementById('description').value;
@@ -88,7 +95,7 @@ function postEvent(){
         description: description,
         start: dummy_start,
         end: dummy_end,
-        published: dummy_publish,
+        published: publish,
         info: {
           rsvp: rsvp,
           venue: venue,
