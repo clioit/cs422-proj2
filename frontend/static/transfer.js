@@ -1,17 +1,10 @@
-/*
-Factored functions for loading lists. Inlcudes loading events and tasks.
-Created for CS 422 Project 2: ETA in Spring 2025.
+let orgInfo;
+let EventList;
 
-Authors: Claire Cody
-Last modified: 05/29/2025
-*/
-
-let org_id;
-let go = false;
-window.onload = async function getOrg() {
+async function getOrgInfo() {
   // get organization id
   //
-
+    orgInfo = [];
   return fetch(`http://localhost:5001/orgs`)
     .then((response) => {
       // if (!response.ok) {
@@ -23,19 +16,59 @@ window.onload = async function getOrg() {
     })
     .then((data) => {
       data.forEach((org) => {
-        org_id = org.id;
-        console.log(org_id);
+        orgInfo.push({name: org.name, id: org.id, colors: org.color_scheme});
       });
-      loadEvents();
       return;
     });
 }
+getOrgInfo();
 
-async function loadEvents() {
+function patchColors(){
+}
+
+let currIdx;
+async function openEditor(eventID){
+    console.log('here');
+    window.location.replace(`http://localhost:5001/event_editor`);
+    await fetch(`http://localhost:5001/orgs/${orgInfo[0].id}/events/${eventID}`).then(
+        response => response.json().then(
+            data => {atEditor(data);}
+        )
+    );
+    //  setInterval(() => {atEditor(currIdx);}, 300);
+    // setInterval(() => atEditor(idx), 500);
+}
+
+
+async function atEditor(idx){
+    
+    //  window.location.replace(`http://localhost:5001/event_editor`);
+     await loadEventsEdit();
+     console.log('running');
+    const eventName = document.getElementById('title');
+    const desc = document.getElementById('description');
+    const start = document.getElementById('start');
+    const end = document.getElementById('end');
+    const rsvp = document.getElementById('rsvpDetail');
+    const contact = document.getElementById(`contactDetail`);
+    const venue = document.getElementById(`venueDetail`);
+    const budget = document.getElementById(`budgetDetail`);
+    // await loadEventsEdit();
+    let thisEvent = idx;
+
+    eventName.value = thisEvent.title;
+    desc.value = thisEvent.description;
+    start.value = thisEvent.start;
+    end.value = thisEvent.end;
+}
+
+
+async function loadEventsEdit() {
   //loads live events into EventList
+  await getOrgInfo();
   EventList = [];
   //getOrg();
-  return fetch(`http://localhost:5001/orgs/${org_id}/events`)
+  return fetch(`http://localhost:5001/orgs/${orgInfo[0].id}/events`)
     .then((response) => {
       // if (!response.ok) {
       //   return response.json().then((errorData) => {
@@ -65,13 +98,13 @@ async function loadEvents() {
       // scheduler();
       // taskManagerMain();
       // console.log(EventList);
-      go = true;
+    //   go = true;
       // runMain();
       return;
     });
 }
-  // let taskList = [];
-async function loadTasks(i) {
+  let taskList = [];
+async function loadTasksEdit(i) {
   taskList = [];
   console.log("org_id" + org_id);
   return fetch(`http://localhost:5001/orgs/${org_id}/events/${i}/tasks`)
@@ -100,28 +133,3 @@ async function loadTasks(i) {
     });
   // return taskLists[0];
 }
-
-
-async function getUser() {
-  return fetch(`http://localhost:5001/users/me`)
-    .then((response) => {return response.json();})
-    .then((data) => {
-      user = data.username;
-      console.log(`user ` + user);
-    });
-}
-getUser();
-
-function runMain() {
-  console.log(`running` + EventList);
-  taskManagerMain();
-  EventList.sort((a, b) => a.tasks.length - b.tasks.length);
-  EventList.sort((a, b) => a.start - b.start);
-  scheduler();
-}
-
-
- setTimeout(runMain, 300);
- 
- setTimeout(setUser, 300);
-

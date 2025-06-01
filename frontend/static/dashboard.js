@@ -205,9 +205,11 @@ function taskManagerMain() {
 
     let toEdit = document.createElement("a");
     toEdit.addEventListener("click", function () {
-      const editor = document.getElementById(`edit-event`);
+      const editor = document.getElementById(`event-container`);
       editor.classList.toggle(`hide`);
-      document.getElementById(`schedule-zone`).classList.toggle(`hide`);
+      document.getElementById(`dash`).classList.toggle(`hide`);
+      document.getElementById(`eventForm`).classList.toggle(`hide`);
+      // document.getElementById('event-manager-zone').classList.toggle(`hide`);
       console.log(editor.childNodes);
       // editor.children.forEach(child => child.style.zIndex= `30`);
       document.getElementById(`${task.id}`).style.border = `dashed 2px black`;

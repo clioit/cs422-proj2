@@ -11,7 +11,7 @@ Last modified: 05/30/2025 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Club Calendar: Dashboard</title>
     <link rel="stylesheet" href="../static/dashboard.css" />
-    <script>let EventList;</script>
+    <!-- <script>let EventList;</script> -->
   </head>
   <!-- <script>
     //  let org_id = "{{ org_id }}"
@@ -43,14 +43,88 @@ Last modified: 05/30/2025 -->
   <body>
     <main>
       <div class="container">
-        <a href="" class="organization__name">
+        <a href="../org_settings" class="organization__name">
           <h1 class="organization__name" id="name">Chess Club</h1></a
         >
-        <div class="dash">
+            <form id="eventForm" class="hide">
+      <div class="event-container hide" id="event-container"> 
+      <!-- Title input field -->
+      <label for="title">Title:</label>
+      <input class = "req" type="text" id="title" name="title" required />
+
+      <!-- Description textarea -->
+      <label for="description">Description:</label>
+      <textarea id="description" name="description" class="description-box"></textarea>
+
+      <!-- Start Date input -->
+      <label for="start">Start Date:</label>
+      <input class = "req" type="date" id="start" name="start" required />
+
+      <!-- End Date input -->
+      <label for="end">End Date:</label>
+      <input class = "req" type="date" id="end" name="end" required />
+
+      <!-- Section for additional event details (RSVP, Contact, Venue, Other) -->
+      <div class="details-section">
+        <!-- Button to toggle showing/hiding details -->
+        <button type="button" class="dropdown-toggle">Event Details</button>
+
+        <!-- Hidden container for additional details, shown when toggle is activated -->
+        <div class="details-content hidden">
+          <!-- RSVP field -->
+          <label for="rsvpDetail">RSVP Info:</label>
+          <input type="text" id="rsvpDetail" name="rsvpDetail" />
+
+          <!-- Contact field -->
+          <label for="contactDetail">Contact Info:</label>
+          <input type="text" id="contactDetail" name="contactDetail" />
+
+          <!-- Venue field -->
+          <label for="venueDetail">Venue Info:</label>
+          <input type="text" id="venueDetail" name="venueDetail" />
+
+          <!-- Budget field -->
+          <label for="budgetDetail">Budget Info:</label>
+          <input type="text" id="budgetDetail" name="budgetDetail" />
+
+          <!-- Other field -->
+          <label for="other">Other:</label>
+          <input type="text" id="other" name="other" />
+        </div>
+      </div>
+
+      <!-- Dropdown menu to assign event to a person -->
+      <label for="person">Assign to Person:</label>
+      <select id="person" name="person">
+        <option value="">Select</option>
+        <option value="person1">Person 1</option>
+        <option value="person2">Person 2</option>
+      </select>
+
+      <!-- Checkbox to publish event -->
+      <label for="publish">Publish?
+      <input type="checkbox" id="publish" name="publish" value = "true"/>
+      </label>
+
+      <!-- Button to submit and save the event data -->
+      <button type="submit" class="add-event" onclick="postEvent()">Save Event</button>
+      <!-- Message field to display event save status -->
+      <p id="message"></p>
+    
+    </div></form>
+        <div class="dash" id="dash">
           <!-- <div class="schedule" id="schedule">
                     SCHEDULE -->
           <div id="schedule-zone" class="dash__schedule-zone"></div>
           <!-- </div> -->
+                 <div class="hide" id="edit-event">
+                  <link rel="stylesheet" href="../static/event_editor.css">
+         
+
+
+    <!-- Event form for user input -->
+
+      </div>
           <div class="dash__event-manager" id="event-manager">
             <div class="dash__event-manager--zone" id="event-manager-zone">
               <div class="btn">
@@ -67,11 +141,17 @@ Last modified: 05/30/2025 -->
             Logout: <strong id="user"></strong>
           </button>
         </div>
+      
+
       </div>
       <script src="../static/dashboard.js">
+        
+      </script>
+            <script src="../static/transfer.js">
       </script>
                 <script src="../static/event_load.js">
       </script>
+
 
     </main>
   </body>
