@@ -56,6 +56,7 @@ async function patchOrg(){
   console.log(primary.value.toString());
 const orgName = document.getElementById(`org-name`).value;
 const desc = document.getElementById(`desc`).value;
+window.location.replace(`http://localhost:5001/dashboard/${org_id[0].id}`);
 
 const url = `http://localhost:5001/orgs/${org_id[0].id}`; // Replace with your API endpoint
 const data = {
@@ -88,7 +89,6 @@ fetch(url, {
   .catch(error => {
     console.error('Error updating resource:', error);
   });
-
 
 }
 
