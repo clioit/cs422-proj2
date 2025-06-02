@@ -192,7 +192,11 @@ const taskLists = [
 // loadEvents();
 /************************ */
 
-
+const addNewEvent = document.getElementById('addNewEvent');
+addNewEvent.addEventListener("click", function() {
+  // newEvent redirects the user to the event editor page.
+  window.location.replace(`http://localhost:5001/event_editor/${org_id}`);
+});
 
 function taskManagerMain() {
   // populates Event manager OSO (On-Screen Object)
@@ -461,11 +465,6 @@ function allTaskToggle() {
     }
     return;
   });
-}
-
-function newEvent() {
-  // newEvent redirects the user to the event editor page.
-  window.location.replace(`http://localhost:5001/event_editor/${org_id}`);
 }
 
 let orgs = [];
