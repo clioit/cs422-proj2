@@ -9,13 +9,13 @@ Last modified: 05/25/2025 -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Club Calender</title>
+    <title>ETA - Login</title>
     <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}">
 </head>
 <body>
     <main>
         <div class="login-container">
-            <h2>Login - Event Task Aid (ETA)</h2>
+            <h2>Event Task Aid (ETA) - Login</h2>
             <form class="login-form" action="{{url_for('simplelogin.login')}}"
                   method="post">
                 {{form.csrf_token}}

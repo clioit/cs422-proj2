@@ -1,19 +1,51 @@
 /*
-Sample CSS stylesheet.
+CSS stylesheet for login page formatting.
 Created for CS 422 Project 2: ETA in Spring 2025.
 
-Authors: Claire Cody
-Last modified: 05/20/2025
+Authors: Claire Cody, Evelyn Orozoco, Clio Tsao
+Last modified: 06/02/2025
 */
 
 @import url('https://fonts.googleapis.com/css2?family=Lato');
 
 * {
-    font-family: "Roboto", sans-serif;
-    margin: 0;
-    padding: 0;
+    font-family: "Montserrat", sans-serif;
+    margin: 15;
+    padding: 15;
     box-sizing: border-box;
     text-align: center;
+    line-height: 20px
 }
 
+:root {
+  --primary-color: #ffffff;
+  --secondary-color: #cccccc;
+  --tertiary-color: #444444;
+}
 
+body {
+  background-color: #555555;
+  color: white;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.headers{
+   border-radius: 8px; /* rounding corners*/
+}
+
+button.login-button {
+  background-color: var(--secondary-color);
+  color: black;
+  padding: 8px 15px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 16px;
+  transition: 0.2s ease;
+}
