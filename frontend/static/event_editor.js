@@ -1,19 +1,35 @@
+/*
+Functions for event editor functionality. Inlcudes getting form inputs and saving.
+Created for CS 422 Project 2: ETA in Spring 2025.
+
+Authors: Claire Cody, Clio Tsao
+Last modified: 05/30/2025
+*/
+
 const task = document.getElementById("event_editor_container");
 
 document.addEventListener("DOMContentLoaded", () => {
-    const toggleButton = document.querySelector('.dropdown-toggle');
+    const eventToggleButton = document.querySelector('.dropdown-toggle');
     const detailsContent = document.querySelector('.details-content');
+    const taskToggleButton = document.querySelector('.dropdown-task-toggle');
+    const taskContent = document.querySelector('.task-content');
     const publishCheckbox = document.getElementById('publishCheckbox');
     const submitButton = document.getElementById('submitButton');
     const eventForm = document.getElementById('eventForm');
-    const eventEditorContainer = document.getElementById('event_editor_container');
 
-  //Toggle the dropdown section when you click the button
-    if (toggleButton && detailsContent) {
-      toggleButton.addEventListener('click', () => {
-        detailsContent.classList.toggle('hidden');
-      });
-    }
+  // Toggle Event Details
+  if (eventToggleButton && detailsContent) {
+    eventToggleButton.addEventListener('click', () => {
+      detailsContent.classList.toggle('hidden');
+    });
+  }
+
+  // Toggle Task Section
+  if (taskToggleButton && taskContent) {
+    taskToggleButton.addEventListener('click', () => {
+      taskContent.classList.toggle('hidden');
+    });
+  }
   
   // Update button label based on checkbox
   if (publishCheckbox && submitButton) {
@@ -50,8 +66,12 @@ function postEvent(){
     console.log("saving new event...");
     // postEvent adds a new event to the database
     // get inputs
-    // THIS IS CURRENTLY HARDCODED! GET IT FROM URL HANDLE WHEN UPDATED
+    // THESE VARIABLES ARE CURRENTLY HARDCODED! GET IT FROM URL HANDLE WHEN UPDATED
     const org_id = "683a2b2770c588a14a8ef926";
+    const dummy_start = "2025-05-30T12:00"
+    const dummy_end = "2025-05-30T16:00"
+    const dummy_poc = "683a2b2770c588a14a8ef928"
+
     const title = document.getElementById('title').value;
     const description = document.getElementById('description').value;
     const start = document.getElementById('start').value;
@@ -61,7 +81,8 @@ function postEvent(){
     const venue = document.getElementById('venueDetail').value;
     const budget = document.getElementById('budgetDetail').value;
     const other = document.getElementById('other').value;
-    const publish = document.getElementById('publish').checked ? "true" : "false";
+    const poc = document.getElementById('person').value;
+    const publish = document.getElementById('publish').value == "true" ? "true" : "false";
 
     // POST request to endpoint
     fetch(`/orgs/${org_id}/events`, {
@@ -72,8 +93,8 @@ function postEvent(){
       body: JSON.stringify({
         title: title,
         description: description,
-        start: start,
-        end: end,
+        start: dummy_start,
+        end: dummy_end,
         published: publish,
         info: {
           rsvp: rsvp,
@@ -81,7 +102,8 @@ function postEvent(){
           contact: contact,
           budget: budget,
           other: other
-        }
+        },
+        point_of_contact: dummy_poc,
       })
     })
     // check response is json

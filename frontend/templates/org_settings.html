@@ -1,3 +1,9 @@
+<!-- HTML template for rendering the org editor page.
+Created for CS 422 Project 2: ETA in Spring 2025.
+
+Authors: Claire Cody
+Last modified: 05/30/2025 -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,7 +18,7 @@
         <div class="organization tertiary">
             <div class="organization__name">
                 <!-- <label for="org-name" class="name"> <h2 class="name">Name</h2> </label> -->
-                    <input type="text" id="org-name" placeholder="ex: Chess Club">
+                    <input type="text" id="org-name" placeholder="ex: Chess Club" class="primary">
                 
             
             <div class="organization__scheme">
@@ -47,9 +53,13 @@
             </div>
             <div class="links">
                 <button class="public secondary"> Generate Public Link</button>
+                <div class="public__area"></div>
                 <button class="exec secondary"> Generate Executive Link</button>
+                <div class="exec"></div>
             </div>
-</div> 
+            
+            </div> 
+            <button class="b2b" onclick="patchOrg()">Save & Exit</button>
         </div>
     </div>
     <script src="../static/org_settings.js"></script>

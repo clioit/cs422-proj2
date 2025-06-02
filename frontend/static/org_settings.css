@@ -1,3 +1,11 @@
+/*
+CSS stylesheet for org editor page formatting.
+Created for CS 422 Project 2: ETA in Spring 2025.
+
+Authors: Claire Cody
+Last modified: 05/26/2025
+*/
+
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=National+Park:wght@200..800&family=Roboto:wdth,wght@75..100,100..900&display=swap');
 
 * {
@@ -75,6 +83,7 @@ select{
   width: 95%;
   max-width: 900px;
   max-height: 100vh;
+
 }
 
 .container{
@@ -82,6 +91,7 @@ select{
   display: flex;
   justify-content: center;
   color: white;
+
 }
 
 .organization{
@@ -93,6 +103,7 @@ select{
   max-height: fit-content;
   max-width: 80%;
   border-radius: 8px;
+    border: .5px solid white;
 }
 
 .organization__name{
@@ -171,4 +182,8 @@ button:hover{
   .name{
     color: white;
     margin-right: 12px;
+  }
+
+  .b2b {
+    margin-top: 8px;
   }

@@ -255,6 +255,8 @@ class OrganizationResource(Resource):
                 org.name = req_obj["name"]
             if "description" in sent_fields:
                 org.description = req_obj["description"]
+            if "color_scheme" in sent_fields:
+                org.color_scheme = req_obj["color_scheme"]
             org.save()
             return get_org_dict(org, is_manager=True)
         else:

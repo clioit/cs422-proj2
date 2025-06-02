@@ -1,3 +1,11 @@
+/*
+CSS stylesheet for event editor formatting.
+Created for CS 422 Project 2: ETA in Spring 2025.
+
+Authors: Evelyn Orozco
+Last modified: 05/31/2025
+*/
+
 * {
   box-sizing: border-box;
   font-family: "Montserrat", sans-serif;
@@ -72,11 +80,14 @@ textarea.description-box {
   resize: vertical;
 }
 
+/* Combine evenr and tasks */
 button.add-event,
-.dropdown-toggle {
+.dropdown-toggle,
+.dropdown-task-toggle {
   background-color: #cccccc;
   color: black;
-  padding: 8px 12px;
+  padding: 8px 15px;
+  font-size: 1rem;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -85,11 +96,47 @@ button.add-event,
 }
 
 button.add-event:hover,
-.dropdown-toggle:hover {
+.dropdown-toggle:hover,
+.dropdown-task-toggle:hover {
   scale: 105%;
   background-color: #999999;
 }
 
+.date-time-pair {
+  display: flex;
+  justify-content: space-between;
+  gap: 120px;
+  align-items: flex-start; /* Aligns labels at top */
+  margin-bottom: 10px;
+}
+
+.date-time-item {
+  display: flex;
+  flex-direction: column;
+  width: 45%; /* Each item takes half the width */
+}
+
+.date-time-item label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.date-time-item input {
+  padding: 6px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Make time boxes smaller */
+input[type="time"] {
+  width: 125px; 
+  padding: 2px; 
+}
+
+
+.task-content.hidden {
+  display: none;
+}
 .details-section {
   margin-top: 16px;
 }
