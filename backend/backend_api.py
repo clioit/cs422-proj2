@@ -83,7 +83,7 @@ def edit_event(org_id: str):
     return render_template('event_editor.html', org_id=org_id)
 
 
-@app.route("/org_settings/<org_settings>")
+@app.route("/org_settings/<org_id>")
 def org_settings(org_id: str):
     return render_template('org_settings.html', org_id=org_id)
 
