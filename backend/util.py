@@ -72,10 +72,10 @@ def get_org_qr(org_id: str):
     org_id = org.id
     org_token = org.join_token
 
-    qr = qrcode.QRCode(image_factory=qrcode.image.svg.SvgPathImage)
-    qr.add_data(f'localhost:5001/org/{org_id}/{org_token}')
+    qr = qrcode.QRCode(image_factory=qrcode.image.svg.SvgPathFillImage)
+    qr.add_data(f'http://localhost:5001/org/{org_id}/{org_token}')
     qr.make(fit=True)
-    img = qr.make_image()
+    img = qr.make_image(fill_color="black", back_color="white")
 
     return img.to_string(encoding='unicode')
 
