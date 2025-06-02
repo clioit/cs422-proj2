@@ -2,7 +2,7 @@
 Created for CS 422 Project 2: ETA in Spring 2025.
 
 Authors: Claire Cody
-Last modified: 05/30/2025 -->
+Last modified: 06/01/2025 -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -11,7 +11,7 @@ Last modified: 05/30/2025 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Club Calendar: Dashboard</title>
     <link rel="stylesheet" href="../static/dashboard.css" />
-    <script>let EventList;</script>
+    <!-- <script>let EventList;</script> -->
   </head>
   <!-- <script>
     //  let org_id = "{{ org_id }}"
@@ -43,14 +43,134 @@ Last modified: 05/30/2025 -->
   <body>
     <main>
       <div class="container">
-        <a href="" class="organization__name">
+        <a href="../org_settings" class="organization__name">
           <h1 class="organization__name" id="name">Chess Club</h1></a
         >
-        <div class="dash">
+            <form id="eventForm" class="hide">
+              <link rel="stylesheet" href="../static/event_editor.css">
+              <script src="../static/event_editor.js"></script>
+      <div class="event-container hide" id="event-container"> 
+        <h5 class="edit">Editing Event...</h5>
+      <!-- Title input field -->
+      <label for="title">Title:</label>
+      <input class = "req" type="text" id="title" name="title" required />
+
+      <!-- Description textarea -->
+      <label for="description">Description:</label>
+      <textarea id="description" name="description" class="description-box"></textarea>
+
+ <!-- Start Date + Start Time -->
+      <div class="date-time-pair">
+        <div class="date-time-item">
+          <label for="start">Start Date:</label>
+          <input class="req" type="date" id="start" name="start" required />
+        </div>
+
+        <div class="date-time-item">
+          <label for="startTime">Start Time:</label>
+          <input class="req" type="time" id="startTime" name="startTime" required />
+        </div>
+      </div>
+
+      <!-- End Date + End Time -->
+      <div class="date-time-pair">
+        <div class="date-time-item">
+          <label for="end">End Date:</label>
+          <input class="req" type="date" id="end" name="end" required />
+        </div>
+
+        <div class="date-time-item">
+          <label for="endTime">End Time:</label>
+          <input class="req" type="time" id="endTime" name="endTime" required />
+        </div>
+      </div>
+
+
+      <!-- Section for additional event details (RSVP, Contact, Venue, Other) -->
+      <div class="details-section">
+        <!-- Button to toggle showing/hiding details -->
+        <button type="button" class="dropdown-toggle">Event Details</button>
+
+        <!-- Hidden container for additional details, shown when toggle is activated -->
+        <div class="details-content hidden">
+          <!-- RSVP field -->
+          <label for="rsvpDetail">RSVP Info:</label>
+          <input type="text" id="rsvpDetail" name="rsvpDetail" />
+
+          <!-- Contact field -->
+          <label for="contactDetail">Contact Info:</label>
+          <input type="text" id="contactDetail" name="contactDetail" />
+
+          <!-- Venue field -->
+          <label for="venueDetail">Venue Info:</label>
+          <input type="text" id="venueDetail" name="venueDetail" />
+
+          <!-- Budget field -->
+          <label for="budgetDetail">Budget Info:</label>
+          <input type="text" id="budgetDetail" name="budgetDetail" />
+
+          <!-- Other field -->
+          <label for="other">Other:</label>
+          <input type="text" id="other" name="other" />
+        </div>
+      </div>
+
+       <!-- Section for adding a Task -->
+      <div class="task-section">
+          <button type="button" class="dropdown-task-toggle">Tasks</button>
+          
+    <!-- Hidden container for the Task input -->
+        <div class="task-content hidden">
+          <label for="taskDropdown">Select a Task:</label>
+          <select id="taskDropdown" name="taskDropdown" onchange="loadTask()">
+            <option value="">Select a task</option>
+            <option value="task1">Task 1</option>
+            <option value="task2">Task 2</option>
+            <option value="new">Create New Task</option>
+          </select>  
+
+          <div id="newTaskContainer" class="hidden">
+            <label for="newTask">Task Description:</label>
+            <textarea id="newTask" name="newTask" class="description-box" placeholder="Describe the task..."></textarea>
+          </div>
+        </div>
+      </div>  
+
+      <!-- Dropdown menu to assign event to a person -->
+      <label for="person">Assign to Person:</label>
+      <select id="person" name="person">
+        <option value="">Select</option>
+        <option value="person1">Person 1</option>
+        <option value="person2">Person 2</option>
+      </select>
+
+      <!-- Checkbox to publish event -->
+      <label for="publish">Publish?
+      <input type="checkbox" id="publish" name="publish" value = "true"/>
+      </label>
+
+      <!-- Button to submit and save the event data -->
+      <button type="submit" class="add-event" onclick="patchEvent()">Save & Exit</button>
+      <!-- Message field to display event save status -->
+      <p id="message"></p>
+    
+    </div></form>
+
+
+
+        <div class="dash" id="dash">
           <!-- <div class="schedule" id="schedule">
                     SCHEDULE -->
           <div id="schedule-zone" class="dash__schedule-zone"></div>
           <!-- </div> -->
+                 <!-- <div class="hide" id="edit-event">-->
+                   
+         
+
+
+     <!--Event form for user input
+
+      </div> -->
           <div class="dash__event-manager" id="event-manager">
             <div class="dash__event-manager--zone" id="event-manager-zone">
               <div class="btn">
@@ -67,11 +187,17 @@ Last modified: 05/30/2025 -->
             Logout: <strong id="user"></strong>
           </button>
         </div>
+      
+
       </div>
       <script src="../static/dashboard.js">
+        
+      </script>
+            <script src="../static/transfer.js">
       </script>
                 <script src="../static/event_load.js">
       </script>
+
 
     </main>
   </body>

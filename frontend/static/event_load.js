@@ -59,7 +59,8 @@ async function loadEvents() {
           description: event.description,
           start: event.start,
           end: event.end,
-          tasks: taskList
+          tasks: taskList,
+          info: event.info
         });
       });
       // scheduler();
@@ -70,7 +71,7 @@ async function loadEvents() {
       return;
     });
 }
-  let taskList = [];
+  // let taskList = [];
 async function loadTasks(i) {
   taskList = [];
   console.log("org_id" + org_id);
