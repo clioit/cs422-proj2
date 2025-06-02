@@ -2,11 +2,12 @@
 Functions for event editor functionality. Inlcudes getting form inputs and saving.
 Created for CS 422 Project 2: ETA in Spring 2025.
 
-Authors: Claire Cody, Clio Tsao
-Last modified: 05/30/2025
+Authors: Claire Cody, Clio Tsao, Evelyn Orozco
+Last modified: 06/01/2025
 */
 
 const task = document.getElementById("event_editor_container");
+let userArray = [];
 
 document.addEventListener("DOMContentLoaded", () => {
     const eventToggleButton = document.querySelector('.dropdown-toggle');
@@ -16,6 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const publishCheckbox = document.getElementById('publishCheckbox');
     const submitButton = document.getElementById('submitButton');
     const eventForm = document.getElementById('eventForm');
+    loadPeople();
 
   // Toggle Event Details
   if (eventToggleButton && detailsContent) {
@@ -67,15 +69,19 @@ function postEvent(){
     // get inputs
     // THESE VARIABLES ARE CURRENTLY HARDCODED! GET IT FROM URL HANDLE WHEN UPDATED
     // const org_id = "683a2b2770c588a14a8ef926";
-    const dummy_start = "2025-05-30T12:00"
-    const dummy_end = "2025-05-30T16:00"
-    const dummy_poc = "683a2b2770c588a14a8ef928"
+    // const dummy_start = "2025-05-30T12:00"
+    // const dummy_end = "2025-05-30T16:00"
+    // const dummy_poc = "683a2b2770c588a14a8ef928"
     let publish = publishCheckbox.checked;
 
     const title = document.getElementById('title').value;
     const description = document.getElementById('description').value;
     const start = document.getElementById('start').value;
+    const startTime = document.getElementById('startTime').value;
+    console.log(start);
     const end = document.getElementById('end').value;
+    const endTime = document.getElementById('endTime').value;
+    console.log(end);
     const rsvp = document.getElementById('rsvpDetail').value;
     const contact = document.getElementById('contactDetail').value;
     const venue = document.getElementById('venueDetail').value;
@@ -93,8 +99,8 @@ function postEvent(){
       body: JSON.stringify({
         title: title,
         description: description,
-        start: dummy_start,
-        end: dummy_end,
+        start: start+"T"+startTime,
+        end: end+"T"+endTime,
         published: publish,
         info: {
           rsvp: rsvp,
@@ -103,7 +109,7 @@ function postEvent(){
           budget: budget,
           other: other
         },
-        point_of_contact: dummy_poc,
+        point_of_contact: poc,
       })
     })
     // check response is json
@@ -141,7 +147,7 @@ function postEvent(){
   }
 }
 
-function goDashboard(){
+function goDashboard() {
   // goDashboard redirects the user back to the dashboard.
   window.location.replace(`http://localhost:5001/dashboard/${org_id}`);
 }

@@ -2,11 +2,11 @@
 Factored functions for loading lists. Inlcudes loading events and tasks.
 Created for CS 422 Project 2: ETA in Spring 2025.
 
-Authors: Claire Cody
-Last modified: 05/29/2025
+Authors: Claire Cody, Clio Tsao
+Last modified: 06/01/2025
 */
 
-let org_id;
+// let org_id;
 let go = false;
 let colors  = [];
 let PRIMARY;
@@ -17,25 +17,26 @@ const secondaries = document.querySelectorAll(`.secondary`);
 const tertiaries = document.querySelectorAll(`.tertiary`);
 
 
-window.onload = async function getOrg() {
-  // get organization id
-  //
+window.onload = loadEvents();
+//  async function getOrg() {
+//   // get organization id
+//   //
 
-  return fetch(`http://localhost:5001/orgs`)
-    .then((response) => {
-      // if (!response.ok) {
-      //   return response.json().then((errorData) => {
-      //     throw new Error(errorData.description || "Unknown error");
-      //   });
-      // }
-      return response.json();
-    })
-    .then((data) => {
-      data.forEach((org) => {
-        org_id = org.id;
-        console.log(org_id);
+//   return fetch(`http://localhost:5001/orgs`)
+//     .then((response) => {
+//       // if (!response.ok) {
+//       //   return response.json().then((errorData) => {
+//       //     throw new Error(errorData.description || "Unknown error");
+//       //   });
+//       // }
+//       return response.json();
+//     })
+//     .then((data) => {
+//       // data.forEach((org) => {
+//       //   org_id = org.id;
+//       //   console.log(org_id);
         colors = org.color_scheme;
-      });
+//       // });
       PRIMARY = colors[0];
       SECONDARY = colors[1];
       TERTIARY = colors[2];
@@ -46,10 +47,10 @@ window.onload = async function getOrg() {
       document.documentElement.style.setProperty("--secondary-color", SECONDARY);
       document.documentElement.style.setProperty("--tertiary-color", TERTIARY);
       console.log(colors);
-      loadEvents();
-      return;
-    });
-}
+      
+//       return;
+//     });
+// }
 
 async function loadEvents() {
   //loads live events into EventList
