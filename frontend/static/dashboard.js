@@ -192,6 +192,35 @@ const taskLists = [
 // loadEvents();
 /************************ */
 
+let orgs = [];
+window.onload = async function getOrgInfo() {
+  // get organization id
+  //
+
+  return fetch(`http://localhost:5001/orgs`)
+    .then((response) => {
+      // if (!response.ok) {
+      //   return response.json().then((errorData) => {
+      //     throw new Error(errorData.description || "Unknown error");
+      //   });
+      // }
+      return response.json();
+    })
+    .then((data) => {
+      data.forEach((org) => {
+        console.log(data);
+        orgs.push({
+          name: org.name,
+          description: org.description,
+          id: org.id,
+          colors: org.color_scheme,
+          join: org.join_token,
+        });
+      });
+      loadOrg();
+      return;
+    });
+}
 
 
 function taskManagerMain() {
@@ -203,7 +232,7 @@ function taskManagerMain() {
 
   for (let i = 0; i < EventList.length; i++) {
 
-
+ let showButton = null;
 
     // ADD ANCHOR POINT - calls navigation to editor
 
@@ -229,10 +258,9 @@ function taskManagerMain() {
     taskCount.id = `task-${i}`;
     taskCount.className = "task";
     
-
+    // THIS NEEDS to be differENT criteria
     if (EventList[i].tasks.length == 0) {
-      newEvent.style.textDecoration = `line-through`;
-      let showButton = null;
+      newEvent.style.textDecoration = `line-through`;     
       //TODO
       // const done = document.createElement("div");
       // done.innerHTML = `All tasks complete`;
@@ -271,12 +299,13 @@ function taskManagerMain() {
       showButton.id = `show-button`;
       showButton.style.backgroundColor = PRIMARY;
       showButton.setAttribute("onclick", `taskFlip(${i})`);
+      showButton.style.minWidth = `90%`;
+      newEvent.appendChild(showButton);
 
     }
     taskArea.appendChild(taskCount);
     toEdit.appendChild(taskArea);
     newEvent.appendChild(toEdit);
-    newEvent.appendChild(showButton);
     eventManager.appendChild(newEvent);
   }
 }
@@ -324,7 +353,8 @@ function scheduler() {
       let thisDate = EventList[i].start.toString().split(`T`);
       const currentDate = new Date().toISOString().split("T")[0];
       if (currentDate === thisDate[0]) {
-        newDate.textContent = `Today`;
+        console.log(`MEEE`);89
+        newDate.innerHTML = `Today`;
       } else {
         console.log(thisDate);
         thisDate = thisDate[0].split(`-`);
@@ -424,6 +454,7 @@ function eventMaker(addMe) {
   console.log(newEvent);
 
   // color assignments - 
+  console.log(addMe.tasks);
   if (addMe.tasks.length > 2) {
     newEvent.style.backgroundColor = PRIMARY;
   } else if (addMe.tasks.length > 1) {
@@ -463,40 +494,9 @@ function allTaskToggle() {
   });
 }
 
-function newEvent() {
-  // newEvent redirects the user to the event editor page.
-  window.location.replace(`http://localhost:5001/event_editor/${org_id}`);
-}
 
-let orgs = [];
-window.onload = async function getOrgInfo() {
-  // get organization id
-  //
 
-  return fetch(`http://localhost:5001/orgs`)
-    .then((response) => {
-      // if (!response.ok) {
-      //   return response.json().then((errorData) => {
-      //     throw new Error(errorData.description || "Unknown error");
-      //   });
-      // }
-      return response.json();
-    })
-    .then((data) => {
-      data.forEach((org) => {
-        console.log(data);
-        orgs.push({
-          name: org.name,
-          description: org.description,
-          id: org.id,
-          colors: org.color_scheme,
-          join: org.join_token,
-        });
-      });
-      loadOrg();
-      return;
-    });
-}
+
 
 function loadOrg() {
   // console.log(org_id);

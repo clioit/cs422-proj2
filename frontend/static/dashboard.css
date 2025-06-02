@@ -326,3 +326,8 @@ button.add-event:hover,
 .edit{
   text-align: left;
 }
+
+#show-button{
+  color: var(--tertiary-color) !important;
+
+}
