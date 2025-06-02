@@ -57,6 +57,11 @@ function loadTask(){
 }
 
 function patchEvent(){
+  
+      const editor = document.getElementById(`event-container`);
+      editor.classList.toggle(`hide`);
+      document.getElementById(`dash`).classList.toggle(`hide`);
+      document.getElementById(`eventForm`).classList.toggle(`hide`);
 
 const url = `http://localhost:5001/orgs/${org_id}/events/${thisEvent.id}`; // Replace with your API endpoint
 const data = {
