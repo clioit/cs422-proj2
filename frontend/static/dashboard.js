@@ -462,7 +462,7 @@ function allTaskToggle() {
 
 function newEvent() {
   // newEvent redirects the user to the event editor page.
-  window.location.replace(`http://localhost:5001/event_editor`);
+  window.location.replace(`http://localhost:5001/event_editor/${org_id}`);
 }
 
 let orgs = [];
@@ -504,4 +504,10 @@ function setUser() {
   console.log(user);
   const username = document.getElementById(`user`);
   username.innerHTML = user.toUpperCase();
+}
+
+function logout(){
+  // logout logs the user out of their account and returns to the login screen
+  console.log("logging out...")
+  window.location.replace(`http://localhost:5001/logout`);
 }

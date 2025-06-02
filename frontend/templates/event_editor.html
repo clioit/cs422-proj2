@@ -2,7 +2,8 @@
 Created for CS 422 Project 2: ETA in Spring 2025.
 
 Authors: Evelyn Orozco, Clio Tsao
-Last modified: 05/31/2025 -->
+<<<<<<<<< Temporary merge branch 1
+Last modified: 06/1/2025 -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -101,6 +102,13 @@ Last modified: 05/31/2025 -->
             <option value="new">Create New Task</option>
           </select>  
 
+  <!-- Task description box -->
+          <div id="newTaskContainer" class="hidden">
+            <label for="newTask">Task Description:</label>
+            <textarea id="newTask" name="newTask" class="description-box" placeholder="Describe the task..."></textarea>
+  <!-- Save taks button -->
+            <button type = "button" class="save-task" onclick="addTask()">Save Task</button>
+
           <div id="newTaskContainer" class="hidden">
             <label for="newTask">Task Description:</label>
             <textarea id="newTask" name="newTask" class="description-box" placeholder="Describe the task..."></textarea>
@@ -118,11 +126,15 @@ Last modified: 05/31/2025 -->
 
       <!-- Checkbox to publish event -->
       <label for="publish">Publish?
-      <input type="checkbox" id="publish" name="publish" value = "true"/>
+      <input type="checkbox" id="publishCheckbox" name="publish" value = "true"/>
       </label>
 
       <!-- Button to submit and save the event data -->
-      <button type="submit" class="add-event" onclick="postEvent()">Save Event</button>
+      <button type="submit" id="submitButton" class="add-event" onclick="postEvent()">Save Event</button>
+      
+      <!-- Button to exit the page without saving -->
+      <button id="dashboardButton" class="add-event" onclick="goDashboard()">Cancel</button>
+
       <!-- Message field to display event save status -->
       <p id="message"></p>
     </form>
@@ -130,6 +142,9 @@ Last modified: 05/31/2025 -->
 
   <!-- Link to the external JavaScript file that handles form functionality -->
   <script src="../static/event_editor.js"></script>
+  <script>
+    const org_id = "{{ org_id }}";
+  </script>
   <script src="../static/transfer.js">
       </script>
 </body>

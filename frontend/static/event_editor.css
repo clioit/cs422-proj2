@@ -106,7 +106,7 @@ button.add-event:hover,
   display: flex;
   justify-content: space-between;
   gap: 120px;
-  align-items: flex-start; /* Aligns labels at top */
+  align-items: flex-start; /* Aligns labels at top for date and time*/
   margin-bottom: 10px;
 }
 

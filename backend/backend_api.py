@@ -78,14 +78,14 @@ def dashboard(org_id: str):
     return render_template('dashboard.html', org_id=org_id)
 
 
-@app.route("/event_editor")
-def edit_event():
-    return render_template('event_editor.html')
+@app.route("/event_editor/<org_id>")
+def edit_event(org_id: str):
+    return render_template('event_editor.html', org_id=org_id)
 
 
-@app.route("/org_settings")
-def org_settings():
-    return render_template('org_settings.html')
+@app.route("/org_settings/<org_settings>")
+def org_settings(org_id: str):
+    return render_template('org_settings.html', org_id=org_id)
 
 
 if __name__ == '__main__':
