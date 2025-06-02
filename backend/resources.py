@@ -293,6 +293,19 @@ class OrganizationInviteResource(Resource):
         else:
             abort(400, "The current user already manages this organization.")
 
+class OrganizationUserList(Resource):
+
+    def _get_assured_org(self, org_id) -> Organization:
+        org = Organization.objects(id=org_id).first()
+        if org is None:
+            abort(404, "Org not found")
+        return org
+    
+    def get(self, org_id):
+        org = self._get_assured_org(org_id)
+        userlist = User.objects(orgs=org)
+        return get_user_dict(userlist)
+
 
 class TaskList(Resource):
     method_decorators = [login_required]
