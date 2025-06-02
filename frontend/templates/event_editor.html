@@ -113,16 +113,13 @@ Last modified: 06/1/2025 -->
 
       <!-- Dropdown menu to assign event to a person -->
       <label for="person">Assign to Person:</label>
-      <select id="person" name="person">
-        <option value="">Select</option>
-        <option value="person1">Person 1</option>
-        <option value="person2">Person 2</option>
+      <select id="person" name="person" required>
+        <option id ="no-select" value="" selected>Select</option>
       </select>
 
       <!-- Checkbox to publish event -->
-      <label for="publish">Publish?
-      <input type="checkbox" id="publishCheckbox" name="publish" value = "true"/>
-      </label>
+      <input type="checkbox" id="publishCheckbox" name="publish" value = "true">Publish?</input>
+      <div></div>
 
       <!-- Button to submit and save the event data -->
       <button type="submit" id="submitButton" class="add-event" onclick="postEvent()">Save Event</button>
@@ -136,10 +133,10 @@ Last modified: 06/1/2025 -->
   </div>
 
   <!-- Link to the external JavaScript file that handles form functionality -->
-  <script src="../static/event_editor.js"></script>
   <script>
     const org_id = "{{ org_id }}";
   </script>
+  <script src="../static/event_editor.js"></script>
   <script src="../static/transfer.js">
       </script>
 </body>
