@@ -54,7 +54,7 @@ function loadTask(){
   descBox.value = taskSelect;
 }
 
-function patchEvent(){
+async function patchEvent(){
   
       const editor = document.getElementById(`event-container`);
       editor.classList.toggle(`hide`);
@@ -99,6 +99,7 @@ fetch(url, {
   })
   .then(updatedResource => {
     console.log('Resource updated successfully:', updatedResource);
+    window.location.reload();
   })
   .catch(error => {
     console.error('Error updating resource:', error);
