@@ -1,7 +1,5 @@
 
 
-function patchColors(){
-}
 
     const eventName = document.getElementById('title');
     const desc = document.getElementById('description');
