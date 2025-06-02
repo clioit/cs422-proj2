@@ -1,5 +1,10 @@
+/*
+Handles loading existing events to editor from dashboard.
+Created for CS 422 Project 2: ETA in Spring 2025.
 
-
+Authors: Claire Cody
+Last modified: 06/01/2025
+*/
 
     const eventName = document.getElementById('title');
     const desc = document.getElementById('description');
