@@ -3,10 +3,6 @@
 function patchColors(){
 }
 
-
-async function atEditor(idx){
-  
-     console.log('running');
     const eventName = document.getElementById('title');
     const desc = document.getElementById('description');
     const start = document.getElementById('start');
@@ -17,8 +13,13 @@ async function atEditor(idx){
     const contact = document.getElementById(`contactDetail`);
     const venue = document.getElementById(`venueDetail`);
     const budget = document.getElementById(`budgetDetail`);
+
+let thisEvent;
+async function atEditor(idx){
+  
+     console.log('running');
     // await loadEventsEdit();
-    let thisEvent = idx;
+    thisEvent = idx;
 
     let top = thisEvent.start.split('T');
     let bottom = thisEvent.end.split(`T`);
@@ -53,4 +54,51 @@ function loadTask(){
   const taskSelect = document.getElementById(`taskDropdown`).value;
   const descBox = document.getElementById('newTask');
   descBox.value = taskSelect;
+}
+
+function patchEvent(){
+
+const url = `http://localhost:5001/orgs/${org_id}/events/${thisEvent.id}`; // Replace with your API endpoint
+const data = {
+        title: eventName.value,
+        description: desc.value,
+        // "start": "2025-07-31T08:02",
+        // start:
+        // "end": "2025-07-31T12:02",
+        // published: false,
+        // point_of_contact: "683c08ff796f2a380d1fb788",
+        // "tasks": [
+        //     "683c08ff796f2a380d1fb783",
+        //     "683c08ff796f2a380d1fb784"
+        // ],
+        "info": {
+            rsvp: rsvp.value,
+            venue: venue.value,
+            contact: contact.value,
+            budget: budget.value,
+            // "other": null
+        }
+};
+
+fetch(url, {
+  method: 'PATCH',
+  headers: {
+    'Content-Type': 'application/json', // Specify JSON format
+    // 'Authorization': 'Bearer YOUR_ACCESS_TOKEN' // Optional: Add auth if required
+  },
+  body: JSON.stringify(data) // Convert data to JSON string
+})
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json(); // Parse JSON response
+  })
+  .then(updatedResource => {
+    console.log('Resource updated successfully:', updatedResource);
+  })
+  .catch(error => {
+    console.error('Error updating resource:', error);
+  });
+
 }
