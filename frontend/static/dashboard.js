@@ -192,7 +192,12 @@ const taskLists = [
 // loadEvents();
 /************************ */
 
-let orgs = [];
+const addNewEvent = document.getElementById('addNewEvent');
+addNewEvent.addEventListener("click", function() {
+  // newEvent redirects the user to the event editor page.
+  window.location.replace(`http://localhost:5001/event_editor/${org_id}`);
+});
+ let orgs = [];
 window.onload = async function getOrgInfo() {
   // get organization id
   //
