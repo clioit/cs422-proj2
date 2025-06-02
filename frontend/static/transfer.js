@@ -49,6 +49,7 @@ function loadTaskSelect(tasks){
     newTask = document.createElement(`option`);
     newTask.textContent = task.title;
     newTask.value = task.description;
+    newTask.id = task.id;
     taskSelect.appendChild(newTask);
   })
 }
@@ -71,7 +72,7 @@ const data = {
         title: eventName.value,
         description: desc.value,
         // "start": "2025-07-31T08:02",
-        // start:
+         start: [start.value,startT.value].join('T'),
         // "end": "2025-07-31T12:02",
         // published: false,
         // point_of_contact: "683c08ff796f2a380d1fb788",
@@ -110,4 +111,8 @@ fetch(url, {
     console.error('Error updating resource:', error);
   });
 
+}
+
+function patchTask(id){
+  // uses id of selected task to patch that task
 }
