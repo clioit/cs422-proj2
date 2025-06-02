@@ -262,7 +262,7 @@ class OrganizationResource(Resource):
         else:
             abort(403, "The current user is not authorized to edit this organization.")
     
-    def delete(self, org_id:str):
+    def delete(self, org_id: str):
         """Delete an organization."""
         org, is_manager = get_assured_org(org_id)
         if is_manager:
@@ -294,6 +294,7 @@ class OrganizationInviteResource(Resource):
             return {"success": True}
         else:
             abort(400, "The current user already manages this organization.")
+
 
 class OrganizationUserList(Resource):
 
@@ -394,6 +395,3 @@ class TaskResource(Resource):
             return {"success": True}
         else:
             abort(403, "The current user is not authorized to delete this task.")
-
-
-
