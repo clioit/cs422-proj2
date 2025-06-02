@@ -1,5 +1,5 @@
 /*
-Functions for event editor functionality. Inlcudes getting form inputs and saving.
+Functions for event editor functionality. Includes getting form inputs and saving.
 Created for CS 422 Project 2: ETA in Spring 2025.
 
 Authors: Claire Cody, Clio Tsao, Evelyn Orozco
