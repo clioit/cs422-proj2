@@ -66,7 +66,7 @@ def get_user_dict(userlist) -> dict:
     return user_dict
 
 
-def get_org_qr(org_id: str):
+def get_manager_qr(org_id: str):
     org = Organization.objects(id=org_id).first()
 
     org_id = org.id
@@ -79,6 +79,18 @@ def get_org_qr(org_id: str):
 
     return img.to_string(encoding='unicode')
 
+def get_user_qr(org_id: str):
+    org = Organization.objects(id=org_id).first()
+
+    org_id = org.id
+    org_token = org.join_token
+
+    qr = qrcode.QRCode(image_factory=qrcode.image.svg.SvgPathFillImage)
+    qr.add_data(f'http://localhost:5001/dashboard/{org_id}')
+    qr.make(fit=True)
+    img = qr.make_image(fill_color="black", back_color="white")
+
+    return img.to_string(encoding='unicode')
 
 def event_to_ical(event: Event) -> CalEvent:
     return CalEvent(
