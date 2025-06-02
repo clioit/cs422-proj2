@@ -1,6 +1,6 @@
 from ics import Event as CalEvent, Organizer, Todo
 
-from backend.db_models import Event, Organization, Task
+from backend.db_models import Event, Organization, Task, User
 from backend.resources import DATETIME_FMT
 
 
@@ -54,6 +54,14 @@ def get_task_dict(task: Task) -> dict:
         "due_date": str(task.due_date),
         "completed": task.completed
     }
+
+def get_user_dict(userlist) -> dict:
+    user_dict = {}
+
+    for user in userlist:
+        user_dict.update({str(user.id) : user.username})
+
+    return user_dict
 
 
 def event_to_ical(event: Event) -> CalEvent:
