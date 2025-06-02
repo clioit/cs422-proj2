@@ -9,15 +9,18 @@ Last modified: 06/01/2025
 // let org_id;
 let go = false;
 let colors  = [];
+let taskList = [];
 let PRIMARY;
 let SECONDARY;
 let TERTIARY;
 const primaries = document.querySelectorAll(`.primary`);
 const secondaries = document.querySelectorAll(`.secondary`);
 const tertiaries = document.querySelectorAll(`.tertiary`);
+//let EventList;
 
 
-window.onload = async function getOrg() {
+window.onload = 
+ async function getOrg() {
   // get organization id
   //
 
@@ -32,8 +35,8 @@ window.onload = async function getOrg() {
     })
     .then((data) => {
       data.forEach((org) => {
-        // org_id = org.id;
-        // console.log(org_id);
+      //   org_id = org.id;
+      //   console.log(org_id);
         colors = org.color_scheme;
       });
       PRIMARY = colors[0];
@@ -47,6 +50,7 @@ window.onload = async function getOrg() {
       document.documentElement.style.setProperty("--tertiary-color", TERTIARY);
       console.log(colors);
       loadEvents();
+      
       return;
     });
 }
@@ -54,6 +58,7 @@ window.onload = async function getOrg() {
 async function loadEvents() {
   //loads live events into EventList
   EventList = [];
+  taskList = [];
   //getOrg();
   console.log(`running`);
   console.log(org_id);
@@ -69,33 +74,33 @@ async function loadEvents() {
     .then((data) => {
       let idx = 0;
       data.forEach((event) => {
-        loadTasks(event.id);
+        loadTasks(event.id)
         console.log(taskList);
         console.log(idx);
         console.log(taskList[idx]);
-        idx++;
-
+        })
+        data.forEach((event) => {
         EventList.push({
           title: event.title,
           id: event.id,
           description: event.description,
           start: event.start,
           end: event.end,
-          tasks: taskList,
+          tasks: null,
           info: event.info
         });
+        idx++;
+        
       });
       // scheduler();
       // taskManagerMain();
       // console.log(EventList);
       go = true;
-      // runMain();
       return;
     });
 }
-  // let taskList = [];
+
 async function loadTasks(i) {
-  taskList = [];
   console.log("org_id" + org_id);
   return fetch(`http://localhost:5001/orgs/${org_id}/events/${i}/tasks`)
     .then((response) =>{
@@ -107,9 +112,10 @@ async function loadTasks(i) {
       return response.json();}
     )
     .then((data) => {
+      let newList = [];
       data.forEach((task) => {
-        console.log(task);
-        taskList.push({
+        console.log(task); 
+        newList.push({
           id: task.id,
           title: task.title,
           description: task.description,
@@ -117,8 +123,11 @@ async function loadTasks(i) {
           assignee: task.assignee,
           done: task.completed
         });
+      console.log(newList);
+      taskList.push(newList);
       console.log(taskList);
       });
+    //  
       return;
     });
   // return taskLists[0];
@@ -135,16 +144,24 @@ async function getUser() {
 }
 getUser();
 
+
 function runMain() {
   console.log(`running` + EventList);
+  taskFill();
   taskManagerMain();
   EventList.sort((a, b) => a.tasks.length - b.tasks.length);
   EventList.sort((a, b) => a.start - b.start);
   scheduler();
 }
 
+function taskFill(){
+  console.log(`taskFill`)
+  for (let i = 0; i<EventList.length;i++){
+    EventList[i].tasks = taskList[i];
+  }
+}
+
 
  setTimeout(runMain, 300);
  
  setTimeout(setUser, 300);
-
