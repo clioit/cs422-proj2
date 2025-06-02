@@ -1,3 +1,11 @@
+/*
+Sets org theme colors for customization.
+Created for CS 422 Project 2: ETA in Spring 2025.
+
+Authors: Claire Cody
+Last modified: 06/02/2025
+*/
+
 let PRIMARY;
 let SECONDARY;
 let TERTIARY;
