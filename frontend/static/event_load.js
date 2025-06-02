@@ -35,6 +35,8 @@ async function loadEvents() {
   //loads live events into EventList
   EventList = [];
   //getOrg();
+  console.log(`running`);
+  console.log(org_id);
   return fetch(`http://localhost:5001/orgs/${org_id}/events`)
     .then((response) => {
       // if (!response.ok) {
