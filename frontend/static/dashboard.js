@@ -37,9 +37,7 @@ Last modified: 05/30/2025
 
 /** HARD CODED VALUES BEING USED IN PLACE OF BACKEND CONNECTION */
 
-const BROWN = `#ffffff`;
-const ORANGE = `#cccccc`;
-const WHITE = `#444444`;
+
 
 const now = new Date();
 const dateA = new Date(2025, 0, 25);
@@ -194,6 +192,8 @@ const taskLists = [
 // loadEvents();
 /************************ */
 
+
+
 function taskManagerMain() {
   // populates Event manager OSO (On-Screen Object)
   const eventManager = document.getElementById(`event-manager-zone`);
@@ -228,10 +228,11 @@ function taskManagerMain() {
     let taskCount = document.createElement("div");
     taskCount.id = `task-${i}`;
     taskCount.className = "task";
+    
 
     if (EventList[i].tasks.length == 0) {
       newEvent.style.textDecoration = `line-through`;
-
+      let showButton = null;
       //TODO
       // const done = document.createElement("div");
       // done.innerHTML = `All tasks complete`;
@@ -265,16 +266,18 @@ function taskManagerMain() {
         taskCount.appendChild(newTask);
       });
 
-      let showButton = document.createElement("button");
+      showButton = document.createElement("button");
       showButton.textContent = `↑↓`;
       showButton.id = `show-button`;
+      showButton.style.backgroundColor = PRIMARY;
       showButton.setAttribute("onclick", `taskFlip(${i})`);
-      taskArea.appendChild(showButton);
+
     }
     taskArea.appendChild(taskCount);
-    newEvent.appendChild(taskArea);
-    toEdit.appendChild(newEvent);
-    eventManager.appendChild(toEdit);
+    toEdit.appendChild(taskArea);
+    newEvent.appendChild(toEdit);
+    newEvent.appendChild(showButton);
+    eventManager.appendChild(newEvent);
   }
 }
 
@@ -420,14 +423,14 @@ function eventMaker(addMe) {
 
   console.log(newEvent);
 
-  // color assignments
+  // color assignments - 
   if (addMe.tasks.length > 2) {
-    newEvent.style.backgroundColor = BROWN;
+    newEvent.style.backgroundColor = PRIMARY;
   } else if (addMe.tasks.length > 1) {
-    newEvent.style.backgroundColor = ORANGE;
+    newEvent.style.backgroundColor = SECONDARY;
   } else if (addMe.tasks.length == 0) {
-    newEvent.style.backgroundColor = WHITE;
-    newEvent.style.color = BROWN;
+    newEvent.style.backgroundColor = TERTIARY;
+    newEvent.style.color = PRIMARY;
   }
   return newEvent;
 }

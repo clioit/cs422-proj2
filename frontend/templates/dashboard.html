@@ -11,6 +11,7 @@ Last modified: 06/01/2025 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Club Calendar: Dashboard</title>
     <link rel="stylesheet" href="../static/dashboard.css" />
+   
     <!-- <script>let EventList;</script> -->
   </head>
   <!-- <script>
@@ -161,7 +162,7 @@ Last modified: 06/01/2025 -->
         <div class="dash" id="dash">
           <!-- <div class="schedule" id="schedule">
                     SCHEDULE -->
-          <div id="schedule-zone" class="dash__schedule-zone"></div>
+          <div id="schedule-zone" class="dash__schedule-zone tertiary"></div>
           <!-- </div> -->
                  <!-- <div class="hide" id="edit-event">-->
                    
@@ -171,10 +172,10 @@ Last modified: 06/01/2025 -->
      <!--Event form for user input
 
       </div> -->
-          <div class="dash__event-manager" id="event-manager">
-            <div class="dash__event-manager--zone" id="event-manager-zone">
+          <div class="dash__event-manager tertiary" id="event-manager">
+            <div class="dash__event-manager--zone primary" id="event-manager-zone">
               <div class="btn">
-                <button class="taskToggle" onclick="allTaskToggle()">
+                <button class="taskToggle secondary" onclick="allTaskToggle()">
                   TOGGLE ALL
                 </button>
               </div>
@@ -182,8 +183,8 @@ Last modified: 06/01/2025 -->
           </div>
         </div>
         <div class="page-bottom">
-          <button class="add-event" onclick="newEvent()">ADD EVENT</button>
-          <button id="logout" class="current-user" onclick="logout()">
+          <button class="add-event secondary" onclick="newEvent()">ADD EVENT</button>
+          <button id="logout" class="current-user secondary" onclick="logout()">
             Logout: <strong id="user"></strong>
           </button>
         </div>
