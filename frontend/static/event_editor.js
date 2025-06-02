@@ -67,15 +67,19 @@ function postEvent(){
     // get inputs
     // THESE VARIABLES ARE CURRENTLY HARDCODED! GET IT FROM URL HANDLE WHEN UPDATED
     // const org_id = "683a2b2770c588a14a8ef926";
-    const dummy_start = "2025-05-30T12:00"
-    const dummy_end = "2025-05-30T16:00"
+    // const dummy_start = "2025-05-30T12:00"
+    // const dummy_end = "2025-05-30T16:00"
     const dummy_poc = "683a2b2770c588a14a8ef928"
     let publish = publishCheckbox.checked;
 
     const title = document.getElementById('title').value;
     const description = document.getElementById('description').value;
     const start = document.getElementById('start').value;
+    const startTime = document.getElementById('startTime').value;
+    console.log(start);
     const end = document.getElementById('end').value;
+    const endTime = document.getElementById('endTime').value;
+    console.log(end);
     const rsvp = document.getElementById('rsvpDetail').value;
     const contact = document.getElementById('contactDetail').value;
     const venue = document.getElementById('venueDetail').value;
@@ -93,8 +97,8 @@ function postEvent(){
       body: JSON.stringify({
         title: title,
         description: description,
-        start: dummy_start,
-        end: dummy_end,
+        start: start+"T"+startTime,
+        end: end+"T"+endTime,
         published: publish,
         info: {
           rsvp: rsvp,
