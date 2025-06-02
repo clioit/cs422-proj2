@@ -8,6 +8,7 @@ Last modified: 06/01/2025
 
 const task = document.getElementById("event_editor_container");
 let userArray = [];
+let taskArray = [];
 
 document.addEventListener("DOMContentLoaded", () => {
     const eventToggleButton = document.querySelector('.dropdown-toggle');
@@ -17,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const publishCheckbox = document.getElementById('publishCheckbox');
     const submitButton = document.getElementById('submitButton');
     const eventForm = document.getElementById('eventForm');
+    const saveTaskButton = document.getElementById('saveTaskBtn');
     loadPeople();
 
   // Toggle Event Details
@@ -44,6 +46,44 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  if (saveTaskButton) {
+    saveTaskButton.addEventListener('click', function() {
+      const task_id = document.getElementById('taskDropdown').value;
+      console.log(task_id);
+      const task_title = document.getElementById('task-title').value;
+      console.log(task_title);
+      const due_date = document.getElementById('due-date').value;
+      console.log(due_date);
+      const task_description = document.getElementById('newTask').value;
+      console.log(newTask);
+      const task_msg = document.getElementById('tsk-msg');
+      console.log(task_msg);
+
+      // if it is a new task (indicated by "Create New Task" selection),       
+      // if (task_id== '') {
+        // get task fields and save in json format
+        console.log("saving new task...");
+        let tsk = JSON.stringify({
+          title: task_title,
+          description: task_description,
+          due_date: due_date+"T22:00",
+        })
+
+        // add it to an array for saving with event later
+        taskArray.push(tsk);
+        console.log(taskArray);
+        task_msg.textContent = "Task "+taskArray.length+" saved.";
+
+        // populate dropdown with the event
+
+      // }
+      // else {
+      //   // get task fields and update the correct item in the array
+      //   return
+      // } 
+    })
+  }
+
   //Handle form submission (placeholder for now)
   if (eventForm) {
     eventForm.addEventListener('submit', (e) => {
@@ -67,7 +107,7 @@ function postEvent(){
     console.log("saving new event...");
     // postEvent adds a new event to the database
     // get inputs
-    // THESE VARIABLES ARE CURRENTLY HARDCODED! GET IT FROM URL HANDLE WHEN UPDATED
+    // DUMMY VARIABLES ARE HARDCODED and for testing only
     // const org_id = "683a2b2770c588a14a8ef926";
     // const dummy_start = "2025-05-30T12:00"
     // const dummy_end = "2025-05-30T16:00"
@@ -102,6 +142,7 @@ function postEvent(){
         start: start+"T"+startTime,
         end: end+"T"+endTime,
         published: publish,
+        tasks: taskArray,
         info: {
           rsvp: rsvp,
           venue: venue,
@@ -127,7 +168,7 @@ function postEvent(){
     .then(result => {
       if (result.status === 201) {
         message.textContent = result.body.message;
-        window.location.reload();
+        // window.location.reload();
       } else {
         message.textContent = result.body.message || 'Add event failed.';
       }

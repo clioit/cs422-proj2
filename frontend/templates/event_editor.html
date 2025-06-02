@@ -97,18 +97,29 @@ Last modified: 06/1/2025 -->
         <div class="task-content hidden">
           <label for="taskDropdown">Select a Task:</label>
           <select id="taskDropdown" name="taskDropdown">
-            <option value="">Select a task</option>
-            <option value="task1">Task 1</option>
-            <option value="task2">Task 2</option>
-            <option value="new">Create New Task</option>
+            <option id ="no-select-task" value="">Create New Task</option>
           </select>  
 
-  <!-- Task description box -->
+        <!-- Task title -->
+          <div class="task-title">
+            <label for="title">Task Title:</label>
+            <input class="task-title" type="text" id="task-title" name="task-title" />
+          </div> 
+        <!-- Task description box -->
           <div id="newTaskContainer" class="hidden">
             <label for="newTask">Task Description:</label>
             <textarea id="newTask" name="newTask" class="description-box" placeholder="Describe the task..."></textarea>
-  <!-- Save taks button -->
-            <button type = "button" class="save-task" onclick="addTask()">Save Task</button>
+ 
+        <!-- Task due date -->
+          <div class="task-due-date">
+            <label for="end">Due Date:</label>
+            <input class="due-date" type="date" id="due-date" name="due-date" />
+          </div>  
+ 
+            <!-- Save task button -->
+            <button id="saveTaskBtn" type = "button" class="save-task">Save Task</button>
+            <p id="tsk-msg"></p>
+
         </div>
       </div>  
 
