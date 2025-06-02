@@ -15,13 +15,21 @@ def get_current_user() -> User:
     return User.objects(username=get_username()).first()
 
 
-def get_assured_event(org_id: str, event_id: str) -> Event:
+def get_assured_org(org_id: str) -> tuple[Organization, bool]:
+    """Get an organization from the database."""
+    org = Organization.objects(id=org_id).first()
+    if org is None:
+        abort(404, "Organization not found.")
+    this_user = get_current_user()
+    is_manager = is_logged_in() and this_user in org.managers and org in this_user.orgs
+    return org, is_manager
+
+
+def get_assured_event(org_id: str, event_id: str) -> tuple[Event, bool]:
     """Get an event from the database, assuring that it's associated
     with an organization the current user manages."""
 
-    org = get_assured_org(org_id)
-    this_user = get_current_user()
-    is_manager = is_logged_in() and this_user in org.managers and org in this_user.orgs
+    org, is_manager = get_assured_org(org_id)
 
     if is_manager:
         event = Event.objects(id=event_id).first()
@@ -29,17 +37,9 @@ def get_assured_event(org_id: str, event_id: str) -> Event:
         event = Event.objects(id=event_id, published=True).first()
 
     if event is not None and event in org.events and event.org == org:
-        return event
+        return event, is_manager
     else:
         abort(404, "Event not found.")
-
-
-def get_assured_org(org_id: str) -> Organization:
-    """Get an organization from the database."""
-    org = Organization.objects(id=org_id).first()
-    if org is None:
-        abort(404, "Organization not found.")
-    return org
 
 
 class UserResource(Resource):
@@ -96,12 +96,12 @@ class EventResource(Resource):
 
     def get(self, org_id: str, event_id: str):
         """Get an event by its ID."""
-        event = get_assured_event(org_id, event_id)
-        return get_event_dict(event)
+        event, is_manager = get_assured_event(org_id, event_id)
+        return get_event_dict(event, is_manager)
 
     def patch(self, org_id: str, event_id: str):
         """Edit an event by its ID."""
-        event = get_assured_event(org_id, event_id)
+        event, is_manager = get_assured_event(org_id, event_id)
         req_obj = request.get_json()
         sent_fields = set(req_obj.keys())
         for key in ("title", "description", "published"):  # copy some fields directly
@@ -118,23 +118,26 @@ class EventResource(Resource):
                 if key in req_obj["info"]:
                     setattr(event.info, key, req_obj["info"][key])
         event.save()
-        return get_event_dict(event)
+        return get_event_dict(event, is_manager)
 
     def delete(self, org_id: str, event_id: str):
         """Delete an event by its ID."""
-        event = get_assured_event(org_id, event_id)
-        event.delete()
-        return {"success": True}
+        event, is_manager = get_assured_event(org_id, event_id)
+        if is_manager:
+            event.delete()
+            return {"success": True}
+        else:
+            abort(403, "The current user does not have permission to delete this event.")
 
 
 class EventCalendarResource(Resource):
 
     def get(self, org_id: str, event_id: str):
         """Gets a single event and its tasks as an iCalendar file."""
-        event = get_assured_event(org_id, event_id)
+        event, is_manager = get_assured_event(org_id, event_id)
 
         cal = Calendar(events=[event_to_ical(event)])
-        if is_logged_in():  # if the user is a manager (implied when logged in because the event is assured)
+        if is_manager:
             for task in event.tasks:
                 cal.todos.add(task_to_ical(task))
 
@@ -148,9 +151,8 @@ class EventList(Resource):
 
     def get(self, org_id: str):
         """Get a list of events for an organization."""
-        org = get_assured_org(org_id)
-        this_user = get_current_user()
-        is_manager = this_user in org.managers and org in this_user.orgs
+        org, is_manager = get_assured_org(org_id)
+
         if is_manager:
             event_list = org.events
         else:
@@ -159,8 +161,12 @@ class EventList(Resource):
 
     def post(self, org_id: str):
         """Create a new event."""
-        org = get_assured_org(org_id)
+        org, is_manager = get_assured_org(org_id)
         req_obj = request.get_json()
+
+        if not is_manager:
+            abort(403, "The current user is not authorized to create new events for this organization.")
+
         if {"title", "start", "end", "point_of_contact"}.issubset(req_obj.keys()):
             # TODO: assert that the point of contact is a manager of the org
             new_event = Event(
@@ -188,9 +194,7 @@ class EventListCalendarResource(Resource):
 
     def get(self, org_id: str):
         """Gets all of an org's events and tasks as an iCalendar file."""
-        org = get_assured_org(org_id)
-        this_user = get_current_user()
-        is_manager = this_user in org.managers and org in this_user.orgs
+        org, is_manager = get_assured_org(org_id)
 
         cal = Calendar()
         if is_manager:
@@ -238,16 +242,13 @@ class OrganizationResource(Resource):
 
     def get(self, org_id: str):
         """Gets an org from the database given an ID."""
-        org = get_assured_org(org_id)
-        this_user = get_current_user()
-        is_manager = is_logged_in() and this_user in org.managers and org in this_user.orgs
-        return get_org_dict(org, is_manager), 200
+        org, is_manager = get_assured_org(org_id)
+        return get_org_dict(org, is_manager)
 
     def patch(self, org_id: str):
         """Edit an organization given an ID."""
-        org = get_assured_org(org_id)
-        this_user = get_current_user()
-        if this_user in org.managers and org in this_user.orgs:
+        org, is_manager = get_assured_org(org_id)
+        if is_manager:
             req_obj = request.get_json()
             sent_fields = set(req_obj.keys())
             if "name" in sent_fields:
@@ -255,15 +256,14 @@ class OrganizationResource(Resource):
             if "description" in sent_fields:
                 org.description = req_obj["description"]
             org.save()
-            return get_org_dict(org, is_manager=True), 200
+            return get_org_dict(org, is_manager=True)
         else:
             abort(403, "The current user is not authorized to edit this organization.")
     
     def delete(self, org_id:str):
         """Delete an organization."""
-        org = get_assured_org(org_id)
-        this_user = get_current_user()
-        if this_user in org.managers and org in this_user.orgs:
+        org, is_manager = get_assured_org(org_id)
+        if is_manager:
             org.delete()
             return {"success": True}
         else:
@@ -299,15 +299,20 @@ class TaskList(Resource):
 
     def get(self, org_id, event_id):
         """Retrieves all tasks under an event."""
-        event = get_assured_event(org_id, event_id)
-        if event is None:
-            abort(404, "No event found")
-        return [get_task_dict(task) for task in event.tasks]
+        event, is_manager = get_assured_event(org_id, event_id)
+
+        if is_manager:
+            return [get_task_dict(task) for task in event.tasks]
+        else:
+            abort(403, "The current user is not authorized to retrieve tasks for this event.")
     
     def post(self, org_id, event_id):
         """Creates a new task."""
-        event = get_assured_event(org_id, event_id)
+        event, is_manager = get_assured_event(org_id, event_id)
         req_obj = request.get_json()
+
+        if not is_manager:
+            abort(403, "The current user is not authorized to create tasks for this event.")
 
         if {"title", "due_date"}.issubset(req_obj):
             new_task = Task(
@@ -344,10 +349,10 @@ class TaskResource(Resource):
 
     def patch(self, org_id: str, event_id: str, task_id: str):
         """Edits a task given its ID."""
-        org = get_assured_org(org_id)
+        org, is_manager = get_assured_org(org_id)
         task = self._get_assured_task(task_id)
-        this_user = get_current_user()
-        if this_user in org.managers and org in this_user.orgs:
+
+        if is_manager:
             req_obj = request.get_json()
             sent_fields = set(req_obj.keys())
             if "title" in sent_fields:
@@ -363,14 +368,13 @@ class TaskResource(Resource):
             task.save()
             return get_task_dict(task), 200
         else:
-            abort(403, "The current user is not authorized to edit this organization.")
+            abort(403, "The current user is not authorized to edit this task.")
 
     def delete(self, org_id: str, event_id: str, task_id: str):
         """Deletes a task."""
-        org = get_assured_org(org_id)
+        org, is_manager = get_assured_org(org_id)
         task = self._get_assured_task(task_id)
-        this_user = get_current_user()
-        if this_user in org.managers and org in this_user.orgs:
+        if is_manager:
             task.delete()
             return {"success": True}
         else:
