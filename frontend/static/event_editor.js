@@ -208,7 +208,7 @@ function postEvent(){
     .then(result => {
       if (result.status === 201) {
         message.textContent = 'New event saved!';
-        // window.location.reload();
+        setTimeout(() => window.location.replace(`http://localhost:5001/dashboard`), 1500);
       } else {
         message.textContent = result.body.message || 'Add event failed.';
       }
@@ -216,8 +216,6 @@ function postEvent(){
     .catch(error => {
       message.textContent = 'An error occurred: ' + error.message;
     });
-    // display success message and redirect
-    // setTimeout(() => window.location.replace(`http://localhost:5001/dashboard`), 1500);
   }
 
   else if (empty_fields.length > 0) {
