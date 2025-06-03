@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const detailsContent = document.querySelector('.details-content');
     const taskToggleButton = document.querySelector('.dropdown-task-toggle');
     const taskContent = document.querySelector('.task-content');
+    const taskDropdown = document.getElementById('taskDropdown');
     const publishCheckbox = document.getElementById('publishCheckbox');
     const submitButton = document.getElementById('submitButton');
     const eventForm = document.getElementById('eventForm');
@@ -46,6 +47,24 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Interactive task dropdown
+  if (taskDropdown) {
+    taskDropdown.addEventListener('change', () => {
+      const idx = document.getElementById('taskDropdown').value;
+      if (idx == '') {
+          document.getElementById('task-title').value = '';
+          document.getElementById('due-date').value = '';
+          document.getElementById('newTask').value = '';
+        }      
+        else {
+          let selectedTask = taskArray[idx];
+          document.getElementById('task-title').value = selectedTask.title;
+          document.getElementById('due-date').value = (selectedTask.due_date).slice(0, -6);
+          document.getElementById('newTask').value = selectedTask.description;
+        } 
+    });
+  }
+
   if (saveTaskButton) {
     saveTaskButton.addEventListener('click', function() {
       const task_id = document.getElementById('taskDropdown').value;
@@ -58,29 +77,51 @@ document.addEventListener("DOMContentLoaded", () => {
       console.log(newTask);
       const task_msg = document.getElementById('tsk-msg');
       console.log(task_msg);
+      
+      // if required fields are filled out,
+      if (task_title && due_date)
+        // if it is a new task (indicated by "Create New Task" selection),       
+        if (task_id== '') {
+          // get task fields and save in json format
+          console.log("saving new task...");
+          let tsk = {
+            title: task_title,
+            description: task_description,
+            due_date: due_date+"T22:00",
+          }
 
-      // if it is a new task (indicated by "Create New Task" selection),       
-      // if (task_id== '') {
-        // get task fields and save in json format
-        console.log("saving new task...");
-        let tsk = {
-          title: task_title,
-          description: task_description,
-          due_date: due_date+"T22:00",
-        }
+          // add it to an array for saving with event later
+          taskArray.push(tsk);
+          console.log(taskArray);
 
-        // add it to an array for saving with event later
-        taskArray.push(tsk);
-        console.log(taskArray);
-        task_msg.textContent = "Task "+taskArray.length+" saved.";
+          // clear inputs
+          document.getElementById('taskDropdown').value = '';
+          document.getElementById('task-title').value = '';
+          document.getElementById('due-date').value = '';
+          document.getElementById('newTask').value = '';
+          task_msg.textContent = "Task "+taskArray.length+" saved.";
 
-        // populate dropdown with the event
-
-      // }
-      // else {
-      //   // get task fields and update the correct item in the array
-      //   return
-      // } 
+          // populate dropdown with the event
+          let idx = taskArray.length - 1;
+          taskItem = document.createElement(`option`);
+          taskItem.textContent = taskArray[idx].title;
+          taskItem.value = idx;
+          taskDropdown.appendChild(taskItem);
+        }      
+        else {
+          // update the correct item in the array
+          taskArray[task_id] = {
+            title: task_title,
+            description: task_description,
+            due_date: due_date+"T22:00",
+          }
+          let taskNum =Number(task_id) + 1;
+          taskDropdown.options[taskNum].textContent = task_title;
+          task_msg.textContent = "Task "+taskNum+" updated.";
+        } 
+      else { // missing required fields
+        task_msg.textContent = "Task Title and Due Date are required fields for creating a task!";
+      }
     })
   }
 
@@ -88,8 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (eventForm) {
     eventForm.addEventListener('submit', (e) => {
       e.preventDefault();
-
-      console.log("Form submitted! (Just testing for now)");
+      // console.log("Form submitted! (Just testing for now)");
 
       //Gather form data to send to the backend
     });
@@ -167,7 +207,7 @@ function postEvent(){
     // handle result
     .then(result => {
       if (result.status === 201) {
-        message.textContent = result.body.message;
+        message.textContent = 'New event saved!';
         // window.location.reload();
       } else {
         message.textContent = result.body.message || 'Add event failed.';
@@ -177,7 +217,6 @@ function postEvent(){
       message.textContent = 'An error occurred: ' + error.message;
     });
     // display success message and redirect
-    message.textContent = 'New event saved!';
     // setTimeout(() => window.location.replace(`http://localhost:5001/dashboard`), 1500);
   }
 
