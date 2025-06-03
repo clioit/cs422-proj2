@@ -12,17 +12,6 @@ import uuid
 from mongoengine import *
 
 
-class Deadline(Document):
-    """A common deadline for users to use as a template for their tasks.
-    The deadline is computed by lead_time_days, which is the number of
-    days before the event that this task should be finished. An example
-    might be "Request surplus," which should be completed 2 weeks (14
-    days) ahead of the event."""
-    meta = {'collection': 'deadlines'}
-    title = StringField(required=True)
-    lead_time_days = IntField(required=True)
-
-
 class Task(Document):
     """A task involved in planning/hosting an event."""
     meta = {'collection': 'tasks'}

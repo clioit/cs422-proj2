@@ -182,6 +182,21 @@ class EventList(Resource):
                 new_event.description = req_obj["description"]
             if "info" in req_obj:
                 new_event.info = EventInfo(**req_obj["info"])
+            if "tasks" in req_obj:
+                for task in req_obj["tasks"]:
+                    if {"title", "due_date"}.issubset(task):
+                        new_task = Task(
+                            title=task["title"],
+                            due_date=datetime.strptime(task["due_date"], DATETIME_FMT)
+                        )
+                        if "description" in task:
+                            new_task.description = task["description"]
+                        if "assignee" in task:
+                            new_task.assignee = task["assignee"]
+                        new_task.save()
+                        new_event.tasks.append(new_task)
+                    else:
+                        abort(400, "Missing required fields: title, due_date")
             new_event.save()
             org.events.append(new_event)
             org.save()
