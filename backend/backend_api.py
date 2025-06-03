@@ -10,7 +10,7 @@ Last modified: 05/23/2025
 """
 
 from resources import *
-from util import get_org_qr
+from util import get_user_qr
 from db_seeder import seed_db
 from flask import Flask, render_template, redirect
 from flask_restful import Api
