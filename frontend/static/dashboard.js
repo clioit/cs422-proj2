@@ -37,9 +37,7 @@ Last modified: 05/30/2025
 
 /** HARD CODED VALUES BEING USED IN PLACE OF BACKEND CONNECTION */
 
-const BROWN = `#ffffff`;
-const ORANGE = `#cccccc`;
-const WHITE = `#444444`;
+
 
 const now = new Date();
 const dateA = new Date(2025, 0, 25);
@@ -194,6 +192,42 @@ const taskLists = [
 // loadEvents();
 /************************ */
 
+const addNewEvent = document.getElementById('addNewEvent');
+addNewEvent.addEventListener("click", function() {
+  // newEvent redirects the user to the event editor page.
+  window.location.replace(`http://localhost:5001/event_editor/${org_id}`);
+});
+ let orgs = [];
+window.onload = async function getOrgInfo() {
+  // get organization id
+  //
+
+  return fetch(`http://localhost:5001/orgs`)
+    .then((response) => {
+      // if (!response.ok) {
+      //   return response.json().then((errorData) => {
+      //     throw new Error(errorData.description || "Unknown error");
+      //   });
+      // }
+      return response.json();
+    })
+    .then((data) => {
+      data.forEach((org) => {
+        console.log(data);
+        orgs.push({
+          name: org.name,
+          description: org.description,
+          id: org.id,
+          colors: org.color_scheme,
+          join: org.join_token,
+        });
+      });
+      loadOrg();
+      return;
+    });
+}
+
+
 function taskManagerMain() {
   // populates Event manager OSO (On-Screen Object)
   const eventManager = document.getElementById(`event-manager-zone`);
@@ -203,7 +237,7 @@ function taskManagerMain() {
 
   for (let i = 0; i < EventList.length; i++) {
 
-
+ let showButton = null;
 
     // ADD ANCHOR POINT - calls navigation to editor
 
@@ -228,10 +262,10 @@ function taskManagerMain() {
     let taskCount = document.createElement("div");
     taskCount.id = `task-${i}`;
     taskCount.className = "task";
-
+    
+    // THIS NEEDS to be differENT criteria
     if (EventList[i].tasks.length == 0) {
-      newEvent.style.textDecoration = `line-through`;
-
+      newEvent.style.textDecoration = `line-through`;     
       //TODO
       // const done = document.createElement("div");
       // done.innerHTML = `All tasks complete`;
@@ -265,16 +299,19 @@ function taskManagerMain() {
         taskCount.appendChild(newTask);
       });
 
-      let showButton = document.createElement("button");
+      showButton = document.createElement("button");
       showButton.textContent = `↑↓`;
       showButton.id = `show-button`;
+      showButton.style.backgroundColor = PRIMARY;
       showButton.setAttribute("onclick", `taskFlip(${i})`);
-      taskArea.appendChild(showButton);
+      showButton.style.minWidth = `90%`;
+      newEvent.appendChild(showButton);
+
     }
     taskArea.appendChild(taskCount);
-    newEvent.appendChild(taskArea);
-    toEdit.appendChild(newEvent);
-    eventManager.appendChild(toEdit);
+    toEdit.appendChild(taskArea);
+    newEvent.appendChild(toEdit);
+    eventManager.appendChild(newEvent);
   }
 }
 
@@ -321,7 +358,8 @@ function scheduler() {
       let thisDate = EventList[i].start.toString().split(`T`);
       const currentDate = new Date().toISOString().split("T")[0];
       if (currentDate === thisDate[0]) {
-        newDate.textContent = `Today`;
+        console.log(`MEEE`);89
+        newDate.innerHTML = `Today`;
       } else {
         console.log(thisDate);
         thisDate = thisDate[0].split(`-`);
@@ -420,14 +458,15 @@ function eventMaker(addMe) {
 
   console.log(newEvent);
 
-  // color assignments
+  // color assignments - 
+  console.log(addMe.tasks);
   if (addMe.tasks.length > 2) {
-    newEvent.style.backgroundColor = BROWN;
+    newEvent.style.backgroundColor = PRIMARY;
   } else if (addMe.tasks.length > 1) {
-    newEvent.style.backgroundColor = ORANGE;
+    newEvent.style.backgroundColor = SECONDARY;
   } else if (addMe.tasks.length == 0) {
-    newEvent.style.backgroundColor = WHITE;
-    newEvent.style.color = BROWN;
+    newEvent.style.backgroundColor = TERTIARY;
+    newEvent.style.color = PRIMARY;
   }
   return newEvent;
 }
@@ -460,40 +499,9 @@ function allTaskToggle() {
   });
 }
 
-function newEvent() {
-  // newEvent redirects the user to the event editor page.
-  window.location.replace(`http://localhost:5001/event_editor/${org_id}`);
-}
 
-let orgs = [];
-window.onload = async function getOrgInfo() {
-  // get organization id
-  //
 
-  return fetch(`http://localhost:5001/orgs`)
-    .then((response) => {
-      // if (!response.ok) {
-      //   return response.json().then((errorData) => {
-      //     throw new Error(errorData.description || "Unknown error");
-      //   });
-      // }
-      return response.json();
-    })
-    .then((data) => {
-      data.forEach((org) => {
-        console.log(data);
-        orgs.push({
-          name: org.name,
-          description: org.description,
-          id: org.id,
-          colors: org.color_scheme,
-          join: org.join_token,
-        });
-      });
-      loadOrg();
-      return;
-    });
-}
+
 
 function loadOrg() {
   // console.log(org_id);
