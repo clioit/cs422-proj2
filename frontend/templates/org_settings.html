@@ -56,6 +56,9 @@ Last modified: 05/30/2025 -->
                 <div class="public__area"></div>
                 <button class="exec secondary"> Generate Executive Link</button>
                 <div class="exec__area"></div>
+                <header>Scan to join this organization</header>
+                <br>
+                <header>{{ qr_func(org_id) | safe }}</header>
             </div>
             
             </div> 

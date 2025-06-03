@@ -1,5 +1,7 @@
 from ics import Event as CalEvent, Organizer, Todo
+import qrcode, qrcode.constants
 
+import qrcode.image.svg
 from backend.db_models import Event, Organization, Task, User
 from backend.resources import DATETIME_FMT
 
@@ -55,13 +57,41 @@ def get_task_dict(task: Task) -> dict:
         "completed": task.completed
     }
 
+
 def get_user_dict(userlist) -> dict:
     user_dict = {}
 
     for user in userlist:
-        user_dict.update({str(user.id) : user.username})
-
+        user_dict.update({str(user.id): user.username})
     return user_dict
+
+
+def get_manager_qr(org_id: str):
+    org = Organization.objects(id=org_id).first()
+
+    org_id = org.id
+    org_token = org.join_token
+
+    qr = qrcode.QRCode(image_factory=qrcode.image.svg.SvgPathFillImage)
+    qr.add_data(f'http://localhost:5001/org/{org_id}/{org_token}')
+    qr.make(fit=True)
+    img = qr.make_image(fill_color="black", back_color="white")
+
+    return img.to_string(encoding='unicode')
+
+
+def get_user_qr(org_id: str):
+    org = Organization.objects(id=org_id).first()
+
+    org_id = org.id
+    org_token = org.join_token
+
+    qr = qrcode.QRCode(image_factory=qrcode.image.svg.SvgPathFillImage)
+    qr.add_data(f'http://localhost:5001/dashboard/{org_id}')
+    qr.make(fit=True)
+    img = qr.make_image(fill_color="black", back_color="white")
+
+    return img.to_string(encoding='unicode')
 
 
 def event_to_ical(event: Event) -> CalEvent:

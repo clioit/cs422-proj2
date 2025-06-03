@@ -3,3 +3,4 @@ mongoengine
 flask_simplelogin
 flask-restful
 ics
+qrcode
