@@ -63,11 +63,11 @@ document.addEventListener("DOMContentLoaded", () => {
       // if (task_id== '') {
         // get task fields and save in json format
         console.log("saving new task...");
-        let tsk = JSON.stringify({
+        let tsk = {
           title: task_title,
           description: task_description,
           due_date: due_date+"T22:00",
-        })
+        }
 
         // add it to an array for saving with event later
         taskArray.push(tsk);
