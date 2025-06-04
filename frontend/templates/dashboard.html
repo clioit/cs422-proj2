@@ -140,6 +140,9 @@ Last modified: 06/01/2025 -->
             <textarea id="newTask" name="newTask" class="description-box" placeholder="Describe the task..."></textarea>
           </div>
           <button class="taskUpdate" onclick="patchTask()">UPDATE TASK</button>
+          <label for="taskCheck">DONE!
+      <input type="checkbox" id="taskCheck" name="taskCheck" value = "true"/>
+      </label>
         </div>
       </div>  
 
@@ -164,10 +167,11 @@ Last modified: 06/01/2025 -->
     </div></form>
 
 
-
+<a href="../orgs/{{org_id}}/events.ics">click to add events to download events to calendar</a>
         <div class="dash" id="dash">
           <!-- <div class="schedule" id="schedule">
                     SCHEDULE -->
+                    
           <div id="schedule-zone" class="dash__schedule-zone tertiary">
 
           </div>
