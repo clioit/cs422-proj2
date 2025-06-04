@@ -3,7 +3,7 @@ Functions for dashboard functionality. Inlcudes populating main interface with t
 Created for CS 422 Project 2: ETA in Spring 2025.
 
 Authors: Claire Cody
-Last modified: 05/30/2025
+Last modified: 06/03/2025
 */
 
 /**
@@ -198,7 +198,7 @@ addNewEvent.addEventListener("click", function() {
   window.location.replace(`http://localhost:5001/event_editor/${org_id}`);
 });
  let orgs = [];
-window.onload = async function getOrgInfo() {
+async function getOrgInfo() {
   // get organization id
   //
 
@@ -222,14 +222,15 @@ window.onload = async function getOrgInfo() {
           join: org.join_token,
         });
       });
-      loadOrg();
+      // loadOrg();
       return;
     });
 }
 
-
-function taskManagerMain() {
+// 
+async function taskManagerMain() {
   // populates Event manager OSO (On-Screen Object)
+  // await loadEvents();
   const eventManager = document.getElementById(`event-manager-zone`);
   console.log(eventManager);
   EventList.sort((a, b) => a.start - b.start);
@@ -286,10 +287,11 @@ function taskManagerMain() {
         taskDesc.className = `task__info--desc`;
         newTask.appendChild(taskDesc);
 
-        const taskAss = document.createElement("p");
-        taskAss.innerHTML = task.assignee;
-        taskAss.className = `task__info--ass`;
-        newTask.appendChild(taskAss);
+        // const taskAss = document.createElement("p");
+        // taskAss.innerHTML = task.assignee;
+        // taskAss.className = `task__info--ass`;
+        // newTask.appendChild(taskAss);
+
 
         // OTHER ATTRIBUTE GO HERE
 
@@ -316,13 +318,17 @@ function taskManagerMain() {
 }
 
 // taskManagerMain();
-// EventList.sort((a, b) => a.tasks.length - b.tasks.length);
-// EventList.sort((a, b) => a.start - b.start);
+
 
 function scheduler() {
   /** This function utilizes eventMaker() to populate schedule side with OSO for
    * events sorted by their dates
    */
+
+  console.log(EventList);
+  EventList.sort((a, b) => a.tasks.length - b.tasks.length);
+EventList.sort((a, b) => new Date(a.start) - new Date(b.start));
+console.log(EventList);
 
   /** TO DO : add TIMES */
   console.log(`here`);
@@ -340,6 +346,12 @@ function scheduler() {
     `November`,
     `December`,
   ];
+
+    let cal = document.createElement("a");
+    cal.addEventListener("click", function () {
+      fetch(`http://localhost:5001/orgs/${org_id}/events.ice`);
+    });
+
   const schedule = document.getElementById("schedule-zone");
   console.log(schedule);
 
@@ -358,8 +370,8 @@ function scheduler() {
       let thisDate = EventList[i].start.toString().split(`T`);
       const currentDate = new Date().toISOString().split("T")[0];
       if (currentDate === thisDate[0]) {
-        console.log(`MEEE`);89
-        newDate.innerHTML = `Today`;
+        console.log(`MEEE`);
+        newDate.textContent = `Today`;
       } else {
         console.log(thisDate);
         thisDate = thisDate[0].split(`-`);
@@ -403,12 +415,27 @@ function scheduler() {
       //under new day
       newDate = document.createElement("div");
       newDate.className = "top-date";
-      let thisDate = EventList[i].start.toString().split(`T`);
-      console.log(thisDate);
-      thisDate = thisDate[0].split(`-`);
-      console.log(thisDate);
+           let thisDate = EventList[i].start.toString().split(`T`);
+      const currentDate = new Date().toISOString().split("T")[0];
+      if (currentDate === thisDate[0]) {
+        console.log(`MEEE`);
+        newDate.textContent = `Today`;
+      } else {
+        console.log(thisDate);
+        thisDate = thisDate[0].split(`-`);
+        console.log(thisDate);
 
-      thisDate = [parseInt(thisDate[1], 10) - 1, thisDate[2], thisDate[0]];
+        thisDate = [parseInt(thisDate[1], 10) - 1, thisDate[2], thisDate[0]];
+        console.log(thisDate);
+        thisDate = [
+          months[thisDate[0]],
+          ` `,
+          thisDate[1],
+          `, `,
+          thisDate[2],
+        ].join(``);
+        newDate.textContent = thisDate;
+      }
       newDate.style.fontWeight = 700;
       newDate.style.textAlign = `left`;
       console.log(newDate);
@@ -443,7 +470,7 @@ function eventMaker(addMe) {
   //creating Title
   const eventTitle = document.createElement("h4");
   eventTitle.className = `event-obj__title`;
-  eventTitle.innerHTML = addMe.title;
+  eventTitle.innerHTML = addMe.title + ` @ ` + addMe.start.toString().split(`T`)[1];
   eventTitle.style.textAlign = `left`;
   //adding Title to event object
   newEvent.appendChild(eventTitle);
@@ -460,9 +487,9 @@ function eventMaker(addMe) {
 
   // color assignments - 
   console.log(addMe.tasks);
-  if (addMe.tasks.length > 2) {
+  if (addMe.tasks.length >= 2) {
     newEvent.style.backgroundColor = PRIMARY;
-  } else if (addMe.tasks.length > 1) {
+  } else if (addMe.tasks.length >= 1) {
     newEvent.style.backgroundColor = SECONDARY;
   } else if (addMe.tasks.length == 0) {
     newEvent.style.backgroundColor = TERTIARY;
@@ -504,9 +531,11 @@ function allTaskToggle() {
 
 
 function loadOrg() {
-  // console.log(org_id);
-  document.getElementById("name").value = orgs[0].name;
+   console.log(orgs[0].name);
+  
+  document.getElementById("name").innerHTML = orgs[0].name;
 }
+
 
 function setUser() {
   console.log(user);
@@ -519,3 +548,5 @@ function logout(){
   console.log("logging out...")
   window.location.replace(`http://localhost:5001/logout`);
 }
+
+//loadOrg();

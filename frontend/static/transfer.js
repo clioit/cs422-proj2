@@ -113,6 +113,37 @@ fetch(url, {
 
 }
 
-function patchTask(id){
+function patchTask(){
   // uses id of selected task to patch that task
+  let selectValue = document.getElementById('taskDropdown')
+  let desc = document.getElementById(`newTask`);
+const taskID = selectValue.options[selectValue.selectedIndex].id;
+
+
+  const url = `http://localhost:5001/orgs/${org_id}/events/${thisEvent.id}/tasks/${taskID}`; // Replace with your API endpoint
+const data = {
+        description: desc.value,
+};
+
+fetch(url, {
+  method: 'PATCH',
+  headers: {
+    'Content-Type': 'application/json', // Specify JSON format
+    // 'Authorization': 'Bearer YOUR_ACCESS_TOKEN' // Optional: Add auth if required
+  },
+  body: JSON.stringify(data) // Convert data to JSON string
+})
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json(); // Parse JSON response
+  })
+  .then(updatedResource => {
+    console.log('Resource updated successfully:', updatedResource);
+  })
+  .catch(error => {
+    console.error('Error updating resource:', error);
+  });
+
 }
