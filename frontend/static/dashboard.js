@@ -233,11 +233,11 @@ async function taskManagerMain() {
   // await loadEvents();
   const eventManager = document.getElementById(`event-manager-zone`);
   console.log(eventManager);
-  EventList.sort((a, b) => a.start - b.start);
+  EventList.sort((a, b) => new Date(a.start) - new Date(b.start));
   EventList.sort((a, b) => b.tasks.length - a.tasks.length);
 
   for (let i = 0; i < EventList.length; i++) {
-
+   
  let showButton = null;
 
     // ADD ANCHOR POINT - calls navigation to editor
@@ -248,10 +248,12 @@ async function taskManagerMain() {
       editor.classList.toggle(`hide`);
       document.getElementById(`dash`).classList.toggle(`hide`);
       document.getElementById(`eventForm`).classList.toggle(`hide`);
+       console.log(`here` + EventList[i]);
       // document.getElementById('event-manager-zone').classList.toggle(`hide`);
-      console.log(editor.childNodes);
+      // console.log(editor.childNodes);
       // editor.children.forEach(child => child.style.zIndex= `30`);
       // document.getElementById(`${task.id}`).style.border = `dashed 2px black`;
+      // console.log(EventList[i]);
       atEditor(EventList[i]);
     });
 
@@ -393,16 +395,16 @@ console.log(EventList);
       console.log(newDate);
 
       schedule.appendChild(newDate);
-      currDate = EventList[i].start;
+      currDate = EventList[i].start.split(`T`)[0];
       console.log(EventList[i]);
 
       let newEvent = eventMaker(EventList[i]);
       newDate.appendChild(newEvent);
-      currDate = EventList[i].start;
+      currDate = EventList[i].start.split(`T`)[0];
       if (EventList[i].tasks.length == 0) {
         newEvent.style.border = `solid 1px white`;
       }
-    } else if (currDate === EventList[i].start) {
+    } else if (currDate === EventList[i].start.split(`T`)[0]) {
       //under same day
       console.log(newDate);
       let newEvent = eventMaker(EventList[i]);
@@ -411,16 +413,13 @@ console.log(EventList);
       if (EventList[i].tasks.length == 0) {
         newEvent.style.border = `solid 1px white`;
       }
+      currDate = EventList[i].start.split(`T`)[0];
     } else {
       //under new day
       newDate = document.createElement("div");
       newDate.className = "top-date";
            let thisDate = EventList[i].start.toString().split(`T`);
-      const currentDate = new Date().toISOString().split("T")[0];
-      if (currentDate === thisDate[0]) {
-        console.log(`MEEE`);
-        newDate.textContent = `Today`;
-      } else {
+
         console.log(thisDate);
         thisDate = thisDate[0].split(`-`);
         console.log(thisDate);
@@ -435,7 +434,7 @@ console.log(EventList);
           thisDate[2],
         ].join(``);
         newDate.textContent = thisDate;
-      }
+      // }
       newDate.style.fontWeight = 700;
       newDate.style.textAlign = `left`;
       console.log(newDate);
@@ -445,13 +444,16 @@ console.log(EventList);
       console.log(EventList[i]);
 
       newEvent = eventMaker(EventList[i]);
-      const myAnchor = document.createElement("a");
+      // const myAnchor = document.createElement("a");
 
       // if (EventList[i].tasks.length == 0) {
       //   newEvent.style.border = `solid 1px white`;
       // }
       newDate.appendChild(newEvent);
-      currDate = EventList[i].start;
+      currDate = EventList[i].start.split(`T`)[0];
+            if (EventList[i].tasks.length == 0) {
+        newEvent.style.border = `solid 1px white`;
+      }
     }
   }
 }

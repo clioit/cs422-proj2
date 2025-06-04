@@ -138,11 +138,10 @@ async function loadTasks(i) {
           assignee: task.assignee,
           done: task.completed
         });
-      console.log(newList);
+      });
+      console.log(newList + `!!!`);
       taskList.push(newList);
       console.log(taskList);
-      });
-    //  
       return;
     });
   // return taskLists[0];

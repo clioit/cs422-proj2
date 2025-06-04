@@ -23,6 +23,7 @@ async function atEditor(idx){
      console.log('running');
     // await loadEventsEdit();
     thisEvent = idx;
+    console.log(thisEvent);
 
     let top = thisEvent.start.split('T');
     let bottom = thisEvent.end.split(`T`);
@@ -117,12 +118,15 @@ function patchTask(){
   // uses id of selected task to patch that task
   let selectValue = document.getElementById('taskDropdown')
   let desc = document.getElementById(`newTask`);
-const taskID = selectValue.options[selectValue.selectedIndex].id;
+let taskID = selectValue.options[selectValue.selectedIndex].id;
+let check = document.getElementById(`taskCheck`).value;
+console.log(check);
 
 
   const url = `http://localhost:5001/orgs/${org_id}/events/${thisEvent.id}/tasks/${taskID}`; // Replace with your API endpoint
 const data = {
         description: desc.value,
+        completed: check
 };
 
 fetch(url, {
