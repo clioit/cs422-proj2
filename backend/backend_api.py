@@ -85,9 +85,9 @@ def edit_event(org_id: str):
     return render_template('event_editor.html', org_id=org_id)
 
 
-@app.route("/org_settings")
-def org_settings():
-    return render_template('org_settings.html', qr_func=get_manager_qr)
+@app.route("/org_settings/<org_id>")
+def org_settings(org_id: str):
+    return render_template('org_settings.html', org_id=org_id, qr_func=get_manager_qr)
 
 
 if __name__ == '__main__':
