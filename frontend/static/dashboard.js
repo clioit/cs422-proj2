@@ -284,10 +284,14 @@ async function taskManagerMain() {
         taskDesc.className = `task__info--desc`;
         newTask.appendChild(taskDesc);
 
-        // const taskAss = document.createElement("p");
-        // taskAss.innerHTML = task.assignee;
-        // taskAss.className = `task__info--ass`;
-        // newTask.appendChild(taskAss);
+        const taskAss = document.createElement("p");
+        let thisDate = task.due_date.split(' ')[0].split('-');
+
+        thisDate = [parseInt(thisDate[1], 10) - 1, thisDate[2], thisDate[0]];
+        taskAss.innerHTML = thisDate.join('-');
+        taskAss.className = `task__info--ass`;
+        taskAss.style.fontWeight = `700`;
+        newTask.appendChild(taskAss);
 
         // OTHER ATTRIBUTE GO HERE
 
