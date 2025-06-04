@@ -328,8 +328,8 @@ function scheduler() {
    */
 
   console.log(EventList);
-  EventList.sort((a, b) => a.tasks.length - b.tasks.length);
-EventList.sort((a, b) => new Date(a.start) - new Date(b.start));
+//   EventList.sort((a, b) => a.tasks.length - b.tasks.length);
+// EventList.sort((a, b) => new Date(a.start) - new Date(b.start));
 console.log(EventList);
 
   /** TO DO : add TIMES */
