@@ -11,6 +11,11 @@ Last modified: 06/01/2025 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Club Calendar: Dashboard</title>
     <link rel="stylesheet" href="../static/dashboard.css" />
+    <script> const org_id = "{{ org_id }}"; </script>
+        <script src="../static/user_load.js"></script>
+    <script src="../static/event_load.js">
+      </script>
+    <script>loadEvents();</script>
    
     <!-- <script>let EventList;</script> -->
   </head>
@@ -44,8 +49,8 @@ Last modified: 06/01/2025 -->
   <body>
     <main>
       <div class="container">
-        <a href="../org_settings" class="organization__name">
-          <h1 class="organization__name" id="name">Chess Club</h1></a
+        <a href="../org_settings/{{ org_id }}" class="organization__name">
+          <h1 class="organization__name" id="name"></h1></a
         >
             <form id="eventForm" class="hide">
               <link rel="stylesheet" href="../static/event_editor.css">
@@ -134,6 +139,7 @@ Last modified: 06/01/2025 -->
             <label for="newTask">Task Description:</label>
             <textarea id="newTask" name="newTask" class="description-box" placeholder="Describe the task..."></textarea>
           </div>
+          <button class="taskUpdate" onclick="patchTask()">UPDATE TASK</button>
         </div>
       </div>  
 
@@ -162,7 +168,9 @@ Last modified: 06/01/2025 -->
         <div class="dash" id="dash">
           <!-- <div class="schedule" id="schedule">
                     SCHEDULE -->
-          <div id="schedule-zone" class="dash__schedule-zone tertiary"></div>
+          <div id="schedule-zone" class="dash__schedule-zone tertiary">
+
+          </div>
           <!-- </div> -->
                  <!-- <div class="hide" id="edit-event">-->
                    
@@ -191,13 +199,20 @@ Last modified: 06/01/2025 -->
       
 
       </div>
-        <script> const org_id = "{{ org_id }}"; </script>
-        <script src="../static/user_load.js"></script>
+        
       <script src="../static/dashboard.js">
       </script>
             <script src="../static/transfer.js">
       </script>
-                <script src="../static/event_load.js">
+      <script src="../static/runTime.js"></script>
+                
+      <script>
+        //  setTimeout(runMain, 300);
+ 
+        // setTimeout(setUser, 300);
+        // let EventList;
+        // runMain();
+        // setUser();
       </script>
 
 

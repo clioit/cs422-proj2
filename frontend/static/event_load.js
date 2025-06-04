@@ -16,10 +16,10 @@ let TERTIARY;
 const primaries = document.querySelectorAll(`.primary`);
 const secondaries = document.querySelectorAll(`.secondary`);
 const tertiaries = document.querySelectorAll(`.tertiary`);
-//let EventList;
+let EventList;
 
 
-window.onload = 
+// window.onload = 
  async function getOrg() {
   // get organization id
   //
@@ -49,16 +49,24 @@ window.onload =
       document.documentElement.style.setProperty("--secondary-color", SECONDARY);
       document.documentElement.style.setProperty("--tertiary-color", TERTIARY);
       console.log(colors);
-      loadEvents();
+      // setUp();
       
       return;
     });
+}
+// getOrg();
+
+async function setUp(){
+  // await loadEvents();
+  setTimeout(runMain, 300);
+  setUser();
+
 }
 
 async function loadEvents() {
   //loads live events into EventList
   EventList = [];
-  taskList = [];
+  // taskList = [];
   //getOrg();
   console.log(`running`);
   console.log(org_id);
@@ -72,13 +80,15 @@ async function loadEvents() {
       return response.json();
     })
     .then((data) => {
-      let idx = 0;
-      data.forEach((event) => {
-        loadTasks(event.id)
-        console.log(taskList);
-        console.log(idx);
-        console.log(taskList[idx]);
-        })
+      // let idx = 0;
+      taskList = [];
+      // data.forEach((event) => {
+      //   loadTasks(event.id);
+      //   console.log(taskList);
+      //   console.log(idx);
+      //   console.log(taskList[idx]);
+      //   idx++;
+      //   })
         data.forEach((event) => {
         EventList.push({
           title: event.title,
@@ -89,19 +99,24 @@ async function loadEvents() {
           tasks: null,
           info: event.info
         });
-        idx++;
+        
         
       });
       // scheduler();
       // taskManagerMain();
       // console.log(EventList);
+      // taskFill();
+      // runMain();
+      // setUser();
       go = true;
       return;
     });
 }
 
+
 async function loadTasks(i) {
   console.log("org_id" + org_id);
+  console.log(`loading tasks  ` + taskList);
   return fetch(`http://localhost:5001/orgs/${org_id}/events/${i}/tasks`)
     .then((response) =>{
       // if (!response.ok) {
@@ -142,7 +157,7 @@ async function getUser() {
       console.log(`user ` + user);
     });
 }
-getUser();
+//getUser();
 
 
 function runMain() {
@@ -154,14 +169,17 @@ function runMain() {
   scheduler();
 }
 
-function taskFill(){
+async function taskFill(){
+
   console.log(`taskFill`)
+  console.log(taskList);
   for (let i = 0; i<EventList.length;i++){
-    EventList[i].tasks = taskList[i];
+    await loadTasks(EventList[i].id);
+     EventList[i].tasks = taskList[i];
   }
 }
 
 
- setTimeout(runMain, 300);
+//  setTimeout(runMain, 300);
  
- setTimeout(setUser, 300);
+//  setTimeout(setUser, 300);
