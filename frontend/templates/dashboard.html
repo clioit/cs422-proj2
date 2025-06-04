@@ -50,8 +50,8 @@ Last modified: 06/01/2025 -->
     <main>
       <div class="container">
         <a href="../org_settings/{{ org_id }}" class="organization__name">
-          <h1 class="organization__name" id="name"></h1></a
-        >
+          <h1 class="organization__name" id="name"></h1></a>
+          <h3 class="organization__description" id="orgDesc"></h3>
             <form id="eventForm" class="hide">
               <link rel="stylesheet" href="../static/event_editor.css">
               <script src="../static/event_editor.js"></script>
@@ -178,7 +178,7 @@ Last modified: 06/01/2025 -->
     </div></form>
 
 
-<a href="../orgs/{{org_id}}/events.ics">click to add events to download events to calendar</a>
+<a class="download" href="../orgs/{{org_id}}/events.ics">click to download events to calendar</a>
         <div class="dash" id="dash">
           <!-- <div class="schedule" id="schedule">
                     SCHEDULE -->
