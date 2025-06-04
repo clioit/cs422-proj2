@@ -16,6 +16,7 @@ Last modified: 06/01/2025
     const contact = document.getElementById(`contactDetail`);
     const venue = document.getElementById(`venueDetail`);
     const budget = document.getElementById(`budgetDetail`);
+    const due = document.getElementById(`due-date`);
 
 let thisEvent;
 async function atEditor(idx){
@@ -45,21 +46,23 @@ async function atEditor(idx){
 
 function loadTaskSelect(tasks){
   const taskSelect = document.getElementById('taskDropdown');
-
+  let idx = 0;
   tasks.forEach(task =>{
     newTask = document.createElement(`option`);
     newTask.textContent = task.title;
-    newTask.value = task.description;
+    newTask.value = idx;
     newTask.id = task.id;
     taskSelect.appendChild(newTask);
+    idx++
   })
 }
 
-function loadTask(){
-  const taskSelect = document.getElementById(`taskDropdown`).value;
-  const descBox = document.getElementById('newTask');
-  descBox.value = taskSelect;
-}
+// function loadTask(){
+//   const taskSelect = document.getElementById(`taskDropdown`).value;
+//   const descBox = document.getElementById('newTask');
+//   descBox.value = taskSelect;
+//   console.log(taskArray);
+// }
 
 async function patchEvent(){
   
@@ -126,7 +129,10 @@ console.log(check);
   const url = `http://localhost:5001/orgs/${org_id}/events/${thisEvent.id}/tasks/${taskID}`; // Replace with your API endpoint
 const data = {
         description: desc.value,
-        completed: check
+        completed: check,
+        title: document.getElementById('task-title').value,
+        due_date: document.getElementById('due-date').value
+
 };
 
 fetch(url, {

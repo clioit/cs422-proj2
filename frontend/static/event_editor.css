@@ -105,7 +105,8 @@ button.add-event:hover,
 .dropdown-toggle:hover,
 .dropdown-task-toggle:hover {
   scale: 105%;
-  background-color: var(--secondary-color);
+  background-color: var(--tertiary-color);
+  color: var(--primary-color);
 }
 
 .date-time-pair {

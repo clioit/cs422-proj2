@@ -57,10 +57,14 @@ document.addEventListener("DOMContentLoaded", () => {
           document.getElementById('newTask').value = '';
         }      
         else {
+          console.log(taskArray);
+          console.log(idx);
           let selectedTask = taskArray[idx];
-          document.getElementById('task-title').value = selectedTask.title;
-          document.getElementById('due-date').value = (selectedTask.due_date).slice(0, -6);
-          document.getElementById('newTask').value = selectedTask.description;
+          console.log(selectedTask);
+          document.getElementById('task-title').value = selectedTask[0].title;
+          console.log(selectedTask.due_date)
+          document.getElementById('due-date').value = (selectedTask[0].due_date).split(' ')[0];
+          document.getElementById('newTask').value = selectedTask[0].description;
         } 
     });
   }

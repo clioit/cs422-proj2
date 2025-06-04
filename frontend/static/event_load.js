@@ -9,7 +9,7 @@ Last modified: 06/01/2025
 // let org_id;
 let go = false;
 let colors  = [];
-let taskList = [];
+taskArray = [];
 let PRIMARY;
 let SECONDARY;
 let TERTIARY;
@@ -81,7 +81,7 @@ async function loadEvents() {
     })
     .then((data) => {
       // let idx = 0;
-      taskList = [];
+      taskArray = [];
       // data.forEach((event) => {
       //   loadTasks(event.id);
       //   console.log(taskList);
@@ -116,7 +116,7 @@ async function loadEvents() {
 
 async function loadTasks(i) {
   console.log("org_id" + org_id);
-  console.log(`loading tasks  ` + taskList);
+  console.log(`loading tasks  ` + taskArray);
   return fetch(`http://localhost:5001/orgs/${org_id}/events/${i}/tasks`)
     .then((response) =>{
       // if (!response.ok) {
@@ -134,14 +134,14 @@ async function loadTasks(i) {
           id: task.id,
           title: task.title,
           description: task.description,
-          due: task.due_date,
+          due_date: task.due_date,
           assignee: task.assignee,
           done: task.completed
         });
       });
       console.log(newList + `!!!`);
-      taskList.push(newList);
-      console.log(taskList);
+      taskArray.push(newList);
+      console.log(taskArray);
       return;
     });
   // return taskLists[0];
@@ -171,10 +171,10 @@ function runMain() {
 async function taskFill(){
 
   console.log(`taskFill`)
-  console.log(taskList);
+  console.log(taskArray);
   for (let i = 0; i<EventList.length;i++){
     await loadTasks(EventList[i].id);
-     EventList[i].tasks = taskList[i];
+     EventList[i].tasks = taskArray[i];
   }
 }
 
