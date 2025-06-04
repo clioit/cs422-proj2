@@ -79,6 +79,7 @@ def get_manager_qr(org_id: str):
 
     return img.to_string(encoding='unicode')
 
+
 def get_user_qr(org_id: str):
     org = Organization.objects(id=org_id).first()
 
@@ -91,6 +92,7 @@ def get_user_qr(org_id: str):
     img = qr.make_image(fill_color="black", back_color="white")
 
     return img.to_string(encoding='unicode')
+
 
 def event_to_ical(event: Event) -> CalEvent:
     return CalEvent(

@@ -16,6 +16,7 @@ Last modified: 06/01/2025
     const contact = document.getElementById(`contactDetail`);
     const venue = document.getElementById(`venueDetail`);
     const budget = document.getElementById(`budgetDetail`);
+    const due = document.getElementById(`due-date`);
 
 let thisEvent;
 async function atEditor(idx){
@@ -23,6 +24,7 @@ async function atEditor(idx){
      console.log('running');
     // await loadEventsEdit();
     thisEvent = idx;
+    console.log(thisEvent);
 
     let top = thisEvent.start.split('T');
     let bottom = thisEvent.end.split(`T`);
@@ -44,21 +46,23 @@ async function atEditor(idx){
 
 function loadTaskSelect(tasks){
   const taskSelect = document.getElementById('taskDropdown');
-
+  let idx = 0;
   tasks.forEach(task =>{
     newTask = document.createElement(`option`);
     newTask.textContent = task.title;
-    newTask.value = task.description;
+    newTask.value = idx;
     newTask.id = task.id;
     taskSelect.appendChild(newTask);
+    idx++
   })
 }
 
-function loadTask(){
-  const taskSelect = document.getElementById(`taskDropdown`).value;
-  const descBox = document.getElementById('newTask');
-  descBox.value = taskSelect;
-}
+// function loadTask(){
+//   const taskSelect = document.getElementById(`taskDropdown`).value;
+//   const descBox = document.getElementById('newTask');
+//   descBox.value = taskSelect;
+//   console.log(taskArray);
+// }
 
 async function patchEvent(){
   
@@ -113,6 +117,43 @@ fetch(url, {
 
 }
 
-function patchTask(id){
+function patchTask(){
   // uses id of selected task to patch that task
+  let selectValue = document.getElementById('taskDropdown')
+  let desc = document.getElementById(`newTask`);
+let taskID = selectValue.options[selectValue.selectedIndex].id;
+let check = document.getElementById(`taskCheck`).value;
+console.log(check);
+
+
+  const url = `http://localhost:5001/orgs/${org_id}/events/${thisEvent.id}/tasks/${taskID}`; // Replace with your API endpoint
+const data = {
+        description: desc.value,
+        completed: check,
+        title: document.getElementById('task-title').value,
+        due_date: document.getElementById('due-date').value
+
+};
+
+fetch(url, {
+  method: 'PATCH',
+  headers: {
+    'Content-Type': 'application/json', // Specify JSON format
+    // 'Authorization': 'Bearer YOUR_ACCESS_TOKEN' // Optional: Add auth if required
+  },
+  body: JSON.stringify(data) // Convert data to JSON string
+})
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json(); // Parse JSON response
+  })
+  .then(updatedResource => {
+    console.log('Resource updated successfully:', updatedResource);
+  })
+  .catch(error => {
+    console.error('Error updating resource:', error);
+  });
+
 }

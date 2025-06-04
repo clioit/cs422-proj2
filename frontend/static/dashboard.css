@@ -56,18 +56,25 @@ button {
   border-radius: 8px;
   padding: 4px;
   border: none;
+  background: var(--secondary-color)
 }
 
 button:hover {
   scale: 105%;
   color: white;
-  background-color: #555555;
+  background-color: var(--tertiary-color);
   box-shadow: 2px 2px 1.5px 1.5px rgba(155, 155, 155, 55);
   transition: all 300ms;
 }
 
 select {
   border-radius: 8px;
+}
+.download{
+  color:var(--primary-color);
+  border-radius: 4px;
+  background-color: var(--secondary-color);
+  max-width: fit-content;
 }
 
 .show {
@@ -89,7 +96,7 @@ select {
   background-color: #555555;
 }
 
-.organization__name {
+.organization__name, .organization__description {
   padding-top: 8px;
   padding-right: 24px;
   margin-bottom: -24px;
@@ -97,6 +104,11 @@ select {
   text-decoration: none;
   text-align: right;
   color: var(--primary-color);
+}
+
+.organization__name:hover{
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .dash {
@@ -222,7 +234,8 @@ select {
 }
 
 .task__info:nth-child(odd) {
-  background-color: #999;
+  background-color: var(--tertiary-color);
+  color: white;
 }
 
 .publish-label {

@@ -60,7 +60,11 @@ Last modified: 06/1/2025 -->
         </div>
       </div>
 
-
+      <!-- Dropdown menu to assign event to a person -->
+      <label for="person">Assign to Person:</label>
+      <select id="person" name="person" required>
+        <option id ="no-select" value="" selected>Select</option>
+      </select>
 
 
       <!-- Event details (RSVP, Contact, Venue, Other) -->
@@ -123,15 +127,11 @@ Last modified: 06/1/2025 -->
         </div>
       </div>  
 
-      <!-- Dropdown menu to assign event to a person -->
-      <label for="person">Assign to Person:</label>
-      <select id="person" name="person" required>
-        <option id ="no-select" value="" selected>Select</option>
-      </select>
-
-      <!-- Checkbox to publish event -->
-      <input type="checkbox" id="publishCheckbox" name="publish" value = "true">Publish?</input>
-      <div></div>
+      <div>  
+        <label for="title">Publish event?</label>        
+        <!-- Checkbox to publish event -->
+        <input type="checkbox" id="publishCheckbox" name="publish" value = "true"></input>
+      </div>
 
       <!-- Button to submit and save the event data -->
       <button type="submit" id="submitButton" class="add-event" onclick="postEvent()">Save Event</button>
