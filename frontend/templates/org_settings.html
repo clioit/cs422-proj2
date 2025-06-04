@@ -52,9 +52,12 @@ Last modified: 05/30/2025 -->
                 <textarea name="desc" id="desc" placeholder="Describe your club..." class="primary"></textarea>
             </div>
             <div class="links">
-                <header>Scan to join this organization as an Executive</header>
-                <br>
-                <header>{{ qr_func(org_id) | safe }}</header>
+                <button class="public secondary"> Generate Public Link</button>
+                <div class="public__area"></div>
+                <button class="exec secondary"> Generate Executive Link</button>
+                <div class="exec__area"></div>
+                <header>QR code</header>
+                {{ qr_func(org_id) | safe }}
             </div>
             
             </div> 
