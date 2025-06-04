@@ -10,7 +10,7 @@ Last modified: 05/23/2025
 """
 
 from resources import *
-from util import get_user_qr, get_manager_qr
+from util import get_user_qr
 from db_seeder import seed_db
 from flask import Flask, render_template, redirect
 from flask_restful import Api
@@ -84,9 +84,9 @@ def edit_event(org_id: str):
     return render_template('event_editor.html', org_id=org_id)
 
 
-@app.route("/org_settings/<org_id>")
-def org_settings(org_id: str):
-    return render_template('org_settings.html', org_id=org_id, qr_func=get_manager_qr)
+@app.route("/org_settings")
+def org_settings():
+    return render_template('org_settings.html')
 
 
 if __name__ == '__main__':
