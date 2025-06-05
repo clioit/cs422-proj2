@@ -10,7 +10,8 @@ Last modified: 05/23/2025
 """
 
 from resources import *
-from util import get_user_qr, get_manager_qr
+from util import get_user_qr
+from util import get_manager_qr
 from db_seeder import seed_db
 from flask import Flask, render_template, redirect
 from flask_restful import Api
@@ -76,7 +77,7 @@ def dashboard_redirect():
 
 @app.route("/dashboard/<org_id>")
 def dashboard(org_id: str):
-    return render_template('dashboard.html', org_id=org_id, qr_func=get_user_qr)
+    return render_template('dashboard.html', org_id=org_id)
 
 
 @app.route("/event_editor/<org_id>")

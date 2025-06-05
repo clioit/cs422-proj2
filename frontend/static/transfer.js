@@ -17,6 +17,8 @@ Last modified: 06/01/2025
     const venue = document.getElementById(`venueDetail`);
     const budget = document.getElementById(`budgetDetail`);
     const due = document.getElementById(`due-date`);
+    const other = document.getElementById(`other`);
+
 
 let thisEvent;
 async function atEditor(idx){
@@ -40,6 +42,7 @@ async function atEditor(idx){
     contact.value = thisEvent.info.contact;
     venue.value = thisEvent.info.venue;
     budget.value = thisEvent.info.budget;
+    other.value = thisEvent.info.other;
 
     loadTaskSelect(thisEvent.tasks);
 }
@@ -76,7 +79,9 @@ const data = {
         title: eventName.value,
         description: desc.value,
         // "start": "2025-07-31T08:02",
-         start: [start.value,startT.value].join('T'),
+        start: [start.value,startT.value].join('T'),
+        end: [start.value,startT.value].join('T'),
+        published: document.getElementById('publish').checked,
         // "end": "2025-07-31T12:02",
         // published: false,
         // point_of_contact: "683c08ff796f2a380d1fb788",
@@ -89,7 +94,7 @@ const data = {
             venue: venue.value,
             contact: contact.value,
             budget: budget.value,
-            // "other": null
+            other: other.value,
         }
 };
 
@@ -119,11 +124,11 @@ fetch(url, {
 
 function patchTask(){
   // uses id of selected task to patch that task
-  let selectValue = document.getElementById('taskDropdown')
+  let selectValue = document.getElementById('taskDropdown');
   let desc = document.getElementById(`newTask`);
-let taskID = selectValue.options[selectValue.selectedIndex].id;
-let check = document.getElementById(`taskCheck`).value;
-console.log(check);
+  let taskID = selectValue.options[selectValue.selectedIndex].id;
+  let check = document.getElementById(`taskCheck`).checked;
+  console.log(check);
 
 
   const url = `http://localhost:5001/orgs/${org_id}/events/${thisEvent.id}/tasks/${taskID}`; // Replace with your API endpoint
@@ -131,7 +136,7 @@ const data = {
         description: desc.value,
         completed: check,
         title: document.getElementById('task-title').value,
-        due_date: document.getElementById('due-date').value
+        due_date: document.getElementById('due-date').value+"T22:00"
 
 };
 

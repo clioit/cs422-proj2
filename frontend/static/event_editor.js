@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (taskDropdown) {
     taskDropdown.addEventListener('change', () => {
       const idx = document.getElementById('taskDropdown').value;
-      if (idx == '') {
+      if (idx == '' || idx == 'Create New Task') {
           document.getElementById('task-title').value = '';
           document.getElementById('due-date').value = '';
           document.getElementById('newTask').value = '';
