@@ -70,10 +70,12 @@ button:hover {
 select {
   border-radius: 8px;
 }
-.download{
-  color:var(--primary-color);
+
+.download {
+  color: var(--primary-color);
   border-radius: 4px;
-  background-color: var(--secondary-color);
+  padding: 4px;
+  background-color: var(--tertiary-color);
   max-width: fit-content;
 }
 
