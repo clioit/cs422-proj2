@@ -287,6 +287,7 @@ form label {
 
 input[type="text"],
 input[type="date"],
+input[type="time"],
 textarea,
 select {
   width: 100%;
@@ -343,6 +344,12 @@ button.add-event:hover,
   overflow: auto; /* Enables scrolling */
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE and Edge */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.date-time-item {
   display: flex;
   justify-content: center;
   align-items: center;

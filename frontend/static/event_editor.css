@@ -69,6 +69,7 @@ form label {
 
 input[type="text"],
 input[type="date"],
+input[type="time"],
 textarea,
 select {
   width: 100%;
@@ -136,10 +137,10 @@ button.add-event:hover,
 
 /* Make time boxes smaller */
 input[type="time"] {
-  width: 125px; 
+  width: 125px;
+  height: 30.5px;
   padding: 2px; 
 }
-
 
 .task-content.hidden {
   display: none;
