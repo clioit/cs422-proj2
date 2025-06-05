@@ -83,7 +83,7 @@ def seed_db():
         event.save(validate=False)  # because we haven't set org or point of contact yet
 
     test_org = Organization(name="Eugene Community Kitchen",
-                            description="The community kitchen of Eugene. Join us for free meals and lessons in"
+                            description="The community kitchen of Eugene. Join us for free meals and lessons in "
                                         "cooking, food literacy, and food equity. Open to all!",
                             events=test_events)
     test_org.save(validate=False)  # because we haven't populated managers yet
