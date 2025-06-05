@@ -70,10 +70,12 @@ button:hover {
 select {
   border-radius: 8px;
 }
-.download{
-  color:var(--primary-color);
+
+.download {
+  color: var(--primary-color);
   border-radius: 4px;
-  background-color: var(--secondary-color);
+  padding: 4px;
+  background-color: var(--tertiary-color);
   max-width: fit-content;
 }
 
@@ -85,6 +87,7 @@ select {
   visibility: hidden;
   max-height: 0 !important;
   max-width: 0 !important;
+  padding: 0 !important;
 }
 
 .container {
@@ -96,11 +99,19 @@ select {
   background-color: #555555;
 }
 
-.organization__name, .organization__description {
+.organization__name {
   padding-top: 8px;
   padding-right: 24px;
   margin-bottom: -24px;
-  font-size: 900;
+  text-decoration: none;
+  text-align: right;
+  color: var(--primary-color);
+}
+
+.organization__description {
+  padding-top: 8px;
+  padding-right: 24px;
+  margin-bottom: 24px;
   text-decoration: none;
   text-align: right;
   color: var(--primary-color);
@@ -278,6 +289,7 @@ form label {
 
 input[type="text"],
 input[type="date"],
+input[type="time"],
 textarea,
 select {
   width: 100%;
@@ -326,14 +338,23 @@ button.add-event:hover,
   padding: 16px;
 }
 
-#eventForm{
+#eventForm {
   min-width: 100vh;
   max-height: 90vh;
-      overflow-y: scroll;
+  overflow-y: scroll;
   scroll-behavior: smooth;
   overflow: auto; /* Enables scrolling */
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE and Edge */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.date-time-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .edit{
