@@ -324,7 +324,7 @@ function scheduler() {
    */
 
   console.log(EventList);
-  //   EventList.sort((a, b) => a.tasks.length - b.tasks.length);
+    EventList.sort((a, b) => a.tasks.length - b.tasks.length);
   // EventList.sort((a, b) => new Date(a.start) - new Date(b.start));
   console.log(EventList);
 
@@ -452,6 +452,7 @@ function scheduler() {
       }
     }
   }
+  EventList.sort((a, b) => b.tasks.length - a.tasks.length);
 }
 
 function eventMaker(addMe) {
@@ -543,6 +544,20 @@ function logout() {
   // logout logs the user out of their account and returns to the login screen
   console.log("logging out...");
   window.location.replace(`http://localhost:5001/logout`);
+}
+
+let pub = true;
+function hideTasks(){
+  pub=!pub;
+  const eventManager = document.getElementById('event-manager')
+  eventManager.classList.toggle(`hide`);
+  if (pub) {document.getElementById('viewSwitch').innerHTML = `Public View`;
+    document.getElementById('schedule-zone').style.width = `50%`
+  }
+  else {document.getElementById('viewSwitch').innerHTML = `Executive View`;
+    document.getElementById('schedule-zone').style.width = `100%`;
+  }
+
 }
 
 //loadOrg();
