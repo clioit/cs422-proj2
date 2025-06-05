@@ -37,8 +37,6 @@ Last modified: 06/03/2025
 
 /** HARD CODED VALUES BEING USED IN PLACE OF BACKEND CONNECTION */
 
-
-
 const now = new Date();
 const dateA = new Date(2025, 0, 25);
 const dateB = new Date(2025, 1, 25);
@@ -192,12 +190,12 @@ const taskLists = [
 // loadEvents();
 /************************ */
 
-const addNewEvent = document.getElementById('addNewEvent');
-addNewEvent.addEventListener("click", function() {
+const addNewEvent = document.getElementById("addNewEvent");
+addNewEvent.addEventListener("click", function () {
   // newEvent redirects the user to the event editor page.
   window.location.replace(`http://localhost:5001/event_editor/${org_id}`);
 });
- let orgs = [];
+let orgs = [];
 async function getOrgInfo() {
   // get organization id
   //
@@ -227,18 +225,17 @@ async function getOrgInfo() {
     });
 }
 
-// 
+//
 async function taskManagerMain() {
   // populates Event manager OSO (On-Screen Object)
   // await loadEvents();
   const eventManager = document.getElementById(`event-manager-zone`);
   console.log(eventManager);
-  EventList.sort((a, b) => a.start - b.start);
+  EventList.sort((a, b) => new Date(a.start) - new Date(b.start));
   EventList.sort((a, b) => b.tasks.length - a.tasks.length);
 
   for (let i = 0; i < EventList.length; i++) {
-
- let showButton = null;
+    let showButton = null;
 
     // ADD ANCHOR POINT - calls navigation to editor
 
@@ -248,14 +245,14 @@ async function taskManagerMain() {
       editor.classList.toggle(`hide`);
       document.getElementById(`dash`).classList.toggle(`hide`);
       document.getElementById(`eventForm`).classList.toggle(`hide`);
+      console.log(`here` + EventList[i]);
       // document.getElementById('event-manager-zone').classList.toggle(`hide`);
-      console.log(editor.childNodes);
+      // console.log(editor.childNodes);
       // editor.children.forEach(child => child.style.zIndex= `30`);
       // document.getElementById(`${task.id}`).style.border = `dashed 2px black`;
+      // console.log(EventList[i]);
       atEditor(EventList[i]);
     });
-
-
 
     let newEvent = eventMaker(EventList[i]);
     let taskArea = document.createElement("div");
@@ -263,10 +260,10 @@ async function taskManagerMain() {
     let taskCount = document.createElement("div");
     taskCount.id = `task-${i}`;
     taskCount.className = "task";
-    
+
     // THIS NEEDS to be differENT criteria
     if (EventList[i].tasks.length == 0) {
-      newEvent.style.textDecoration = `line-through`;     
+      newEvent.style.textDecoration = `line-through`;
       //TODO
       // const done = document.createElement("div");
       // done.innerHTML = `All tasks complete`;
@@ -287,11 +284,14 @@ async function taskManagerMain() {
         taskDesc.className = `task__info--desc`;
         newTask.appendChild(taskDesc);
 
-        // const taskAss = document.createElement("p");
-        // taskAss.innerHTML = task.assignee;
-        // taskAss.className = `task__info--ass`;
-        // newTask.appendChild(taskAss);
+        const taskAss = document.createElement("p");
+        let thisDate = task.due_date.split(' ')[0].split('-');
 
+        thisDate = [parseInt(thisDate[1], 10) - 1, thisDate[2], thisDate[0]];
+        taskAss.innerHTML = thisDate.join('-');
+        taskAss.className = `task__info--ass`;
+        taskAss.style.fontWeight = `700`;
+        newTask.appendChild(taskAss);
 
         // OTHER ATTRIBUTE GO HERE
 
@@ -308,7 +308,6 @@ async function taskManagerMain() {
       showButton.setAttribute("onclick", `taskFlip(${i})`);
       showButton.style.minWidth = `90%`;
       newEvent.appendChild(showButton);
-
     }
     taskArea.appendChild(taskCount);
     toEdit.appendChild(taskArea);
@@ -319,16 +318,15 @@ async function taskManagerMain() {
 
 // taskManagerMain();
 
-
 function scheduler() {
   /** This function utilizes eventMaker() to populate schedule side with OSO for
    * events sorted by their dates
    */
 
   console.log(EventList);
-  EventList.sort((a, b) => a.tasks.length - b.tasks.length);
-EventList.sort((a, b) => new Date(a.start) - new Date(b.start));
-console.log(EventList);
+  //   EventList.sort((a, b) => a.tasks.length - b.tasks.length);
+  // EventList.sort((a, b) => new Date(a.start) - new Date(b.start));
+  console.log(EventList);
 
   /** TO DO : add TIMES */
   console.log(`here`);
@@ -347,10 +345,10 @@ console.log(EventList);
     `December`,
   ];
 
-    let cal = document.createElement("a");
-    cal.addEventListener("click", function () {
-      fetch(`http://localhost:5001/orgs/${org_id}/events.ice`);
-    });
+  let cal = document.createElement("a");
+  cal.addEventListener("click", function () {
+    fetch(`http://localhost:5001/orgs/${org_id}/events.ice`);
+  });
 
   const schedule = document.getElementById("schedule-zone");
   console.log(schedule);
@@ -393,16 +391,16 @@ console.log(EventList);
       console.log(newDate);
 
       schedule.appendChild(newDate);
-      currDate = EventList[i].start;
+      currDate = EventList[i].start.split(`T`)[0];
       console.log(EventList[i]);
 
       let newEvent = eventMaker(EventList[i]);
       newDate.appendChild(newEvent);
-      currDate = EventList[i].start;
+      currDate = EventList[i].start.split(`T`)[0];
       if (EventList[i].tasks.length == 0) {
         newEvent.style.border = `solid 1px white`;
       }
-    } else if (currDate === EventList[i].start) {
+    } else if (currDate === EventList[i].start.split(`T`)[0]) {
       //under same day
       console.log(newDate);
       let newEvent = eventMaker(EventList[i]);
@@ -411,31 +409,28 @@ console.log(EventList);
       if (EventList[i].tasks.length == 0) {
         newEvent.style.border = `solid 1px white`;
       }
+      currDate = EventList[i].start.split(`T`)[0];
     } else {
       //under new day
       newDate = document.createElement("div");
       newDate.className = "top-date";
-           let thisDate = EventList[i].start.toString().split(`T`);
-      const currentDate = new Date().toISOString().split("T")[0];
-      if (currentDate === thisDate[0]) {
-        console.log(`MEEE`);
-        newDate.textContent = `Today`;
-      } else {
-        console.log(thisDate);
-        thisDate = thisDate[0].split(`-`);
-        console.log(thisDate);
+      let thisDate = EventList[i].start.toString().split(`T`);
 
-        thisDate = [parseInt(thisDate[1], 10) - 1, thisDate[2], thisDate[0]];
-        console.log(thisDate);
-        thisDate = [
-          months[thisDate[0]],
-          ` `,
-          thisDate[1],
-          `, `,
-          thisDate[2],
-        ].join(``);
-        newDate.textContent = thisDate;
-      }
+      console.log(thisDate);
+      thisDate = thisDate[0].split(`-`);
+      console.log(thisDate);
+
+      thisDate = [parseInt(thisDate[1], 10) - 1, thisDate[2], thisDate[0]];
+      console.log(thisDate);
+      thisDate = [
+        months[thisDate[0]],
+        ` `,
+        thisDate[1],
+        `, `,
+        thisDate[2],
+      ].join(``);
+      newDate.textContent = thisDate;
+      // }
       newDate.style.fontWeight = 700;
       newDate.style.textAlign = `left`;
       console.log(newDate);
@@ -445,13 +440,16 @@ console.log(EventList);
       console.log(EventList[i]);
 
       newEvent = eventMaker(EventList[i]);
-      const myAnchor = document.createElement("a");
+      // const myAnchor = document.createElement("a");
 
       // if (EventList[i].tasks.length == 0) {
       //   newEvent.style.border = `solid 1px white`;
       // }
       newDate.appendChild(newEvent);
-      currDate = EventList[i].start;
+      currDate = EventList[i].start.split(`T`)[0];
+      if (EventList[i].tasks.length == 0) {
+        newEvent.style.border = `solid 1px white`;
+      }
     }
   }
 }
@@ -470,7 +468,8 @@ function eventMaker(addMe) {
   //creating Title
   const eventTitle = document.createElement("h4");
   eventTitle.className = `event-obj__title`;
-  eventTitle.innerHTML = addMe.title + ` @ ` + addMe.start.toString().split(`T`)[1];
+  eventTitle.innerHTML =
+    addMe.title + ` @ ` + addMe.start.toString().split(`T`)[1];
   eventTitle.style.textAlign = `left`;
   //adding Title to event object
   newEvent.appendChild(eventTitle);
@@ -485,7 +484,7 @@ function eventMaker(addMe) {
 
   console.log(newEvent);
 
-  // color assignments - 
+  // color assignments -
   console.log(addMe.tasks);
   if (addMe.tasks.length >= 2) {
     newEvent.style.backgroundColor = PRIMARY;
@@ -526,16 +525,13 @@ function allTaskToggle() {
   });
 }
 
-
-
-
-
 function loadOrg() {
-   console.log(orgs[0].name);
-  
-  document.getElementById("name").innerHTML = orgs[0].name;
-}
+  console.log(orgs[0].name);
 
+  document.getElementById("name").innerHTML = orgs[0].name;
+  document.getElementById("orgDesc").innerHTML = orgs[0].description;
+
+}
 
 function setUser() {
   console.log(user);
@@ -543,9 +539,9 @@ function setUser() {
   username.innerHTML = user.toUpperCase();
 }
 
-function logout(){
+function logout() {
   // logout logs the user out of their account and returns to the login screen
-  console.log("logging out...")
+  console.log("logging out...");
   window.location.replace(`http://localhost:5001/logout`);
 }
 
