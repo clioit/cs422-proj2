@@ -135,6 +135,8 @@ const data = {
 
 };
 
+console.log(data);
+
 fetch(url, {
   method: 'PATCH',
   headers: {
